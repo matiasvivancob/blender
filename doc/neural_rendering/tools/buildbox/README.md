@@ -298,7 +298,7 @@ tree, with a Python version PyTorch ships wheels for (3.12 or 3.13):
 py -3.12 -m venv D:\Github\Blender-RND\venv-neural
 D:\Github\Blender-RND\venv-neural\Scripts\Activate.ps1     # if blocked: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 python -m pip install -U pip wheel setuptools ninja numpy
-pip install torch --index-url https://download.pytorch.org/whl/cu128    # the cuXYZ tag must match the toolkit you installed
+pip install torch --index-url https://download.pytorch.org/whl/cu130    # cu130 for a CUDA 13.x toolkit; cu129/cu128 for 12.9/12.8. Python 3.12 or 3.13: 3.14 wheels are unverified
 python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available(), [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])"
 ```
 
