@@ -1,0 +1,200 @@
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_creatematrix_vector4_matrix44.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_disjointover_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_dodge_color3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_dodge_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_dodge_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal2d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal2d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal2d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal2d_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal3d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal3d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal3d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_fractal3d_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_heighttonormal_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_hextiledimage.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_hextilednormalmap.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_hsvtorgb_color3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_hsvtorgb_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_color3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_image_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_luminance_color3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_luminance_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_mix_surfaceshader.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise2d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise2d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise2d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise2d_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise3d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise3d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise3d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_noise3d_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_normalmap.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_premult_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramplr_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramplr_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramplr_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramplr_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramptb_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramptb_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramptb_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_ramptb_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_rgbtohsv_color3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_rgbtohsv_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_rotate_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_rotate_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_smoothstep_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splitlr_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splitlr_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splitlr_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splitlr_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splittb_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splittb_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splittb_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_splittb_vector4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_surface_unlit.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_transformmatrix_vector2M3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_transformmatrix_vector3M4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_unpremult_color4.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise2d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise2d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise2d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise3d_float.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise3d_vector2.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/mx_worleynoise3d_vector3.glsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genglsl/stdlib_genglsl_impl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmdl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmdl/stdlib_genmdl_impl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl/lib
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl/lib/mx_math.metal
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl/lib/mx_matscalaroperators.metal
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl/lib/mx_texture.metal
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genmsl/stdlib_genmsl_impl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include/color4.h
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include/matrix33.h
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include/mx_funcs.h
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include/vector2.h
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/include/vector4.h
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/lib
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/lib/mx_transform_uv.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/lib/mx_transform_uv_vflip.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/lib/vector4_extra_ops.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_burn_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_burn_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_burn_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_cellnoise2d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_cellnoise3d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_creatematrix.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_disjointover_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_dodge_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_dodge_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_dodge_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal2d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal2d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal2d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal2d_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal3d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal3d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal3d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_fractal3d_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_frame_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geomcolor_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geomcolor_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geomcolor_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_boolean.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_integer.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_string.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_geompropvalue_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_heighttonormal_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_hsvtorgb_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_hsvtorgb_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_image_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_luminance_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_luminance_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_mix_surfaceshader.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise2d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise2d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise2d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise2d_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise3d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise3d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise3d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_noise3d_vector4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_normalmap.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_premult_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_rgbtohsv_color3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_rgbtohsv_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_rotate_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_rotate_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_surfacematerial.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_surface_unlit.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_time_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_transformmatrix_vector2M3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_unpremult_color4.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise2d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise2d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise2d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise3d_float.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise3d_vector2.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/mx_worleynoise3d_vector3.osl
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/genosl/stdlib_genosl_impl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/stdlib_defs.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/stdlib/stdlib_ng.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets/essl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets/genglsl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets/genmdl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets/genmsl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/materialx/libraries/targets/genosl.mtlx
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender_cpu_check.lib
+-- Installing: D:/Github/Blender-RND/build_windows_neural/bin/blender.shared/blender.shared.manifest
+Compile requests                   5484
+Compile requests executed          5176
+Cache hits                            0
+Cache misses                       5176
+Cache misses (C/C++)               5176
+Cache hits rate                    0.00 %
+Cache hits rate (C/C++)            0.00 %
+Cache timeouts                        0
+Cache read errors                     0
+Forced recaches                       0
+Cache write errors                    0
+Cache errors                          0
+Compilations                       5176
+Compilation failures                  0
+Non-cacheable compilations            0
+Non-cacheable calls                 308
+Non-compilation calls                 0
+Unsupported compiler calls            0
+Average cache write               0.004 s
+Average compiler                  4.386 s
+Average cache read hit            0.000 s
+Failed distributed compilations       0
+
+Non-cacheable reasons:
+/Fp                                 306
+/Yc                                   2
+
+Cache location                  Local disk: "D:\\Github\\Blender-RND\\sccache-timing"
+Base directories                (none)
+Use direct/preprocessor mode?   yes
+Version (client)                0.18.0
+Cache size                            1 GiB
+Max cache size                       10 GiB

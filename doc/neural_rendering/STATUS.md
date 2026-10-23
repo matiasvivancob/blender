@@ -85,6 +85,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-23, local: first cold build passed in 2778.9637193 s; built Blender lists both GPUs under CUDA/OptiX. Four furnace renders pass (each card/backend; RGB mean 0.99995). Full CTest baseline still running; at 113/120 completed, the CPU/CUDA/OptiX motion-blur subjects all fail `multi_step_velocity_motion_blur`. Evidence and cloud-disposition request: `results/2026-10-23-buildbox/baseline_question.md`. No kernel fix or reference update attempted; Phase 1 remains open.
+
 - 2026-10-23, cloud session: read `configuration.md` (libs hydrated, configure OK, cold build running, tiny-cuda-nn torch bindings fail under MSVC). Decided: no retry of the torch bindings, the C++ library is tested when the neural stage starts; refined the OptiX cooperative-vector request to quote the installed release notes (NVIDIA sites are unreachable from the cloud box).
 - 2026-10-23, local: precompiled library updater completed (exit 0; 1260 LFS files hydrated); strict environment check and real CMake configuration pass with VS 2022/compiler 19.44.35228, CUDA 13.3, OptiX 9.1, `sm_86;sm_89`, sccache ON. First cold `ninja -j 12 install` is running, not yet validated. Configuration evidence and optional tiny-cuda-nn failures: `results/2026-10-23-buildbox/configuration.md`. No build/render/timing acceptance claimed yet.
 - 2026-10-23, cloud session: reviewed 07751d35 (compiler probe via `cl.exe`, isolated checker globs, torch crosscheck 28/28 on the box); corrected decision (a) under Requested (no VS update needed), made tiny-cuda-nn explicitly skippable on build failure and added the disk-space note (e). Checker tests pass here too (9 run, 1 Linux-only skip).
