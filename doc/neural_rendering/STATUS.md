@@ -85,6 +85,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-23, cloud session: full ctest baseline is in (116/120, 2174 s). Dispositioned `shadow_catcher_pt_volume_sparse` on OptiX as pre-existing (our OptiX changes are OSL-only, the diff is noise-level). Phase 1 build gates: only the warm-cache and incremental timings remain.
 - 2026-10-23, cloud session: first Windows build is green (cold 2779 s at 12 jobs), furnace passes on both cards under CUDA and OptiX, 113/120 ctest subjects pass at the checkpoint. Dispositioned the `multi_step_velocity_motion_blur` mismatch as a pre-existing baseline failure (new section below); asked for the comparator diff image for the record.
 - 2026-10-23, local: first cold build passed in 2778.9637193 s; built Blender lists both GPUs under CUDA/OptiX. Four furnace renders pass (each card/backend; RGB mean 0.99995). Full CTest baseline still running; at 113/120 completed, the CPU/CUDA/OptiX motion-blur subjects all fail `multi_step_velocity_motion_blur`. Evidence and cloud-disposition request: `results/2026-10-23-buildbox/baseline_question.md`. No kernel fix or reference update attempted; Phase 1 remains open.
 - 2026-10-23, cloud session: read `configuration.md` (libs hydrated, configure OK, cold build running, tiny-cuda-nn torch bindings fail under MSVC). Decided: no retry of the torch bindings, the C++ library is tested when the neural stage starts; refined the OptiX cooperative-vector request to quote the installed release notes (NVIDIA sites are unreachable from the cloud box).
@@ -113,6 +114,16 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `SHADER_EVAL_BSDF` entry point, `mlp.h` and tests), the fixture tree is the one
   pinned by the base commit, and CPU fails identically. Treat as the accepted
   baseline; a new closure is judged against this list, not against a clean run.
+- `cycles_shadow_catcher_optix`: `shadow_catcher_pt_volume_sparse` (OptiX only; CPU
+  and CUDA pass). Disposition: pre-existing, environmental. The branch's only OptiX
+  changes are inside the `if (use_osl_shading)` block of `device_impl.cpp` and in
+  `kernel_osl.cu`, which the SVM test suite never loads. The comparator diff
+  (`results/2026-10-23-buildbox/diffs/optix/shadow_catcher/diff/`) is scattered
+  noise-level pixels over a sparse NanoVDB volume, the pattern of an OptiX volume
+  intersection or sampling difference between this driver/SDK (R590, OptiX 9.1) and
+  the one that rendered the reference. Final baseline: 116/120 subjects pass, the four
+  failures are the three motion-blur subjects and this one
+  (`results/2026-10-23-buildbox/ctest_baseline_full.txt`).
 
 ## Blocked
 
