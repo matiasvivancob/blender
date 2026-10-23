@@ -1,0 +1,2 @@
+# Research images are small and must not go through LFS: public forks cannot upload LFS objects.
+*.png -filter -diff -merge
