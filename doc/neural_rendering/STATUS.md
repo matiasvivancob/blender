@@ -64,17 +64,30 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   same format as `04_experiment_results.md` section B.
 - 2026-10-23, cloud session: check the OptiX 9 release notes on the box for
   which GPUs get hardware-accelerated cooperative vectors (3090 vs 4070 Ti
-  Super) and record the answer here.
+  Super) and record the answer here. Refined after the configuration report: the
+  cloud box cannot reach developer.nvidia.com, so quote the installed SDK's
+  `OptiX_Release_Notes.pdf` and programming guide (under
+  `%ProgramData%\NVIDIA Corporation\OptiX SDK 9.1.0\doc\`): every sentence
+  mentioning "cooperative" together with a GPU generation, a data type (fp16, fp8,
+  int8) or "Tensor Core", with the file and page. Low priority; after the build
+  gates.
+- 2026-10-23, cloud session (after `configuration.md`): **tiny-cuda-nn torch
+  bindings: do not retry.** The build failures (`c10` needs C++20 under MSVC, then
+  `object.h` `unique_ptr<CudaRtcKernel>` under C++20) are in the torch bindings,
+  which nothing in the plan uses: training is plain torch, and the Cycles neural
+  stage (`00_synthesis.md` step 3) would link the tiny-cuda-nn C++ library through
+  CMake, without torch. Whether that C++ library builds with MSVC + CUDA 13.3 is a
+  separate question, to be tested when step 3 starts (a 20-line CMake project that
+  links `tiny-cuda-nn` and calls `tcnn::create_network`); if it fails there, the
+  fallback is the hand-written warp-cooperative kernel described in
+  `01_cycles_neural_closures_spec.md`. No WSL2 fallback: the goal is a Windows build
+  of Blender, and a Linux-only dependency would not ship.
 
 ## Log
 
-
+- 2026-10-23, cloud session: read `configuration.md` (libs hydrated, configure OK, cold build running, tiny-cuda-nn torch bindings fail under MSVC). Decided: no retry of the torch bindings, the C++ library is tested when the neural stage starts; refined the OptiX cooperative-vector request to quote the installed release notes (NVIDIA sites are unreachable from the cloud box).
 - 2026-10-23, local: precompiled library updater completed (exit 0; 1260 LFS files hydrated); strict environment check and real CMake configuration pass with VS 2022/compiler 19.44.35228, CUDA 13.3, OptiX 9.1, `sm_86;sm_89`, sccache ON. First cold `ninja -j 12 install` is running, not yet validated. Configuration evidence and optional tiny-cuda-nn failures: `results/2026-10-23-buildbox/configuration.md`. No build/render/timing acceptance claimed yet.
-
-
-
 - 2026-10-23, cloud session: reviewed 07751d35 (compiler probe via `cl.exe`, isolated checker globs, torch crosscheck 28/28 on the box); corrected decision (a) under Requested (no VS update needed), made tiny-cuda-nn explicitly skippable on build failure and added the disk-space note (e). Checker tests pass here too (9 run, 1 Linux-only skip).
-
 - 2026-10-23, local: fixed a false VS 2022 rejection in `check_env.py`: installed folder `14.44.35207` contains compiler `19.44.35228` (VS shell 17.14.39), which meets the minimum. Probe `cl.exe` rather than infer its version from the directory; missing compiler now fails closed. Windows mock tests no longer discover real host CUDA SDKs. Test suite: 8 passed, 1 Linux-only skipped. Installed isolated Python 3.12 training venv with torch 2.14.1+cu130 and numpy; both GPUs visible to torch. `crosscheck_torch.py`: 28/28 PASS, raw log in `results/2026-10-23-buildbox/crosscheck_torch.log`. CUDA toolkit 13.3 vs wheel 13.0 is a minor-version warning; tiny-cuda-nn build and library download are in progress. Installed optional sccache 0.18.0 for the requested cache timings; no Visual Studio or CUDA update performed.
 - 2026-10-23, cloud session: read the first Windows env report; fixed the torch hint (cu130 for CUDA 13.x, Python 3.12/3.13 venv) in `check_env.py` and the README, made tiny-cuda-nn optional in the checker, and recorded the compiler/Python/LFS decisions under Requested.
 - 2026-10-23, local: cloned to `D:/Github/Blender-RND/blender`, checked out the coordination branch, ran `watch.ps1` and the initial environment check before installing anything (`results/2026-10-23-buildbox/env_initial.md`). Both target GPUs detected; CUDA 13.3 and OptiX 9.1 already installed. Checker flags VS 2022 toolset, missing precompiled libraries, torch and tiny-cuda-nn. Source checkout recovered with LFS smudging deferred after GitHub returned 404 for an upstream brush asset; real LFS assets still required before build/tests. No existing folders renamed or deleted.
