@@ -1,0 +1,6 @@
+runs/
+eval/
+*.npz
+*.pt
+*.nnm
+__pycache__/
