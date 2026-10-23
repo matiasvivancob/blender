@@ -11,6 +11,23 @@ Newest entries first. Keep it short. Dates are ISO.
 The workstation is Windows 11 (RTX 3090 + RTX 4070 Ti Super). Windows commands
 are first in `tools/buildbox/README.md`; Linux is its last section.
 
+- 2026-10-23, cloud session (after the first env report, `results/2026-10-23-buildbox/env_initial.md`):
+  **decisions for the install step.** (a) Compiler: update the existing VS 2022 Build
+  Tools to the latest 17.14.x and add the "Desktop development with C++" workload
+  (toolset >= 14.44.35216). Do not use VS 2026 as nvcc's host compiler: a forum report
+  shows nvcc 13.4.1 rejecting VS Build Tools 2026, and 13.3 is unverified. Configure
+  from the VS 2022 x64 developer shell. (b) Python: make a fresh venv with
+  `py -3.12` or `py -3.13` (not the hermes 3.14 venv), then
+  `pip install torch --index-url https://download.pytorch.org/whl/cu130` (CUDA 13.x
+  toolkit, so cu130, not cu128). (c) tiny-cuda-nn is now OPTIONAL: skip it until the
+  batched neural stage exists; plain torch covers all material training. (d) LFS:
+  `lib/windows_x64` comes from projects.blender.org through
+  `python build_files\utils\make_update.py --no-blender`, unaffected by the GitHub
+  404s. For the upstream LFS assets that 404 on the fork, add
+  `git remote add upstream https://projects.blender.org/blender/blender.git` and run
+  `git lfs pull upstream` (objects are content-addressed; this does not touch the
+  branch). Build first, then test data (`--use-tests` flag of make_update.py, or the
+  same `git lfs pull upstream --include="tests/files/render/**"`).
 - 2026-10-23, cloud session: **set up the build box and build** (`00_synthesis.md`
   step 1). In this order: (1) run `python doc\neural_rendering\tools\buildbox\check_env.py --out env_report.md`
   FIRST, before installing anything, and post its output as a `[result]` PR
@@ -46,6 +63,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-23, cloud session: read the first Windows env report; fixed the torch hint (cu130 for CUDA 13.x, Python 3.12/3.13 venv) in `check_env.py` and the README, made tiny-cuda-nn optional in the checker, and recorded the compiler/Python/LFS decisions under Requested.
 - 2026-10-23, local: cloned to `D:/Github/Blender-RND/blender`, checked out the coordination branch, ran `watch.ps1` and the initial environment check before installing anything (`results/2026-10-23-buildbox/env_initial.md`). Both target GPUs detected; CUDA 13.3 and OptiX 9.1 already installed. Checker flags VS 2022 toolset, missing precompiled libraries, torch and tiny-cuda-nn. Source checkout recovered with LFS smudging deferred after GitHub returned 404 for an upstream brush asset; real LFS assets still required before build/tests. No existing folders renamed or deleted.
 
 - 2026-10-23, cloud session: made `tools/buildbox/` Windows-first: `README.md` rewritten (Windows 11 + VS 2022 + Ninja + sccache, path-with-space analysis, CUDA/OptiX/torch/tiny-cuda-nn setup, Linux condensed as section 11; the workstation-validation list is now section 10, the iteration timing still section 8), `neural_dev.cmake` guarded for both platforms (`if(UNIX)` ccache, `if(WIN32)` sccache and a `%ProgramData%` OptiX search), `check_env.py` extended for Windows (vswhere, CUDA_PATH, OptiX in ProgramData, sccache, gh auth, torch vs nvcc, `lib/windows_x64`, `bin\blender.exe`; ends with a "Missing" list with install hints), new `iter_tools.py`, new `tools/comms/post.ps1`, `watch.ps1` and `README.md`. Tested here: `test_check_env_windows.py` (sys.platform patched to win32 over a fake file system and tool table, plus the Linux path), the existing self-tests and stubs, and `cmake -C` against a dummy project (Linux branch, and the Windows branch with a simulated WIN32). Not run anywhere: the `.ps1` scripts (no PowerShell here), the VS developer-shell and `winget` commands, and everything that needs the real toolchain (README section 10).

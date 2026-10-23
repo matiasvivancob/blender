@@ -178,10 +178,11 @@ def hints():
             "python": "Python 3.12 or 3.13 (64-bit) from https://www.python.org/downloads/windows/ or "
                       "winget install Python.Python.3.12; create a venv for training: py -3.12 -m venv .venv",
             "numpy": "pip install numpy (inside the training venv).",
-            "torch": "pip install torch --index-url https://download.pytorch.org/whl/cu128 -- use the cuXYZ tag that matches "
-                     "the CUDA toolkit you installed (see https://pytorch.org/get-started/locally/); the nvcc used for "
-                     "tiny-cuda-nn must have the same major version as torch.version.cuda.",
-            "tcnn": "Needs MSVC and nvcc on PATH and torch already installed. From an x64 Native Tools / VS developer shell with "
+            "torch": "In a fresh venv (py -3.12 or -3.13; Python 3.14 wheels are unverified): pip install torch --index-url "
+                     "https://download.pytorch.org/whl/cu130 for a CUDA 13.x toolkit, whl/cu129 or whl/cu128 for 12.9/12.8 "
+                     "(see https://pytorch.org/get-started/locally/); the nvcc used for tiny-cuda-nn must have the same major "
+                     "version as torch.version.cuda.",
+            "tcnn": "OPTIONAL until the batched neural stage is built; plain torch is enough for all material training. Needs MSVC and nvcc on PATH and torch already installed. From an x64 Native Tools / VS developer shell with "
                     "the venv active: git clone --recursive https://github.com/NVlabs/tiny-cuda-nn ; cd tiny-cuda-nn\\bindings\\torch ; "
                     "set TCNN_CUDA_ARCHITECTURES=86,89 ; pip install --no-build-isolation . (details: buildbox README).",
             "libs": "python build_files\\utils\\make_update.py --no-blender   (fetches lib\\windows_x64 through Git LFS; several GB; "
@@ -740,7 +741,7 @@ def check_python(rep, skip_torch, hint, nvcc_release):
                 True)
     except Exception as e:  # noqa: BLE001  also catches the OSError raised for a missing native extension
         rep.add("Python", "tiny-cuda-nn", MISSING, "%s: %s" % (type(e).__name__, str(e).splitlines()[0] if str(e) else ""),
-                True, hint["tcnn"])
+                False, hint["tcnn"])
 
 
 def read_cmake_cache(path):
