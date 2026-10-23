@@ -355,6 +355,86 @@ static PyObject *bake_func(PyObject * /*self*/, PyObject *args)
   Py_RETURN_NONE;
 }
 
+/* Evaluate BSDF of an object at given points and directions, buffers passed as pointers. */
+static PyObject *eval_bsdf_func(PyObject * /*self*/, PyObject *args)
+{
+  PyObject *pysession;
+  PyObject *pydepsgraph;
+  PyObject *pyobject;
+  int num_records;
+  PyObject *pyprims;
+  PyObject *pyuvs;
+  PyObject *pywi;
+  PyObject *pywo;
+  int flags;
+  PyObject *pyout;
+
+  if (!PyArg_ParseTuple(args,
+                        "O" /* `session` */
+                        "O" /* `depsgraph` */
+                        "O" /* `object` */
+                        "i" /* `num_records` */
+                        "O" /* `prims` (int32 pointer) */
+                        "O" /* `uvs` (float pointer, 2 per record) */
+                        "O" /* `wi` (float pointer, 3 per record) */
+                        "O" /* `wo` (float pointer, 3 per record) */
+                        "i" /* `flags` */
+                        "O" /* `out` (float pointer, 8 per record) */,
+                        &pysession,
+                        &pydepsgraph,
+                        &pyobject,
+                        &num_records,
+                        &pyprims,
+                        &pyuvs,
+                        &pywi,
+                        &pywo,
+                        &flags,
+                        &pyout))
+  {
+    return nullptr;
+  }
+
+  BlenderSession *session = (BlenderSession *)PyLong_AsVoidPtr(pysession);
+
+  blender::Depsgraph *b_depsgraph = static_cast<blender::Depsgraph *>(
+      PyLong_AsVoidPtr(pydepsgraph));
+  blender::Object *b_object = static_cast<blender::Object *>(PyLong_AsVoidPtr(pyobject));
+
+  const int *prims = static_cast<const int *>(PyLong_AsVoidPtr(pyprims));
+  const float *uvs = static_cast<const float *>(PyLong_AsVoidPtr(pyuvs));
+  const float *wi = static_cast<const float *>(PyLong_AsVoidPtr(pywi));
+  const float *wo = static_cast<const float *>(PyLong_AsVoidPtr(pywo));
+  float *out = static_cast<float *>(PyLong_AsVoidPtr(pyout));
+
+  if (PyErr_Occurred()) {
+    return nullptr;
+  }
+
+  if (num_records < 0) {
+    PyErr_SetString(PyExc_ValueError, "num_records must not be negative.");
+    return nullptr;
+  }
+  if (num_records > 0 && !(session && b_depsgraph && b_object && prims && uvs && wi && wo && out)) {
+    PyErr_SetString(PyExc_ValueError, "Session, object or buffer pointer is null.");
+    return nullptr;
+  }
+
+  bool success;
+  Py_BEGIN_ALLOW_THREADS;
+  success = (num_records == 0) ?
+                true :
+                session->eval_bsdf(
+                    *b_depsgraph, *b_object, num_records, prims, uvs, wi, wo, flags, out);
+  Py_END_ALLOW_THREADS;
+
+  if (!success) {
+    PyErr_SetString(PyExc_RuntimeError, "Cycles BSDF evaluation failed, see console for details.");
+    return nullptr;
+  }
+
+  Py_RETURN_NONE;
+}
+
 static PyObject *view_draw_func(PyObject * /*self*/, PyObject *args)
 {
   PyObject *pysession;
@@ -932,6 +1012,7 @@ static PyMethodDef methods[] = {
     {"render_frame_finish", render_frame_finish_func, METH_VARARGS, ""},
     {"draw", draw_func, METH_VARARGS, ""},
     {"bake", bake_func, METH_VARARGS, ""},
+    {"eval_bsdf", eval_bsdf_func, METH_VARARGS, ""},
     {"view_draw", view_draw_func, METH_VARARGS, ""},
     {"view_pause", view_pause_func, METH_VARARGS, ""},
     {"sync", sync_func, METH_VARARGS, ""},

@@ -1000,6 +1000,23 @@ ccl_gpu_kernel(GPU_KERNEL_BLOCK_NUM_THREADS, GPU_KERNEL_MAX_REGISTERS)
 }
 ccl_gpu_kernel_postfix
 
+/* BSDF evaluation (training data). */
+
+ccl_gpu_kernel(GPU_KERNEL_BLOCK_NUM_THREADS, GPU_KERNEL_MAX_REGISTERS)
+    ccl_gpu_kernel_signature(shader_eval_bsdf,
+                             ccl_global KernelShaderEvalInput *input,
+                             ccl_global float *output,
+                             ccl_global uint *cache_miss,
+                             const int offset,
+                             const int work_size)
+{
+  int i = ccl_gpu_global_id_x();
+  if (i < work_size) {
+    ccl_gpu_kernel_call(kernel_bsdf_evaluate(nullptr, input, output, cache_miss, offset + i));
+  }
+}
+ccl_gpu_kernel_postfix
+
 /* --------------------------------------------------------------------
  * Denoising.
  */

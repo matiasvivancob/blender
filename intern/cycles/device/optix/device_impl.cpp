@@ -812,6 +812,10 @@ bool OptiXDevice::load_kernels(const uint64_t kernel_features)
     group_descs[PG_RGEN_EVAL_VOLUME_DENSITY].raygen.module = optix_module;
     group_descs[PG_RGEN_EVAL_VOLUME_DENSITY].raygen.entryFunctionName =
         "__raygen__kernel_optix_shader_eval_volume_density";
+    group_descs[PG_RGEN_EVAL_BSDF].kind = OPTIX_PROGRAM_GROUP_KIND_RAYGEN;
+    group_descs[PG_RGEN_EVAL_BSDF].raygen.module = optix_module;
+    group_descs[PG_RGEN_EVAL_BSDF].raygen.entryFunctionName =
+        "__raygen__kernel_optix_shader_eval_bsdf";
   }
 
   /* When using custom OSL cameras, integrator_init_from_camera is its own specialized module. */
@@ -1228,6 +1232,7 @@ bool OptiXDevice::load_osl_kernels()
     pipeline_groups.push_back(groups[PG_RGEN_EVAL_CURVE_SHADOW_TRANSPARENCY]);
     pipeline_groups.push_back(groups[PG_RGEN_INIT_FROM_CAMERA]);
     pipeline_groups.push_back(groups[PG_RGEN_EVAL_VOLUME_DENSITY]);
+    pipeline_groups.push_back(groups[PG_RGEN_EVAL_BSDF]);
 
     /* For shader ray-tracing, trace depth and hit program groups are needed. */
     if (groups[PG_RGEN_SHADE_SURFACE_RAYTRACE] != nullptr ||

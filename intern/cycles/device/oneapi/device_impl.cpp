@@ -1395,6 +1395,7 @@ void OneapiDevice::get_adjusted_global_and_local_sizes(SyclQueue *queue,
     case DEVICE_KERNEL_SHADER_EVAL_BACKGROUND:
     case DEVICE_KERNEL_SHADER_EVAL_CURVE_SHADOW_TRANSPARENCY:
     case DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY:
+    case DEVICE_KERNEL_SHADER_EVAL_BSDF:
       preferred_work_group_size = preferred_work_group_size_shader_evaluation;
       break;
 

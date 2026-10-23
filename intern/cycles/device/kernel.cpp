@@ -24,7 +24,8 @@ bool device_kernel_has_shading(DeviceKernel kernel)
           kernel == DEVICE_KERNEL_SHADER_EVAL_DISPLACE ||
           kernel == DEVICE_KERNEL_SHADER_EVAL_BACKGROUND ||
           kernel == DEVICE_KERNEL_SHADER_EVAL_CURVE_SHADOW_TRANSPARENCY ||
-          kernel == DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY);
+          kernel == DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY ||
+          kernel == DEVICE_KERNEL_SHADER_EVAL_BSDF);
 }
 
 bool device_kernel_has_intersection(DeviceKernel kernel)
@@ -124,6 +125,8 @@ const char *device_kernel_as_string(DeviceKernel kernel)
       return "shader_eval_curve_shadow_transparency";
     case DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY:
       return "shader_eval_volume_density";
+    case DEVICE_KERNEL_SHADER_EVAL_BSDF:
+      return "shader_eval_bsdf";
 
       /* Film. */
 

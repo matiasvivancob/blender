@@ -628,6 +628,10 @@ bool oneapi_enqueue_kernel(KernelContext *kernel_context,
               kg, cgh, global_size, local_size, args, oneapi_kernel_shader_eval_volume_density);
           break;
         }
+        case DEVICE_KERNEL_SHADER_EVAL_BSDF: {
+          oneapi_call(kg, cgh, global_size, local_size, args, oneapi_kernel_shader_eval_bsdf);
+          break;
+        }
         case DEVICE_KERNEL_PREFIX_SUM: {
           oneapi_call(kg, cgh, global_size, local_size, args, oneapi_kernel_prefix_sum);
           break;

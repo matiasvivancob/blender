@@ -70,6 +70,19 @@ class BlenderSession {
             const int bake_width,
             const int bake_height);
 
+  /* Evaluate the BSDF of the surface material of an object at given positions and directions,
+   * see `eval_bsdf` in addon/engine.py for the data layout. Does not render anything.
+   * Returns false on failure (details are logged). */
+  bool eval_bsdf(blender::Depsgraph &b_depsgraph_,
+                 blender::Object &b_object,
+                 const int num_records,
+                 const int *prims,
+                 const float *uvs,
+                 const float *wi,
+                 const float *wo,
+                 const int flags,
+                 float *out);
+
   void full_buffer_written(string_view filename);
   /* interactive updates */
   void synchronize(blender::Depsgraph &b_depsgraph);

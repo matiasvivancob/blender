@@ -236,4 +236,180 @@ ccl_device void kernel_volume_density_evaluate(KernelGlobals kg,
 #endif
 }
 
+/* Evaluate the BSDF of a surface material at user supplied positions and directions. Used to
+ * generate training data for neural materials.
+ *
+ * Each evaluation consumes 3 consecutive KernelShaderEvalInput records, and writes 8 floats:
+ *
+ *   input[3 * i + 0]: object = Cycles object index, prim = global triangle index (mesh
+ *                     prim_offset + triangle index in the mesh), u, v = barycentric coordinates
+ *                     (same convention as displacement evaluation).
+ *   input[3 * i + 1]: wi.x, wi.y (object, prim; stored as float bit patterns), wi.z (u), and the
+ *                     integer KernelBsdfEvalInputFlag bit mask (v; stored as integer bits).
+ *   input[3 * i + 2]: wo.x, wo.y (object, prim; float bit patterns), wo.z (u), unused (v).
+ *
+ *   output[8 * i + 0..2]: BSDF value for all closures summed, with closure weights and the cosine
+ *                         term |dot(wo, N)| included, as RGB.
+ *   output[8 * i + 3]:    PDF of sampling wo from the closure mixture (solid angle measure).
+ *   output[8 * i + 4..6]: Albedo, the sum of the diffuse, glossy and transmission albedo, as RGB.
+ *   output[8 * i + 7]:    KernelBsdfEvalOutputFlag bit mask stored as a float (0 when valid).
+ *
+ * Both directions point away from the surface: wi towards the viewer (this is ShaderData::wi,
+ * the negated ray direction), wo towards the light (or the next path vertex). They are in world
+ * space, or in the local shading frame if KERNEL_BSDF_EVAL_LOCAL_FRAME is set. The local frame has
+ * z along the unflipped shading normal, x along dPdu projected on the tangent plane, and y = z x x.
+ * If wi is below the geometric normal the shading point is treated as backfacing, as it would be
+ * for a camera ray hitting the back of the surface. */
+ccl_device void kernel_bsdf_evaluate(KernelGlobals kg,
+                                     ccl_global const KernelShaderEvalInput *input,
+                                     ccl_global float *output,
+                                     ccl_global uint *cache_miss,
+                                     const int offset)
+{
+  const KernelShaderEvalInput in = input[offset * 3 + 0];
+  const KernelShaderEvalInput in_wi = input[offset * 3 + 1];
+  const KernelShaderEvalInput in_wo = input[offset * 3 + 2];
+
+  ccl_global float *out = output + offset * 8;
+  for (int i = 0; i < 8; i++) {
+    out[i] = 0.0f;
+  }
+
+  if (in.object < 0 || in.prim < 0) {
+    out[7] = float(KERNEL_BSDF_EVAL_INVALID);
+    return;
+  }
+
+  const int flags = __float_as_int(in_wi.v);
+  float3 wi = make_float3(__int_as_float(in_wi.object), __int_as_float(in_wi.prim), in_wi.u);
+  float3 wo = make_float3(__int_as_float(in_wo.object), __int_as_float(in_wo.prim), in_wo.u);
+
+  if (!isfinite_safe(wi) || !isfinite_safe(wo) || is_zero(wi) || is_zero(wo)) {
+    out[7] = float(KERNEL_BSDF_EVAL_INVALID);
+    return;
+  }
+  wi = normalize(wi);
+  wo = normalize(wo);
+
+  /* Setup shader data. No incoming direction is passed here since it would be interpreted as
+   * object space, and the backfacing check needs the frame built below. */
+  float3 P;
+  float3 Ng;
+  int shader;
+  triangle_point_normal(kg, in.object, in.prim, in.u, in.v, &P, &Ng, &shader);
+
+  const bool object_space = !(kernel_data_fetch(object_flag, in.object) &
+                              SD_OBJECT_TRANSFORM_APPLIED);
+
+  ShaderData sd;
+  shader_setup_from_sample(kg,
+                           &sd,
+                           P,
+                           Ng,
+                           zero_float3(),
+                           shader,
+                           in.object,
+                           in.prim,
+                           in.u,
+                           in.v,
+                           0.0f,
+                           0.5f,
+                           object_space,
+                           false);
+
+  /* Transform directions from the local shading frame to world space. At this point N, dPdu and
+   * dPdv are not flipped yet, so the frame does not depend on which side wi is on. */
+  if (flags & KERNEL_BSDF_EVAL_LOCAL_FRAME) {
+    const float3 N = sd.N;
+    float3 T;
+    float3 B;
+#ifdef __DPDU__
+    T = sd.dPdu - N * dot(sd.dPdu, N);
+    const float T_len_sq = len_squared(T);
+    if (T_len_sq > 1e-20f) {
+      T *= inversesqrtf(T_len_sq);
+    }
+    else
+#endif
+    {
+      make_orthonormals(N, &T, &B);
+    }
+    B = cross(N, T);
+
+    wi = normalize(wi.x * T + wi.y * B + wi.z * N);
+    wo = normalize(wo.x * T + wo.y * B + wo.z * N);
+  }
+
+  /* Incoming direction and backfacing test, same as shader_setup_from_ray(). */
+  sd.wi = wi;
+  float out_flags = 0.0f;
+  if (dot(sd.Ng, sd.wi) < 0.0f) {
+    sd.runtime_flag |= SR_BACKFACING;
+    sd.Ng = -sd.Ng;
+    sd.N = -sd.N;
+#ifdef __DPDU__
+    sd.dPdu = -sd.dPdu;
+    sd.dPdv = -sd.dPdv;
+#endif
+    out_flags += float(KERNEL_BSDF_EVAL_BACKFACING);
+  }
+
+#ifdef __SPECTRAL__
+  /* Wavelength is not sampled, shaders that depend on it see the middle of the range. */
+  sd.rand_wavelength = 0.5f;
+#endif
+
+  /* Evaluate surface shader. This is being evaluated like a primary camera ray hit. AOV nodes
+   * need an integrator state to write to a render buffer, so they are not supported. Closure
+   * filtering and glossy blur (surface_shader_prepare_closures) are deliberately not applied, to
+   * get the unmodified BSDF. */
+  ConstIntegratorBakeState state;
+  surface_shader_eval<KERNEL_FEATURE_NODE_MASK_SURFACE &
+                      ~(KERNEL_FEATURE_NODE_RAYTRACE | KERNEL_FEATURE_NODE_LIGHT_PATH |
+                        KERNEL_FEATURE_NODE_AOV)>(
+      kg, state, &sd, nullptr, PATH_RAY_VISIBILITY_CAMERA, PATH_RAY_FLAG_NONE);
+
+  if (sd.runtime_flag & SR_CACHE_MISS) {
+    /* The whole evaluation is repeated after the missing textures are loaded. */
+    *cache_miss = true;
+    return;
+  }
+
+  bool has_bsdf = false;
+  for (int i = 0; i < sd.num_closure; i++) {
+    if (CLOSURE_IS_BSDF(sd.closure[i].type)) {
+      has_bsdf = true;
+      break;
+    }
+  }
+
+  if (!has_bsdf) {
+    out[7] = out_flags + float(KERNEL_BSDF_EVAL_NO_BSDF);
+    return;
+  }
+
+  /* Evaluate BSDF. This is surface_shader_bsdf_eval() without the path guiding part, which needs
+   * an integrator state that does not exist here. */
+  BsdfEval eval;
+  bsdf_eval_init(&eval, zero_spectrum());
+  float avg_roughness_squared = 0.0f;
+  const float pdf = _surface_shader_bsdf_eval_mis(
+      kg, &sd, wo, nullptr, &eval, 0.0f, 0.0f, 0, 0.0f, avg_roughness_squared);
+
+  const float3 bsdf_rgb = ensure_finite(spectrum_to_rgb(bsdf_eval_sum(&eval)));
+
+  const Spectrum albedo = surface_shader_diffuse(kg, &sd) + surface_shader_glossy(kg, &sd) +
+                          surface_shader_transmission(kg, &sd);
+  const float3 albedo_rgb = ensure_finite(spectrum_to_rgb(albedo));
+
+  out[0] = bsdf_rgb.x;
+  out[1] = bsdf_rgb.y;
+  out[2] = bsdf_rgb.z;
+  out[3] = ensure_finite(pdf);
+  out[4] = albedo_rgb.x;
+  out[5] = albedo_rgb.y;
+  out[6] = albedo_rgb.z;
+  out[7] = out_flags;
+}
+
 CCL_NAMESPACE_END

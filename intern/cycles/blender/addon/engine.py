@@ -119,6 +119,95 @@ def bake(engine, depsgraph, obj, pass_type, pass_filter, width, height):
         _cycles.bake(engine.session, depsgraph.as_pointer(), obj.as_pointer(), pass_type, pass_filter, width, height)
 
 
+def eval_bsdf(engine, depsgraph, obj, prims, uvs, wi, wo, flags, out):
+    """
+    Evaluate the BSDF of the surface material of a mesh object at given points and directions,
+    to generate training data for neural materials. Nothing is rendered. Uses the device of the
+    Cycles session (CPU, CUDA or OptiX; the other devices are untested).
+
+    All arrays are contiguous NumPy arrays with n records (a point plus a pair of directions):
+
+    obj:   The evaluated object, e.g. `depsgraph.objects[name]` or `ob.evaluated_get(depsgraph)`.
+    prims: int32 (n,)   Triangle index in the evaluated mesh of `obj` (as seen by Cycles,
+                        meaning after modifiers and triangulation).
+    uvs:   float32 (n, 2)  Barycentric coordinates (u, v) in the triangle, same convention as
+                        Cycles hit points: P = (1 - u - v) * v0 + u * v1 + v * v2.
+    wi:    float32 (n, 3)  Direction from the surface towards the viewer (Cycles ShaderData.wi,
+                        the negated direction of travel of the camera ray).
+    wo:    float32 (n, 3)  Direction from the surface towards the light (the sampled direction in
+                        path tracing). Both directions point away from the surface.
+    flags: int          Bit 0 set: wi and wo are in the local shading frame (z along the shading
+                        normal, x along dPdu projected onto the tangent plane, y = z cross x).
+                        Otherwise they are in world space.
+    out:   float32 (n, 8) Filled with, per record:
+                        [0:3] BSDF value as RGB, includes the cosine term and closure weights,
+                        [3]   PDF of sampling wo,
+                        [4:7] albedo as RGB (diffuse + glossy + transmission),
+                        [7]   flags as bit mask: 1 = no BSDF closure at this point, 2 = wi is
+                              on the backfacing side of the geometric normal, 4 = invalid input.
+
+    Usage in a RenderEngine subclass, running in background mode (untested, there is no
+    Cycles build with this function yet), for example with
+    `blender -b scene.blend -E BSDF_DUMP -f 1`. Subclassing CyclesRender gives a session that is
+    created and reset like for a regular final render, with the Cycles settings of the scene:
+
+        import numpy as np
+        import bpy
+        from cycles import CyclesRender, engine as cycles_engine
+
+        class BsdfDumpEngine(CyclesRender):
+            bl_idname = "BSDF_DUMP"
+            bl_label = "BSDF Dump"
+
+            def render(self, depsgraph):
+                obj = depsgraph.objects["Cube"]
+                n = 4096
+                prims = np.zeros(n, dtype=np.int32)
+                uvs = np.full((n, 2), 1.0 / 3.0, dtype=np.float32)
+                wi = np.tile(np.float32([0.0, 0.0, 1.0]), (n, 1))
+                wo = np.random.normal(size=(n, 3)).astype(np.float32)
+                wo[:, 2] = np.abs(wo[:, 2])
+                wo /= np.linalg.norm(wo, axis=1, keepdims=True)
+                out = np.zeros((n, 8), dtype=np.float32)
+                cycles_engine.eval_bsdf(self, depsgraph, obj, prims, uvs, wi, wo, 1, out)
+                np.save("/tmp/bsdf_out.npy", out)
+
+        bpy.utils.register_class(BsdfDumpEngine)
+
+    The object is synced as a bake target, so use a session dedicated to this and do not render
+    with it afterwards.
+    Raises RuntimeError on failure.
+    """
+    import _cycles
+    import numpy as np
+
+    session = getattr(engine, "session", None)
+    if session is None:
+        raise RuntimeError("Cycles session is not created")
+
+    n = len(prims)
+    prims = np.ascontiguousarray(prims, dtype=np.int32).reshape(n)
+    uvs = np.ascontiguousarray(uvs, dtype=np.float32).reshape(n, 2)
+    wi = np.ascontiguousarray(wi, dtype=np.float32).reshape(n, 3)
+    wo = np.ascontiguousarray(wo, dtype=np.float32).reshape(n, 3)
+    if (out.dtype != np.float32 or not out.flags["C_CONTIGUOUS"] or not out.flags["WRITEABLE"] or
+            out.shape != (n, 8)):
+        raise ValueError("out must be a writeable C-contiguous float32 array of shape (n, 8)")
+
+    _cycles.eval_bsdf(
+        session,
+        depsgraph.as_pointer(),
+        obj.as_pointer(),
+        n,
+        prims.ctypes.data,
+        uvs.ctypes.data,
+        wi.ctypes.data,
+        wo.ctypes.data,
+        int(flags),
+        out.ctypes.data,
+    )
+
+
 def reset(engine, data, depsgraph):
     import _cycles
     import bpy

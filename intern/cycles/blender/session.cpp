@@ -9,7 +9,12 @@
 #include "DNA_space_types.h"
 #include "RNA_prototypes.hh"
 
+#include <chrono>
+#include <thread>
+
 #include "device/device.h"
+
+#include "integrator/shader_eval.h"
 
 #include "scene/background.h"
 #include "scene/bake.h"
@@ -764,6 +769,144 @@ void BlenderSession::bake(blender::Depsgraph &b_depsgraph_,
   /* Restore the state of denoiser to before it was possibly disabled by the pass, so that the
    * next baking pass can use the original value. */
   integrator->set_use_denoise(was_denoiser_enabled);
+}
+
+bool BlenderSession::eval_bsdf(blender::Depsgraph &b_depsgraph_,
+                               blender::Object &b_object,
+                               const int num_records,
+                               const int *prims,
+                               const float *uvs,
+                               const float *wi,
+                               const float *wo,
+                               const int flags,
+                               float *out)
+{
+  if (num_records <= 0) {
+    return true;
+  }
+  if (!prims || !uvs || !wi || !wo || !out) {
+    LOG_ERROR << "BSDF evaluation: null input or output buffer.";
+    return false;
+  }
+  /* Each record uses 3 inputs of 16 bytes and 8 output floats, keep indexing within int. */
+  if (num_records > (0x7fffffff / 8)) {
+    LOG_ERROR << "BSDF evaluation: too many records, split the call into smaller batches.";
+    return false;
+  }
+  if (!session || !scene || !sync || !b_render) {
+    LOG_ERROR << "BSDF evaluation: session was not initialized, call reset first.";
+    return false;
+  }
+
+  b_depsgraph = &b_depsgraph_;
+
+  /* Get session parameters. */
+  const SessionParams session_params = BlenderSync::get_session_params(
+      b_engine, b_userpref, *b_scene, background, pixelsize);
+
+  /* Sync scene. The object is marked as bake target so that it can be found in the Cycles scene
+   * below, as done for baking. This also makes sure it is synced even if invisible. */
+  sync->set_bake_target(b_object);
+  sync->sync_camera(*b_render, width, height, "");
+  sync->sync_data(*b_render,
+                  *b_depsgraph,
+                  b_screen,
+                  b_v3d,
+                  b_rv3d,
+                  width,
+                  height,
+                  session_params.denoise_device);
+
+  if (session->progress.get_cancel()) {
+    return false;
+  }
+
+  /* Load built-in images from Blender. */
+  builtin_images_load();
+
+  /* Find the Cycles object, its index is the one used by the device. */
+  const Mesh *mesh = nullptr;
+  int object_index = 0;
+  for (Object *ob : scene->objects) {
+    if (ob->get_is_bake_target() && ob->get_geometry()->is_mesh()) {
+      mesh = static_cast<const Mesh *>(ob->get_geometry());
+      break;
+    }
+    object_index++;
+  }
+
+  /* Object might have been disabled for rendering or excluded in some other way. */
+  if (!mesh) {
+    LOG_ERROR << "BSDF evaluation: object is not a mesh in the Cycles scene (is it renderable?).";
+    return false;
+  }
+
+  /* Validate primitive indices, out of range indices would read unrelated memory on device. */
+  const int num_triangles = mesh->num_triangles();
+  for (int i = 0; i < num_records; i++) {
+    if (prims[i] < 0 || prims[i] >= num_triangles) {
+      LOG_ERROR << "BSDF evaluation: triangle index " << prims[i] << " at record " << i
+                << " is out of range, mesh has " << num_triangles << " triangles.";
+      return false;
+    }
+  }
+
+  /* Update the device scene, this also loads the kernels. The scene mutex is required, and
+   * released temporarily by the scene update itself while loading kernels. */
+  thread_scoped_lock scene_lock(scene->mutex);
+  scene->update(session->progress);
+
+  if (session->progress.get_cancel() || scene->device->have_error()) {
+    return false;
+  }
+
+  /* Wait for device to be ready, for example to finish background kernel compilation. */
+  string device_status;
+  while (!scene->device->is_ready(device_status)) {
+    session->progress.set_status(device_status);
+    if (session->progress.get_cancel()) {
+      return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+  }
+
+  /* The primitive index on the device is relative to all triangles of all meshes. */
+  const int prim_offset = mesh->prim_offset;
+
+  /* Evaluate shader on device, 3 input records and 8 output channels per evaluation. */
+  ShaderEval shader_eval(scene->device, session->progress);
+  const bool success = shader_eval.eval(
+      SHADER_EVAL_BSDF,
+      num_records * 3,
+      8,
+      [&](device_vector<KernelShaderEvalInput> &d_input) {
+        KernelShaderEvalInput *d = d_input.data();
+        for (int i = 0; i < num_records; i++) {
+          KernelShaderEvalInput &in_pos = d[3 * i + 0];
+          in_pos.object = object_index;
+          in_pos.prim = prim_offset + prims[i];
+          in_pos.u = uvs[2 * i + 0];
+          in_pos.v = uvs[2 * i + 1];
+
+          KernelShaderEvalInput &in_wi = d[3 * i + 1];
+          in_wi.object = __float_as_int(wi[3 * i + 0]);
+          in_wi.prim = __float_as_int(wi[3 * i + 1]);
+          in_wi.u = wi[3 * i + 2];
+          in_wi.v = __int_as_float(flags);
+
+          KernelShaderEvalInput &in_wo = d[3 * i + 2];
+          in_wo.object = __float_as_int(wo[3 * i + 0]);
+          in_wo.prim = __float_as_int(wo[3 * i + 1]);
+          in_wo.u = wo[3 * i + 2];
+          in_wo.v = 0.0f;
+        }
+        return num_records;
+      },
+      [&](const device_vector<float> &d_output) {
+        std::copy_n(d_output.data(), size_t(num_records) * 8, out);
+      });
+
+  return success && !session->progress.get_cancel();
 }
 
 void BlenderSession::synchronize(blender::Depsgraph &b_depsgraph_)
