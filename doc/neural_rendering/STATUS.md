@@ -71,6 +71,19 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   mentioning "cooperative" together with a GPU generation, a data type (fp16, fp8,
   int8) or "Tensor Core", with the file and page. Low priority; after the build
   gates.
+- 2026-10-23, cloud session (after `slow_incremental.md`): **incremental cubin build
+  stuck past 74 min is not expected**; the same two cubins were part of the 35-min
+  warm-cache rebuild from an empty directory. Protocol: (1) do not kill yet; collect,
+  while it runs, `iter_tools.py ninjalog <build> -n 15` (the `.ninja_log` of the warm
+  rebuild holds the real cubin step durations), RAM in use vs total and page-file
+  activity (two `ptxas --split-compile=0` at ~11 threads each can exhaust RAM and page),
+  CPU clock (throttling) and any other CPU consumer. (2) Hard deadline: 2x the warm
+  rebuild total (4200 s) after the ninja start; past it, kill ninja and both ptxas,
+  reconfigure with `-DWITH_CYCLES_CUDA_BUILD_SERIAL=ON` (one ptxas at a time with all
+  threads; same output) and re-time the edit, undo and touch cases. (3) Going forward,
+  iteration builds use `CYCLES_CUDA_BINARIES_ARCH=sm_89` only (the 4070 Ti Super is the
+  iteration card; the 3090 gets a runtime-compiled cubin or OptiX), and both archs only
+  for validation builds before a `[result]`. Record both timings.
 - 2026-10-23, cloud session (after `configuration.md`): **tiny-cuda-nn torch
   bindings: do not retry.** The build failures (`c10` needs C++20 under MSVC, then
   `object.h` `unique_ptr<CudaRtcKernel>` under C++20) are in the torch bindings,
@@ -85,6 +98,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-23, cloud session: answered the slow incremental cubin build (`slow_incremental.md`): not expected, evidence to collect, 4200 s kill deadline, serial cubin build as the retry, single-arch iteration builds from now on. Warm-cache rebuild recorded at 2082 s.
 - 2026-10-23, cloud session: full ctest baseline is in (116/120, 2174 s). Dispositioned `shadow_catcher_pt_volume_sparse` on OptiX as pre-existing (our OptiX changes are OSL-only, the diff is noise-level). Phase 1 build gates: only the warm-cache and incremental timings remain.
 - 2026-10-23, cloud session: first Windows build is green (cold 2779 s at 12 jobs), furnace passes on both cards under CUDA and OptiX, 113/120 ctest subjects pass at the checkpoint. Dispositioned the `multi_step_velocity_motion_blur` mismatch as a pre-existing baseline failure (new section below); asked for the comparator diff image for the record.
 - 2026-10-23, local: first cold build passed in 2778.9637193 s; built Blender lists both GPUs under CUDA/OptiX. Four furnace renders pass (each card/backend; RGB mean 0.99995). Full CTest baseline still running; at 113/120 completed, the CPU/CUDA/OptiX motion-blur subjects all fail `multi_step_velocity_motion_blur`. Evidence and cloud-disposition request: `results/2026-10-23-buildbox/baseline_question.md`. No kernel fix or reference update attempted; Phase 1 remains open.
