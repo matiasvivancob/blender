@@ -119,6 +119,10 @@ class FakeWindows:
     def fake_run(self, cmd, timeout=20, env=None):
         exe = os.path.basename(cmd[0]).lower()
         args = cmd[1:]
+        if exe == "cl.exe":
+            folder = os.path.basename(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(cmd[0])))))
+            v = check_env.parse_version(folder)
+            return 2, "Microsoft C/C++ Compiler Version %s for x64" % check_env.vstr((v[0] + 5, *v[1:]))
         if exe == "vswhere.exe":
             allv = self.installs()
             if check_env.VS_COMPONENT_VC in args:
@@ -188,7 +192,10 @@ class FakeWindows:
             get_device_name=lambda i: "NVIDIA GeForce RTX 3090" if i == 0 else "NVIDIA GeForce RTX 4070 Ti SUPER")
         mods = {"torch": fake_torch}
         mods["tinycudann"] = types.ModuleType("tinycudann") if tcnn else None  # None => ImportError
-        with mock.patch.object(sys, "platform", "win32"), \
+        real_glob = check_env.glob.glob
+        with mock.patch.object(check_env.glob, "glob", lambda pattern: [p for p in real_glob(pattern)
+                                                                      if os.path.abspath(p).startswith(self.root + os.sep)]), \
+                mock.patch.object(sys, "platform", "win32"), \
                 mock.patch.dict(os.environ, self.env(), clear=True), \
                 mock.patch.object(check_env, "REPO", self.repo), \
                 mock.patch.object(check_env.shutil, "which", lambda n, *a, **k: table.get(n)), \
@@ -202,6 +209,13 @@ def rows_by_item(rep):
 
 
 class WindowsGood(unittest.TestCase):
+    def test_serviced_compiler_version_not_directory_name(self):
+        with mock.patch.object(check_env.glob, "glob", return_value=["VS/VC/Tools/MSVC/14.44.35207"]):
+            for output, expected in [("Compiler Version 19.44.35228 for x64", (14, 44, 35228)),
+                                     ("not found", None)]:
+                with self.subTest(output=output), mock.patch.object(check_env, "run", return_value=(2, output)):
+                    self.assertEqual(check_env.newest_msvc_toolset("VS"), expected)
+
     def test_everything_present(self):
         with tempfile.TemporaryDirectory() as td:
             fw = FakeWindows(td)

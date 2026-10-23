@@ -506,7 +506,10 @@ def vswhere_query(vswhere, extra=()):
 def newest_msvc_toolset(install_path):
     best = None
     for d in glob.glob(os.path.join(install_path, "VC", "Tools", "MSVC", "*")):
-        v = parse_version(os.path.basename(d))
+        # Servicing updates change cl.exe without renaming the toolset directory.
+        _, output = run([os.path.join(d, "bin", "Hostx64", "x64", "cl.exe")])
+        compiler = parse_version(output)
+        v = (compiler[0] - 5, *compiler[1:]) if compiler else None
         if v and (best is None or v > best):
             best = v
     return best
@@ -546,9 +549,9 @@ def check_visual_studio(rep, hint):
         if toolset:
             detail += "; newest MSVC toolset %s" % vstr(toolset)
         if vc and ver[0] == 17 and ver[:2] >= VS_MIN:
-            if toolset is not None and toolset < MSVC_TOOLSET_MIN:
+            if toolset is None or toolset < MSVC_TOOLSET_MIN:
                 status = WARN
-                detail += " (platform_win32.cmake needs toolset >= %s, i.e. VS 2022 17.14.14: update)" % vstr(MSVC_TOOLSET_MIN)
+                detail += " (cl.exe unavailable or older than the required compiler 19.44.35216; VS 2022 17.14.14 or newer required)"
             else:
                 status = OK
                 usable17.append(inst)

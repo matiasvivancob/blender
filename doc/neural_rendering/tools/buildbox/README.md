@@ -101,6 +101,11 @@ ones. The versions come from the tree.
 | Python | 3.12 or 3.13, 64-bit, for the tools here and for training | `check_env.py` and the venv in section 6 |
 
 Free space: plan for 100 GB (checkout, `lib\windows_x64`, build tree, CUDA, torch).
+Check the actual `cl.exe` banner, not the `VC/Tools/MSVC` directory name: serviced
+VS 2022 can keep directory `14.44.35207` while shipping compiler `19.44.35228`,
+which meets this tree's `19.44.35216` minimum. `check_env.py` probes the executable.
+The Windows checker tests isolate filesystem globs so installed host SDKs cannot
+leak into simulated missing-tool cases.
 RAM: 32 GB or more is comfortable for nvcc plus the final link; with less,
 `-DWITH_CYCLES_CUDA_BUILD_SERIAL=ON` builds the cubins one after another.
 

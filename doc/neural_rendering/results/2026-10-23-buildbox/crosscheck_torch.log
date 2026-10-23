@@ -1,0 +1,56 @@
+torch 2.14.1+cu130, cuda available: True
+[PASS] encoding torch vs numpy / nnm.reference / float64 max abs diff 4.2e-07 4.2e-07 2.4e-07
+[PASS] encoding keeps leading dims 
+[PASS] activation relu beta=0.0 eps=0.0 max abs diff 0.0e+00
+[PASS] activation leaky_relu beta=0.0 eps=0.1 max abs diff 0.0e+00
+[PASS] activation leaky_smelu beta=1.0 eps=0.05 max abs diff 6.0e-08
+[PASS] activation leaky_smelu beta=0.5 eps=0.0 max abs diff 0.0e+00
+[PASS] bilinear latent lookup vs nnm.reference max abs diff 1.2e-07 0.0e+00
+[PASS] bilinear weights sum to 1 
+[PASS] power_loss value vs prototype [2.131804  2.1563113] [2.13180397 2.15631113]
+[PASS] power_loss gradient vs prototype max abs diff 3.7e-10
+[PASS] straight-through clamp: forward clamped, gradient passes 
+[PASS] Adam vs prototype Adam (with select) max abs diff 1.2e-07
+[PASS] model forward vs numpy forward (leaky_smelu, K=3, 3 hidden) max rel 4.4e-06
+[PASS] exported .nnm decodes to the torch prediction (leaky_smelu) max rel 6.2e-06
+[PASS] select([2, 0]) keeps instances (leaky_smelu) 
+[PASS] model forward vs numpy forward (relu, K=3, 3 hidden) max rel 2.2e-06
+[PASS] exported .nnm decodes to the torch prediction (relu) max rel 2.9e-06
+[PASS] select([2, 0]) keeps instances (relu) 
+[PASS] model forward vs numpy forward (leaky_relu, K=3, 3 hidden) max rel 5.2e-06
+[PASS] exported .nnm decodes to the torch prediction (leaky_relu) max rel 4.8e-06
+[PASS] select([2, 0]) keeps instances (leaky_relu) 
+C:\Users\Matia\AppData\Local\hermes\profiles\blender\cache\scratch\tmpzuk1t77p\d.npz: kept 29704/30000 (flagged 296, nonfinite 0, not_unit 0, below_horizon 148)
+train 26734 records, validation 2970 (culling/eval subset 2000)
+schedule (K@batch x steps): 4@64 x40 -> 1@256 x40
+decoder params 595, latent 16x16x4 per instance
+step 10/80 phase 0 K=4 bs=64 lr=1.94e-02 train 1.0525/1.0714 val -/-  0s
+step 20/80 phase 0 K=4 bs=64 lr=1.74e-02 train 0.9452/0.9708 val -/-  0s
+stopped after step 25 (test hook); resume with --resume
+[PASS] stop-after wrote a resume checkpoint 
+C:\Users\Matia\AppData\Local\hermes\profiles\blender\cache\scratch\tmpzuk1t77p\d.npz: kept 29704/30000 (flagged 296, nonfinite 0, not_unit 0, below_horizon 148)
+train 26734 records, validation 2970 (culling/eval subset 2000)
+resumed at step 25 (phase 0, K=4)
+schedule (K@batch x steps): 4@64 x40 -> 1@256 x40
+decoder params 595, latent 16x16x4 per instance
+step 30/80 phase 0 K=4 bs=64 lr=1.43e-02 train 0.8457/0.8772 val -/-  0s
+step 40/80 phase 0 K=4 bs=64 lr=1.06e-02 train 0.7310/0.7734 val 0.75676/0.79403  0s
+phase end: {"phase": 0, "k": 4, "batch": 64, "steps": 40, "val_min": 0.7567573189735413, "val_median": 0.7843438982963562, "val_max": 0.8313955068588257, "val_std": 0.031471870839595795, "kept_scores": [0.7567573189735413]}
+step 50/80 phase 1 K=1 bs=256 lr=6.81e-03 train 0.7316/0.7316 val -/-  0s
+step 60/80 phase 1 K=1 bs=256 lr=3.55e-03 train 0.7278/0.7278 val -/-  0s
+step 70/80 phase 1 K=1 bs=256 lr=1.30e-03 train 0.7232/0.7232 val -/-  0s
+step 80/80 phase 1 K=1 bs=256 lr=4.08e-04 train 0.7386/0.7386 val 0.69604/0.69604  0s
+phase end: {"phase": 1, "k": 1, "batch": 256, "steps": 40, "val_min": 0.6960409879684448, "val_median": 0.6960409879684448, "val_max": 0.6960409879684448, "val_std": 0.0}
+held-out: {"n": 2970, "pow_loss": 0.7066750857700496, "rel_l1": 0.9091118016504034, "rel_l1_top1": 0.9903548654352864, "peak_energy_top01": 0.0027998091882310496, "grazing_frac": 0.3632996632996633, "rel_l1_grazing": 0.9656274467206304}
+export self-check p99 rel err 6.70e-07
+wrote C:\Users\Matia\AppData\Local\hermes\profiles\blender\cache\scratch\tmpzuk1t77p\run\model.nnm: 5120 bytes, input 16, 2x16, latent 16x16x4, activation leaky_smelu
+verified: file_bytes=5120, test_vectors=32, tv_float64_max_rel=1.19e-06, fp16_rel_err_median=0.000258, fp16_rel_err_p99=0.000934, fp16_rel_err_max=0.0015
+done
+[PASS] resume continues the log without a gap or repeat [10, 20, 30, 40, 50, 60, 70, 80]
+[PASS] training loss falls 1.071 -> 0.739
+[PASS] culling 4 -> 1 happened [4, 1]
+[PASS] model.nnm exported and verified by train.py 
+[PASS] export_nnm reads model_final.pt p99 fp16 9.3e-04
+[PASS] export_nnm reads model_final.npz p99 fp16 9.3e-04
+
+28/28 checks passed
