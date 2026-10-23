@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 # Developer configuration for the neural-rendering fork: NVIDIA-only Cycles for
-# an RTX 3090 (sm_86) and an RTX 4070 Ti Super (sm_89) on Linux.
+# an RTX 3090 (sm_86) and an RTX 4070 Ti Super (sm_89), on Linux and on Windows
+# (MSVC + Ninja). Platform specific parts are guarded with if(UNIX) / if(WIN32):
+# inside a -C script UNIX and WIN32 reflect the host, as in the files under
+# build_files/cmake/config/.
 #
 # Style follows build_files/cmake/config/blender_{lite,release,developer}.cmake.
 # Every option below was checked against the tree; the file that defines it is
@@ -13,15 +16,24 @@
 #   cmake -G Ninja -C /path/to/blender/doc/neural_rendering/tools/buildbox/neural_dev.cmake \
 #         -S /path/to/blender -B /path/to/build_linux_neural -DCMAKE_BUILD_TYPE=Release
 #
-# Or through the Blender GNUmakefile (BUILD_CMAKE_ARGS goes to CMAKE_CONFIG_ARGS):
+# Or through the Blender GNUmakefile (Linux; BUILD_CMAKE_ARGS goes to CMAKE_CONFIG_ARGS):
 #   make ninja BUILD_DIR=../build_linux_neural \
 #        BUILD_CMAKE_ARGS="-C$PWD/doc/neural_rendering/tools/buildbox/neural_dev.cmake"
+#
+# Windows: make.bat has NO pass-through for extra CMake arguments (it resets
+# BUILD_CMAKE_ARGS and only knows its own switches), so configure with cmake
+# directly from a Visual Studio developer shell (see README.md, Windows section):
+#   cmake -G Ninja -C D:\path\to\blender\doc\neural_rendering\tools\buildbox\neural_dev.cmake ^
+#         -S D:\path\to\blender -B D:\path\to\build_neural -DCMAKE_BUILD_TYPE=Release
 #
 # Notes:
 # - "-C" only pre-populates the cache. Every value is FORCEd, so to change one
 #   later run `cmake -D<NAME>=<VALUE> <build dir>` WITHOUT "-C" (a plain -D
 #   edit sticks) or edit CMakeCache.txt / run ccmake.
 # - Environment variable OPTIX_ROOT_DIR is honoured below (see OptiX section).
+#   On Windows the default installer location is searched too.
+# - Keep the path to this file free of spaces if you go through make.bat or a
+#   shell that re-splits arguments; CMake itself does not mind.
 
 # -----------------------------------------------------------------------------
 # Fail loudly instead of silently dropping a GPU backend.
@@ -114,12 +126,36 @@ set(WITH_GTESTS                       ON  CACHE BOOL "" FORCE)
 # -----------------------------------------------------------------------------
 # Build-system conveniences.
 
-# platform_unix.cmake: sets CMAKE_C/CXX_COMPILER_LAUNCHER to ccache AND
-# intern/cycles/kernel/device/cuda/CMakeLists.txt prefixes the nvcc cubin
+# Linux/macOS: platform_unix.cmake sets CMAKE_C/CXX_COMPILER_LAUNCHER to ccache
+# AND intern/cycles/kernel/device/cuda/CMakeLists.txt prefixes the nvcc cubin
 # commands with ccache when this is ON. Setting only the compiler launchers
 # would leave the (dominant) nvcc cost uncached. Falls back to OFF with a
-# warning if ccache is not installed.
-set(WITH_COMPILER_CCACHE              ON  CACHE BOOL "" FORCE)
+# warning if ccache is not installed. The option only exists under if(UNIX)
+# in CMakeLists.txt, so it must not be set on Windows.
+if(UNIX)
+  set(WITH_COMPILER_CCACHE            ON  CACHE BOOL "" FORCE)
+endif()
+
+# Windows: the equivalent is WITH_WINDOWS_SCCACHE (CMakeLists.txt, inside the
+# if(WIN32) option block). It ONLY applies with the Ninja generator:
+# build_files/cmake/platform/platform_win32.cmake turns it off with a warning
+# when CMAKE_VS_MSBUILD_COMMAND is set (Visual Studio generators), and when ON it
+# sets the C/C++ compiler launchers to `sccache` and switches debug info to /Z7
+# (sccache cannot cache /Zi). Unlike ccache above it does NOT wrap the nvcc
+# cubin / OptiX PTX commands (those test WITH_COMPILER_CCACHE AND CCACHE_PROGRAM,
+# which only unix/apple platform files define), so on Windows only the C/C++
+# part of the build is cached. Enabled only if sccache is on PATH; otherwise the
+# launcher would make every compile fail.
+if(WIN32)
+  find_program(_neural_sccache sccache)
+  if(_neural_sccache)
+    set(WITH_WINDOWS_SCCACHE          ON  CACHE BOOL "" FORCE)
+  else()
+    message(WARNING "neural_dev.cmake: sccache not found on PATH, leaving WITH_WINDOWS_SCCACHE OFF "
+                    "(winget install Mozilla.sccache, then reconfigure)")
+  endif()
+  unset(_neural_sccache CACHE)
+endif()
 
 # Do not relink on every build just to refresh the build timestamp/hash
 # (also set by blender_developer.cmake).
@@ -138,7 +174,29 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS     ON  CACHE BOOL "" FORCE)
 # (the Blender buildbot pins 9.0.0, build_files/buildbot/config/blender_version.cmake).
 # Copy the environment value into the cache so CMakeCache.txt records it.
 if(NOT "$ENV{OPTIX_ROOT_DIR}" STREQUAL "")
-  set(OPTIX_ROOT_DIR "$ENV{OPTIX_ROOT_DIR}" CACHE PATH "" FORCE)
+  set(_neural_optix_root "$ENV{OPTIX_ROOT_DIR}")
+  if(WIN32)
+    file(TO_CMAKE_PATH "${_neural_optix_root}" _neural_optix_root)  # C:\x\y -> C:/x/y
+  endif()
+  set(OPTIX_ROOT_DIR "${_neural_optix_root}" CACHE PATH "" FORCE)
+elseif(WIN32)
+  # FindOptiX.cmake has NO default install location: it only looks below
+  # OPTIX_ROOT_DIR (CMake variable or environment). The NVIDIA installer puts
+  # the SDK in "%ProgramData%\NVIDIA Corporation\OptiX SDK <version>" (the buildbot
+  # config build_files/buildbot/config/blender_windows.cmake uses the same
+  # "OptiX SDK <version>" folder name). Take the newest one that has include/optix.h.
+  file(TO_CMAKE_PATH "$ENV{ProgramData}" _neural_programdata)
+  if(_neural_programdata)
+    file(GLOB _neural_optix_dirs "${_neural_programdata}/NVIDIA Corporation/OptiX SDK *")
+    list(SORT _neural_optix_dirs COMPARE NATURAL ORDER DESCENDING)
+    foreach(_neural_dir IN LISTS _neural_optix_dirs)
+      if(EXISTS "${_neural_dir}/include/optix.h")
+        set(OPTIX_ROOT_DIR "${_neural_dir}" CACHE PATH "" FORCE)
+        message(STATUS "neural_dev.cmake: using OptiX SDK ${_neural_dir}")
+        break()
+      endif()
+    endforeach()
+  endif()
 endif()
 
 # CUDA toolkit. Left to find_package(CUDA) (intern/cycles/cmake/external_libs.cmake)
@@ -149,6 +207,15 @@ endif()
 # (CUDA_HOST_COMPILER is consumed as `-ccbin` by cuda_add_common_flags()).
 # Per-major overrides CUDA12_/CUDA13_{TOOLKIT_ROOT_DIR,NVCC_EXECUTABLE} are read
 # by cuda_get_toolkit_for_arch() in kernel/device/cuda/CMakeLists.txt.
+#
+# Windows: find_package(CUDA) looks for nvcc.exe in $ENV{CUDA_PATH}/bin (set by the
+# CUDA installer, FindCUDA.cmake) and then on PATH. With several toolkits
+# installed pin one:
+#   -DCUDA_TOOLKIT_ROOT_DIR="C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9"
+# The nvcc host compiler (-ccbin) is the cl.exe CMake found (CMAKE_C_COMPILER);
+# platform_win32.cmake only overrides CUDA_HOST_COMPILER for clang-cl. Cycles also
+# passes -D _ALLOW_COMPILER_AND_STL_VERSION_MISMATCH to nvcc, which relaxes the
+# STL version check but not nvcc's own check of the cl.exe version.
 
 # -----------------------------------------------------------------------------
 # Optional trims, deliberately NOT applied (uncomment to cut cold-build time;

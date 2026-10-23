@@ -8,12 +8,34 @@ Newest entries first. Keep it short. Dates are ISO.
 
 ## Requested (for local agents)
 
-- 2026-10-23, cloud session: set up the build box per `00_synthesis.md` step 1.
-  Confirm with a `[result]` PR comment: Blender builds, Cycles renders a test
-  scene on both cards, `tests/python/cycles_render_tests.py` runs,
-  `CYCLES_CUDA_BINARIES_ARCH=sm_86;sm_89` is in effect, PyTorch and
-  tiny-cuda-nn import. Report the cold and incremental build times for a
-  one-line change in `intern/cycles/kernel/closure/bsdf.h`.
+The workstation is Windows 11 (RTX 3090 + RTX 4070 Ti Super). Windows commands
+are first in `tools/buildbox/README.md`; Linux is its last section.
+
+- 2026-10-23, cloud session: **set up the build box and build** (`00_synthesis.md`
+  step 1). In this order: (1) run `python doc\neural_rendering\tools\buildbox\check_env.py --out env_report.md`
+  FIRST, before installing anything, and post its output as a `[result]` PR
+  comment (`doc\neural_rendering\tools\comms\post.ps1 result "Build box environment" env_report.md`);
+  (2) install ONLY what its "Missing" list names (it prints where to get each item and
+  which version), then re-run it until the required list is empty; (3) fetch the
+  libraries with `python build_files\utils\make_update.py --no-blender` (not
+  `make.bat update`, which rebases the branch), configure with `neural_dev.cmake`
+  through plain CMake from a VS 2022 x64 developer shell (`make.bat` has no pass-through
+  for it) and build, all per README sections 3 to 6; (4) post a second `[result]`:
+  Blender builds, Cycles renders a test scene on both cards
+  (`render_test.py -- --list-devices` shows both), `ctest -R cycles_` baseline run with
+  the failing set recorded, `CYCLES_CUDA_BINARIES_ARCH=sm_86;sm_89` in effect,
+  PyTorch and tiny-cuda-nn import (say if the WSL2 fallback of README section 6 was
+  needed), and the four build times of README section 8 (cold with empty cache, cold
+  with warm cache, incremental after a one-line change in
+  `intern/cycles/kernel/closure/bsdf.h`, and after only touching it).
+- 2026-10-23, cloud session: **folder with a space.** The owner's work folder is
+  `D:\Github\Blender RND`. `make.bat` exits when the source path contains a space
+  (`build_files/windows/check_spaces_in_path.cmd`; the build directory is used unquoted
+  by `configure_ninja.cmd` and `build_ninja.cmd`). Use `D:\Github\Blender-RND`
+  (rename the folder; source `...\blender`, build `...\build_windows_neural`, venv
+  `...\venv-neural`) and delete any build directory or venv that was created under the
+  old name, since they store absolute paths. Details and a junction fallback: README
+  section 2. Ask the owner before renaming.
 - 2026-10-23, cloud session: rerun `experiments/neural_material_train/` with
   PyTorch on the 4070 Ti Super at the paper's schedule (64k batch, 100k steps,
   64 > 16 > 4 > 1 culling). Report the variance and accuracy tables in the
@@ -24,6 +46,8 @@ Newest entries first. Keep it short. Dates are ISO.
 
 ## Log
 
+- 2026-10-23, cloud session: made `tools/buildbox/` Windows-first: `README.md` rewritten (Windows 11 + VS 2022 + Ninja + sccache, path-with-space analysis, CUDA/OptiX/torch/tiny-cuda-nn setup, Linux condensed as section 11; the workstation-validation list is now section 10, the iteration timing still section 8), `neural_dev.cmake` guarded for both platforms (`if(UNIX)` ccache, `if(WIN32)` sccache and a `%ProgramData%` OptiX search), `check_env.py` extended for Windows (vswhere, CUDA_PATH, OptiX in ProgramData, sccache, gh auth, torch vs nvcc, `lib/windows_x64`, `bin\blender.exe`; ends with a "Missing" list with install hints), new `iter_tools.py`, new `tools/comms/post.ps1`, `watch.ps1` and `README.md`. Tested here: `test_check_env_windows.py` (sys.platform patched to win32 over a fake file system and tool table, plus the Linux path), the existing self-tests and stubs, and `cmake -C` against a dummy project (Linux branch, and the Windows branch with a simulated WIN32). Not run anywhere: the `.ps1` scripts (no PowerShell here), the VS developer-shell and `winget` commands, and everything that needs the real toolchain (README section 10).
+- 2026-10-23, cloud session: added the neural-material training pipeline in `tools/train/` (README, `dump_format.md`, `.npz` dump loader/validator, synthetic dump from the analytic BRDF, torch `model.py` and `train.py` with Bitterli culling and `--no-culling`, `export_nnm.py`, numpy-only `evaluate.py` with sphere render, `crosscheck_torch.py`, `blender_dump.py`). Torch-free parts tested here: `tools/train/run_all_synthetic.sh` passes (unit tests, synthetic dump, numpy-trained model -> `.nnm` -> verify -> evaluate, 15 s). The torch files and `blender_dump.py` were only byte-compiled and reviewed (no torch or Blender here); the workstation must run `python3 crosscheck_torch.py` first, then train on a synthetic dump, then a real `eval_bsdf` dump.
 - 2026-10-23, cloud session: added the `.nnm` model format spec (`nnm_format.md`), the numpy tools in `tools/nnm/` (writer, reader, reference decoder, selftest), the scalar kernel decoder `intern/cycles/kernel/util/mlp.h` and a gtest (`intern/cycles/test/kernel_neural_mlp_test.cpp`, registered in CMake but not compiled here, only run against a gtest mock). Standalone parity test (`tools/nnm/build_standalone_test.sh`) passes: 27 models (3 widths x 3 activations x 3 transforms), g++ 13 and clang++ 18, AVX2+FMA and generic builds, worst abs error 6e-6.
 - 2026-10-23, cloud session: research directory created. Five investigations
   (Cycles closures, NRC, EEVEE, MLP cost benchmark, training experiment)
