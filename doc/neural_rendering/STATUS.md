@@ -63,6 +63,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-23, local: precompiled library updater completed (exit 0; 1260 LFS files hydrated); strict environment check and real CMake configuration pass with VS 2022/compiler 19.44.35228, CUDA 13.3, OptiX 9.1, `sm_86;sm_89`, sccache ON. First cold `ninja -j 12 install` is running, not yet validated. Configuration evidence and optional tiny-cuda-nn failures: `results/2026-10-23-buildbox/configuration.md`. No build/render/timing acceptance claimed yet.
+
 
 - 2026-10-23, local: fixed a false VS 2022 rejection in `check_env.py`: installed folder `14.44.35207` contains compiler `19.44.35228` (VS shell 17.14.39), which meets the minimum. Probe `cl.exe` rather than infer its version from the directory; missing compiler now fails closed. Windows mock tests no longer discover real host CUDA SDKs. Test suite: 8 passed, 1 Linux-only skipped. Installed isolated Python 3.12 training venv with torch 2.14.1+cu130 and numpy; both GPUs visible to torch. `crosscheck_torch.py`: 28/28 PASS, raw log in `results/2026-10-23-buildbox/crosscheck_torch.log`. CUDA toolkit 13.3 vs wheel 13.0 is a minor-version warning; tiny-cuda-nn build and library download are in progress. Installed optional sccache 0.18.0 for the requested cache timings; no Visual Studio or CUDA update performed.
 
