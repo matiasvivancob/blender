@@ -116,4 +116,4 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Blocked
 
-- Nothing. (The motion-blur `[blocked]` of 2026-10-23 is dispositioned above.)
+- Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.
