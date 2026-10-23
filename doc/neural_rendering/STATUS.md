@@ -31,6 +31,7 @@ Newest entries first. Keep it short. Dates are ISO.
   evaluation stage in the Cycles wavefront, NVIDIA-only, tiny-cuda-nn as the
   engine. OIDN custom weights dropped (OIDN 3 supersedes it).
 - 2026-10-23, cloud session: implemented `SHADER_EVAL_BSDF` (spec section 6) in `intern/cycles/` for CPU, CUDA and OptiX (also registered for HIP, Metal and oneAPI through the generic GPU kernel): `kernel_bsdf_evaluate` in `kernel/bake/bake.h`, `BlenderSession::eval_bsdf`, `_cycles.eval_bsdf` and `addon/engine.py:eval_bsdf`. Not built (no Blender build here). Syntax-only clang checks pass for the CPU kernel TU, `integrator/shader_eval.cpp`, `device/kernel.cpp`, `device/cpu/kernel.cpp`, `blender/session.cpp`, `blender/python.cpp` and a stubbed host-C++ emulation of the CUDA kernel TU. The OptiX OSL registration (which the spec said to skip) was added too and could not be compiled. Needs a real build, a CPU-vs-CUDA parity run and the half-day spike on whether a `CyclesRender` subclass session works in `blender -b`.
+- 2026-10-23, cloud session: added build-box tooling in `tools/buildbox/` (`README.md`, `neural_dev.cmake` for `sm_86;sm_89` + OptiX + ccache, `check_env.py`, `render_test.py` with furnace/compare, `mis_consistency.py`, `make_test_scenes.py`). Python self-tests and fake-`bpy` stub tests pass here; nothing was run against a real Blender, CUDA toolkit or GPU, so the first workstation run is the validation (README section 9) and the `[result]` comment should include `check_env.py` output and the four build times from README section 8.
 
 ## Blocked
 
