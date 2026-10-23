@@ -24,6 +24,7 @@ Newest entries first. Keep it short. Dates are ISO.
 
 ## Log
 
+- 2026-10-23, cloud session: added the `.nnm` model format spec (`nnm_format.md`), the numpy tools in `tools/nnm/` (writer, reader, reference decoder, selftest), the scalar kernel decoder `intern/cycles/kernel/util/mlp.h` and a gtest (`intern/cycles/test/kernel_neural_mlp_test.cpp`, registered in CMake but not compiled here, only run against a gtest mock). Standalone parity test (`tools/nnm/build_standalone_test.sh`) passes: 27 models (3 widths x 3 activations x 3 transforms), g++ 13 and clang++ 18, AVX2+FMA and generic builds, worst abs error 6e-6.
 - 2026-10-23, cloud session: research directory created. Five investigations
   (Cycles closures, NRC, EEVEE, MLP cost benchmark, training experiment)
   synthesized into `00_synthesis.md`. Architecture decision: batched neural
