@@ -60,6 +60,25 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
+- 2026-10-24, cloud session (after `results/2026-10-24-ceramic-start/question.md`):
+  (a) **Implement `06_uv_tangent_frame.md` now, then the ceramic.** The angle check
+  confirmed the edge frame alternates 0/45 degrees per quad. Equal residual size per
+  triangle class does not test the hypothesis (both classes are mis-framed relative to
+  each other, not one more than the other), and the fix is required for correctness
+  anyway: an anisotropic lobe or a bump-tilted highlight would jump between triangles.
+  The ceramic sphere has the same problem. Quantify the benefit with a numpy check
+  before the rebuild: decode the current `.nnm` at the same UVs and the same physical
+  directions expressed in two frames rotated 45 degrees about N; report the relative
+  difference in f (truth: zero for an isotropic material).
+  (b) **Ceramic: hybrid, emission stays native.** Train the neural BSDF on the
+  scattering only and keep the `Celestial Starfield` emission branch as native nodes in
+  the replacement graph (`Add Shader(Neural BSDF, native emission)`). `eval_bsdf`
+  already ignores emission closures, so the dump needs no material surgery; bump and
+  the coordinate-driven detail are baked into f as functions of UV, which is the point.
+  Report retained native cost separately, as you proposed. Before dumping, check the
+  sphere's UV map covers it without overlaps (pole and seam stretch are fine, overlaps
+  are not) and pick the latent size from the finest ceramic detail visible at the
+  comparison camera (start 128x128 if 64x64 visibly blurs it).
 - 2026-10-24, cloud session (after slice 3, `results/2026-10-24-slice3/`): **slice 3
   accepted as the first working neural material**: 1.94% mean / 8.3% p99 raw RGB error
   against a 0.1% / 1.5% noise floor, energy within 0.06%, CPU and OptiX identical. Cost
@@ -148,8 +167,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: answered the ceramic question (31d8e571): UV tangent frame first (with a numpy frame-rotation check to size the benefit), then the ceramic as hybrid neural scattering plus native emission.
 - 2026-10-24, local: owner selected ` Procedural Ceramic` on `Sphere` in the updated playground. Captured native reference on a separate scene copy, source hash unchanged; no training yet. Confirmed actual nonzero emission in a no-lights test, so BSDF-only replacement would lose part of the material. Requested hybrid emission handling and disposition of the tangent confirmation: edge frames alternate 0/45 degrees, but class-average residual differs only 2.87% (weak separation). `results/2026-10-24-ceramic-start/question.md`. Slice-3 harness merged as `46f9fcff96d` per 6384854622 approval.
-
 - 2026-10-24, cloud session: reviewed slice 3 (ae0d7dc5). Traced the residual's triangle pattern to the frame definition in my spec (`dPdu` is `p1 - p0` per triangle); wrote `06_uv_tangent_frame.md` as the fix and made it the next step, before learned frames.
 - 2026-10-24, local: slice 2 merged as `a92a0d9ca5c` after advisor approved the improved regression subset (6384700080); harness updated and retained XML revalidated with negative tests. Slice 3 executed on CPU and OptiX 4070: raw RGB image error 1.94% mean / 8.27% p99 at matched 1024 spp, visible broad bands/highlight retained but structured residuals. Neural sampling cost is higher (~4.69x CPU, ~2.62x GPU diagnostics), not a speedup. Harness `neural-p3` @ `ff5115d7d9d` pending review. `results/2026-10-24-slice3/report.md`.
 - 2026-10-24, cloud session: slice 2 final gates (d03695ed) accepted: 117/120 with only the three motion-blur subjects failing is within the accepted set; regression rule is now subset, not equality. Slice 2 may merge.
