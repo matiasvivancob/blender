@@ -462,6 +462,13 @@ static void node_foreach_path(ID *id, BPathForeachPathData *bpath_data)
             BKE_bpath_foreach_path_fixed_process(bpath_data, nss->filepath, sizeof(nss->filepath));
           }
         }
+        else if (node->type_legacy == SH_NODE_BSDF_NEURAL) {
+          NodeShaderBsdfNeural *neural = static_cast<NodeShaderBsdfNeural *>(node->storage);
+          if (neural->filepath[0]) {
+            BKE_bpath_foreach_path_fixed_process(
+                bpath_data, neural->filepath, sizeof(neural->filepath));
+          }
+        }
         else if (node->type_legacy == SH_NODE_TEX_IES) {
           NodeShaderTexIES *ies = static_cast<NodeShaderTexIES *>(node->storage);
           if (ies->mode == NODE_IES_EXTERNAL && ies->filepath[0]) {

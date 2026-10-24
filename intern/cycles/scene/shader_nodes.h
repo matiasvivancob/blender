@@ -19,6 +19,7 @@ CCL_NAMESPACE_BEGIN
 
 class ImageManager;
 class LightManager;
+class NeuralManager;
 class Scene;
 class Shader;
 
@@ -650,6 +651,26 @@ class SheenBsdfNode : public BsdfNode {
   {
     return distribution;
   }
+};
+
+/* Neural BSDF: a material learned as an MLP decoder, loaded from a `.nnm` file
+ * (doc/neural_rendering/nnm_format.md). Slice 1 only loads the file and uploads it; shading is a
+ * diffuse placeholder lit with the albedo of the file's proxy block (black if the file is invalid).
+ * The model is reached through a slot of the NeuralManager, like IES lights. */
+class NeuralBsdfNode : public BsdfNode {
+ public:
+  SHADER_NODE_NO_CLONE_CLASS(NeuralBsdfNode)
+
+  ~NeuralBsdfNode() override;
+  ShaderNode *clone(ShaderGraph *graph) const override;
+
+  NODE_SOCKET_API(ustring, filename)
+
+ private:
+  NeuralManager *neural_manager = nullptr;
+  int slot = -1;
+
+  void get_slot();
 };
 
 class MetallicBsdfNode : public BsdfNode {

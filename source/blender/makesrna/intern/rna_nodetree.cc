@@ -6876,6 +6876,20 @@ static void def_sh_tex_ies(BlenderRNA * /*brna*/, StructRNA *srna)
   RNA_def_struct_sdna_from(srna, "bNode", nullptr);
 }
 
+static void def_sh_bsdf_neural(BlenderRNA * /*brna*/, StructRNA *srna)
+{
+  PropertyRNA *prop;
+
+  RNA_def_struct_sdna_from(srna, "NodeShaderBsdfNeural", "storage");
+
+  prop = RNA_def_property(srna, "filepath", PROP_STRING, PROP_FILEPATH);
+  RNA_def_property_ui_text(prop, "File Path", "Neural model (.nnm) file");
+  RNA_def_property_flag(prop, PROP_PATH_SUPPORTS_BLEND_RELATIVE);
+  RNA_def_property_update(prop, NC_NODE | NA_EDITED, "rna_Node_update");
+
+  RNA_def_struct_sdna_from(srna, "bNode", nullptr);
+}
+
 static void def_sh_output_aov(BlenderRNA * /*brna*/, StructRNA *srna)
 {
   PropertyRNA *prop;
@@ -10939,6 +10953,7 @@ static void rna_def_nodes(BlenderRNA *brna)
   define("ShaderNode", "ShaderNodeBsdfHair", def_hair);
   define("ShaderNode", "ShaderNodeBsdfHairPrincipled", def_hair_principled);
   define("ShaderNode", "ShaderNodeBsdfMetallic", def_metallic);
+  define("ShaderNode", "ShaderNodeBsdfNeural", def_sh_bsdf_neural);
   define("ShaderNode", "ShaderNodeBsdfPrincipled", def_principled);
   define("ShaderNode", "ShaderNodeBsdfRayPortal");
   define("ShaderNode", "ShaderNodeBsdfRefraction", def_refraction);
