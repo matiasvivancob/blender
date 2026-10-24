@@ -193,6 +193,10 @@ bool NeuralFile::load(const vector<uint8_t> &data)
     if (latent_size != expected_latent_size || latent_offset % 64 != 0) {
       return fail("latent block size or alignment is wrong");
     }
+    /* The device packs offsets as 32-bit counts of halves. */
+    if (latent_size / 2 > UINT32_MAX / 2) {
+      return fail("latent block is too large (more than 2^31 values)");
+    }
   }
 
   /* Weight blob layout (nnm_format.md section 4). */
@@ -238,7 +242,10 @@ bool NeuralFile::load(const vector<uint8_t> &data)
     return a.begin < b.begin;
   });
   for (size_t i = 0; i < ranges.size(); i++) {
-    if (ranges[i].end > file_size) {
+    /* Compare against the remaining size: begin + size may wrap for a corrupt 64-bit offset. */
+    if (ranges[i].begin > file_size || ranges[i].end - ranges[i].begin > file_size - ranges[i].begin ||
+        ranges[i].end < ranges[i].begin)
+    {
       return fail(string("the ") + ranges[i].name + " block extends past the end of the file");
     }
     if (i > 0 && ranges[i].begin < ranges[i - 1].end) {
@@ -350,8 +357,11 @@ int NeuralManager::add_file(const string &filename, string *error)
     return report("cannot read file");
   }
 
+  /* MD5Hash takes an int length. */
   MD5Hash md5;
-  md5.append(data.data(), int(data.size()));
+  for (size_t pos = 0; pos < data.size(); pos += size_t(1) << 30) {
+    md5.append(data.data() + pos, int(std::min(data.size() - pos, size_t(1) << 30)));
+  }
   const string hash = md5.get_hex();
 
   const thread_scoped_lock lock(mutex_);
@@ -428,6 +438,17 @@ void NeuralManager::device_update(Device *device,
   for (const unique_ptr<Slot> &slot : slots_) {
     total_weights += slot->file.weights.size();
     total_latents += slot->file.latents.size();
+  }
+  if (total_weights > UINT32_MAX || total_latents > UINT32_MAX) {
+    LOG_ERROR << "Neural models are too large for the device (" << total_weights << " weights, "
+              << total_latents << " latent values; limit 2^32); they will render black";
+    /* Zeroed records are empty models, which the closure never samples. */
+    uint *models = dscene->neural_models.alloc(slots_.size() * sizeof(KernelNeuralModel) /
+                                               sizeof(uint));
+    std::fill(models, models + slots_.size() * sizeof(KernelNeuralModel) / sizeof(uint), 0u);
+    dscene->neural_models.copy_to_device();
+    need_update_ = false;
+    return;
   }
   LOG_INFO << "Total " << slots_.size() << " neural model slots, " << total_weights
            << " fp16 weights, " << total_latents << " fp16 latents.";
