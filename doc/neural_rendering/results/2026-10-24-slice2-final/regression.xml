@@ -1,0 +1,3354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="120"
+	failures="3"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2269"
+	timestamp="2026-10-24T09:37:31"
+	>
+	<testcase name="cycles_bake_cpu" classname="cycles_bake_cpu" time="4.51531" status="run">
+		<properties/>
+		<system-out>[==========] Running 13 tests from 1 test case.
+[ RUN      ] bake_cage
+[ RUN      ] bake_denoise_margin
+[ RUN      ] bake_from_active_camera_flat
+[ RUN      ] bake_from_active_camera_smooth
+[ RUN      ] bake_from_multires_displacement
+[ RUN      ] bake_from_multires_displacement_use_lowres
+[ RUN      ] bake_from_multires_normal
+[ RUN      ] bake_from_multires_vector_displacement_object
+[ RUN      ] bake_from_multires_vector_displacement_tangent
+[ RUN      ] bake_from_selected
+[ RUN      ] bake_roughness
+[ RUN      ] bake_to_color_attribute
+[ RUN      ] bake_zspan_watertight
+[       OK ] bake_cage
+[       OK ] bake_denoise_margin
+[       OK ] bake_from_active_camera_flat
+[       OK ] bake_from_active_camera_smooth
+[       OK ] bake_from_multires_displacement
+[       OK ] bake_from_multires_displacement_use_lowres
+[       OK ] bake_from_multires_normal
+[       OK ] bake_from_multires_vector_displacement_object
+[       OK ] bake_from_multires_vector_displacement_tangent
+[       OK ] bake_from_selected
+[       OK...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_bake_raytrace_cpu" classname="cycles_bake_raytrace_cpu" time="1.92606" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] bake_bevel
+[ RUN      ] bake_split_faces
+[       OK ] bake_bevel
+[       OK ] bake_split_faces
+ 
+[==========] 2 tests from 1 test case ran. (1663 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_attributes_cpu" classname="cycles_attributes_cpu" time="2.18793" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] attribute_default_color
+[ RUN      ] attribute_pointcloud_color
+[ RUN      ] attribute_quaternion
+[ RUN      ] attribute_uniform
+[ RUN      ] attribute_view_layer
+[ RUN      ] attribute_volume_element_mesh
+[ RUN      ] attributes_long_property_path
+[       OK ] attribute_default_color
+[       OK ] attribute_pointcloud_color
+[       OK ] attribute_quaternion
+[       OK ] attribute_uniform
+[       OK ] attribute_view_layer
+[       OK ] attribute_volume_element_mesh
+[       OK ] attributes_long_property_path
+ 
+[==========] 7 tests from 1 test case ran. (1890 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_bsdf_cpu" classname="cycles_bsdf_cpu" time="7.6607" status="run">
+		<properties/>
+		<system-out>[==========] Running 35 tests from 1 test case.
+[ RUN      ] diffuse
+[ RUN      ] ggx_low_roughness
+[ RUN      ] glass_anisotropy
+[ RUN      ] glass_beckmann
+[ RUN      ] glass_furnace
+[ RUN      ] glass_ggx
+[ RUN      ] glass_multiggx_tinted
+[ RUN      ] glass_sharp
+[ RUN      ] glossy_ashikhmin
+[ RUN      ] glossy_beckmann
+[ RUN      ] glossy_furnace
+[ RUN      ] glossy_ggx
+[ RUN      ] glossy_multiscatter_ggx
+[ RUN      ] glossy_roughness_texture
+[ RUN      ] glossy_sharp
+[ RUN      ] metallic_beckmann_physical
+[ RUN      ] metallic_furnace
+[ RUN      ] metallic_ggx_physical
+[ RUN      ] metallic_multiggx_f82
+[ RUN      ] metallic_multiggx_physical
+[ RUN      ] metallic_thinfilm_f82
+[ RUN      ] metallic_thinfilm_physical
+[ RUN      ] ray_portal
+[ RUN      ] ray_portal_pass
+[ RUN      ] refraction_beckmann
+[ RUN      ] refraction_ggx
+[ RUN      ] refraction_sharp
+[ RUN      ] refraction_toggle
+[ RUN      ] shader_to_rgb
+[ RUN      ] specular
+[ RUN      ] toon_diffuse
+[ RUN      ] toon_glossy
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_camera_cpu" classname="cycles_camera_cpu" time="3.36164" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] camera_central_cylindrical
+[ RUN      ] camera_depth_of_field
+[ RUN      ] camera_equiangular_cubemap_face
+[ RUN      ] camera_equirectangular
+[ RUN      ] camera_fisheye_equidistant
+[ RUN      ] camera_fisheye_equisolid
+[ RUN      ] camera_fisheye_polynomial
+[ RUN      ] camera_mirror_ball
+[ RUN      ] camera_negative_scale
+[ RUN      ] camera_negative_scale_ortho
+[ RUN      ] camera_ortho
+[ RUN      ] camera_ortho_depth_of_field_near_clip
+[ RUN      ] camera_polygonal_bokeh
+[ RUN      ] camera_stereo_panoramic
+[ RUN      ] camera_stereo_perspective
+[       OK ] camera_central_cylindrical
+[       OK ] camera_depth_of_field
+[       OK ] camera_equiangular_cubemap_face
+[       OK ] camera_equirectangular
+[       OK ] camera_fisheye_equidistant
+[       OK ] camera_fisheye_equisolid
+[       OK ] camera_fisheye_polynomial
+[       OK ] camera_mirror_ball
+[       OK ] camera_negative_scale
+[       OK ] camera_negative_scale_ortho
+[       OK ] camera_ortho...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_colorspace_cpu" classname="cycles_colorspace_cpu" time="2.22743" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] acescg_blackbody
+[ RUN      ] rec2020_lights
+[       OK ] acescg_blackbody
+[       OK ] rec2020_lights
+ 
+[==========] 2 tests from 1 test case ran. (1961 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_cpu" classname="cycles_denoise_cpu" time="7.64581" status="run">
+		<properties/>
+		<system-out>[==========] Running 19 tests from 1 test case.
+[ RUN      ] denoise_dof_mblur
+[ RUN      ] denoise_gradients
+[ RUN      ] denoise_hair
+[ RUN      ] denoise_oidn_adaptive_sample_count
+[ RUN      ] denoise_oidn_catcher_matte
+[ RUN      ] denoise_oidn_catcher_matte_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_exposure
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_exposure
+[ RUN      ] denoise_oidn_catcher_pass
+[ RUN      ] denoise_oidn_catcher_pass_adaptive
+[ RUN      ] denoise_oidn_catcher_pass_exposure
+[ RUN      ] denoise_passes
+[ RUN      ] denoise_passes_compositor
+[ RUN      ] denoise_passes_specular
+[ RUN      ] denoise_specular
+[ RUN      ] denoise_sss
+[ RUN      ] denoise_volume
+[       OK ] denoise_dof_mblur
+[       OK ] denoise_gradients
+[       OK ] denoise_hair
+[       OK ] denoise_oidn_adaptive_sample_count
+[       OK ] denoise_oidn_catcher_matte
+[       OK ] denoise_oidn_catc...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_animation_cpu" classname="cycles_denoise_animation_cpu" time="2.13743" status="run">
+		<properties/>
+		<system-out>[==========] Running 4 tests from 1 test case.
+[ RUN      ] denoise
+[ RUN      ] denoise_multipart
+[ RUN      ] merge
+[ RUN      ] merge_denoise
+[       OK ] denoise
+[       OK ] denoise_multipart
+[       OK ] merge
+[       OK ] merge_denoise
+ 
+[==========] 4 tests from 1 test case ran. (1855 ms total)
+[ PASSED   ] 4 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_displacement_cpu" classname="cycles_displacement_cpu" time="4.62422" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] both_displacement
+[ RUN      ] both_displacement_corner_normals
+[ RUN      ] both_displacement_image
+[ RUN      ] bump_emission
+[ RUN      ] bump_glass
+[ RUN      ] bump_glossy
+[ RUN      ] bump_normal_texture
+[ RUN      ] bump_with_displacement
+[ RUN      ] compare_bump
+[ RUN      ] dicing_camera
+[ RUN      ] displacement_corner_normals
+[ RUN      ] displacement_flat_shading
+[ RUN      ] displacement_flat_smooth_shading
+[ RUN      ] object_dicing
+[ RUN      ] offscreen_dicing
+[ RUN      ] panorama_dicing
+[ RUN      ] true_displacement
+[ RUN      ] true_displacement_image
+[ RUN      ] true_displacement_scaled
+[ RUN      ] true_displacement_scaled_shared
+[ RUN      ] vector_displacement_object
+[ RUN      ] vector_displacement_tangent
+[       OK ] both_displacement
+[       OK ] both_displacement_corner_normals
+[       OK ] both_displacement_image
+[       OK ] bump_emission
+[       OK ] bump_glass
+[       OK ] bump_glossy
+[       OK ] bump_normal_textu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_gsplat_cpu" classname="cycles_gsplat_cpu" time="7.23378" status="run">
+		<properties/>
+		<system-out>[==========] Running 6 tests from 1 test case.
+[ RUN      ] gsplat_missing_attr
+[ RUN      ] gsplat_motion
+[ RUN      ] gsplat_motion_velocity
+[ RUN      ] gsplat_radiance_attr
+[ RUN      ] gsplat_small_model
+[ RUN      ] gsplat_small_model_diffuse
+[       OK ] gsplat_missing_attr
+[       OK ] gsplat_motion
+[       OK ] gsplat_motion_velocity
+[       OK ] gsplat_radiance_attr
+[       OK ] gsplat_small_model
+[       OK ] gsplat_small_model_diffuse
+ 
+[==========] 6 tests from 1 test case ran. (6952 ms total)
+[ PASSED   ] 6 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_hair_cpu" classname="cycles_hair_cpu" time="6.83464" status="run">
+		<properties/>
+		<system-out>[==========] Running 14 tests from 1 test case.
+[ RUN      ] hair_basemesh_intercept
+[ RUN      ] hair_close_up
+[ RUN      ] hair_info
+[ RUN      ] hair_linear_close_up
+[ RUN      ] hair_particle_random
+[ RUN      ] hair_reflection
+[ RUN      ] hair_ribbon_close_up
+[ RUN      ] hair_transmission
+[ RUN      ] microfacet_hair_orientation
+[ RUN      ] principled_hair_absorptioncoefficient
+[ RUN      ] principled_hair_melaninconcentration
+[ RUN      ] transparent_shadow_hair
+[ RUN      ] transparent_shadow_hair_blur
+[ RUN      ] transparent_shadow_hair_colored
+[       OK ] hair_basemesh_intercept
+[       OK ] hair_close_up
+[       OK ] hair_info
+[       OK ] hair_linear_close_up
+[       OK ] hair_particle_random
+[       OK ] hair_reflection
+[       OK ] hair_ribbon_close_up
+[       OK ] hair_transmission
+[       OK ] microfacet_hair_orientation
+[       OK ] principled_hair_absorptioncoefficient
+[       OK ] principled_hair_melaninconcentration
+[       OK ] transparent_shadow_hair
+[       OK ] transparent_shadow_h...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_colorspace_cpu" classname="cycles_image_colorspace_cpu" time="6.98838" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] image_acescg
+[       OK ] image_alpha_blend
+[       OK ] image_alpha_channel_packed
+[       OK ] image_alpha_ignore
+[       OK ] image_lin_rec709
+[       OK ] image_log
+[       OK ] image_non_color
+ 
+[==========] 7 tests from 1 test case ran. (3145 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] imag...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_data_types_cpu" classname="cycles_image_data_types_cpu" time="2.82529" status="run">
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] image_byte1
+[ RUN      ] image_byte1_16bit
+[ RUN      ] image_byte3
+[ RUN      ] image_byte3_16bit
+[ RUN      ] image_byte4
+[ RUN      ] image_byte4_16bit
+[ RUN      ] image_cmyk_jpeg
+[ RUN      ] image_float3
+[ RUN      ] image_float4
+[ RUN      ] image_generated_byte
+[ RUN      ] image_generated_float
+[ RUN      ] image_half3
+[ RUN      ] image_half4
+[ RUN      ] image_missing
+[ RUN      ] image_packed_byte1
+[ RUN      ] image_packed_byte1_16bit
+[ RUN      ] image_packed_byte3
+[ RUN      ] image_packed_byte3_16bit
+[ RUN      ] image_packed_byte4
+[ RUN      ] image_packed_byte4_16bit
+[ RUN      ] image_packed_float3
+[ RUN      ] image_packed_float4
+[ RUN      ] image_packed_half3
+[ RUN      ] image_packed_half4
+[ RUN      ] image_sequence
+[       OK ] image_byte1
+[       OK ] image_byte1_16bit
+[       OK ] image_byte3
+[       OK ] image_byte3_16bit
+[       OK ] image_byte4
+[       OK ] image_byte4_16bit
+[       OK ] image_cmyk_jpeg
+[       OK ] ima...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mapping_cpu" classname="cycles_image_mapping_cpu" time="7.53873" status="run">
+		<properties/>
+		<system-out>[==========] Running 34 tests from 1 test case.
+[ RUN      ] image_mapping_clip_closest
+[ RUN      ] image_mapping_clip_closest_100x100
+[ RUN      ] image_mapping_clip_closest_1px
+[ RUN      ] image_mapping_clip_cubic
+[ RUN      ] image_mapping_clip_cubic_1px
+[ RUN      ] image_mapping_clip_linear
+[ RUN      ] image_mapping_clip_linear_100x100
+[ RUN      ] image_mapping_clip_linear_103x79
+[ RUN      ] image_mapping_clip_linear_1px
+[ RUN      ] image_mapping_clip_linear_4x4
+[ RUN      ] image_mapping_clip_linear_5x3
+[ RUN      ] image_mapping_extend_closest
+[ RUN      ] image_mapping_extend_closest_1px
+[ RUN      ] image_mapping_extend_cubic
+[ RUN      ] image_mapping_extend_cubic_1px
+[ RUN      ] image_mapping_extend_linear
+[ RUN      ] image_mapping_extend_linear_1px
+[ RUN      ] image_mapping_extend_linear_4x4
+[ RUN      ] image_mapping_extend_linear_5x3
+[ RUN      ] image_mapping_mirror_closest
+[ RUN      ] image_mapping_mirror_cubic
+[ RUN      ] image_mapping_mirror_linear
+[ RUN      ] image_mapping_repea...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mipmap_cpu" classname="cycles_image_mipmap_cpu" time="5.69825" status="run">
+		<properties/>
+		<system-out>[==========] Running 11 tests from 1 test case.
+[ RUN      ] image_cache_evict
+[ RUN      ] image_mipmap_area_light
+[ RUN      ] image_mipmap_filter_glossy
+[ RUN      ] image_mipmap_incomplete_derivs
+[ RUN      ] image_mipmap_large_tex
+[ RUN      ] image_mipmap_light_tree
+[ RUN      ] image_mipmap_transparent_shadow
+[ RUN      ] image_mipmap_volume
+[ RUN      ] image_mipmap_working_space
+[ RUN      ] image_mipmap_world
+[ RUN      ] image_mipmap_world_sun
+[       OK ] image_cache_evict
+[       OK ] image_mipmap_area_light
+[       OK ] image_mipmap_filter_glossy
+[       OK ] image_mipmap_incomplete_derivs
+[       OK ] image_mipmap_large_tex
+[       OK ] image_mipmap_light_tree
+[       OK ] image_mipmap_transparent_shadow
+[       OK ] image_mipmap_volume
+[       OK ] image_mipmap_working_space
+[       OK ] image_mipmap_world
+[       OK ] image_mipmap_world_sun
+ 
+[==========] 11 tests from 1 test case ran. (5407 ms total)
+[ PASSED   ] 11 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_texture_limit_cpu" classname="cycles_image_texture_limit_cpu" time="3.12102" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] image_texture_limit_byte1
+[ RUN      ] image_texture_limit_byte1_16bit
+[ RUN      ] image_texture_limit_byte3
+[ RUN      ] image_texture_limit_byte3_16bit
+[ RUN      ] image_texture_limit_byte4
+[ RUN      ] image_texture_limit_byte4_16bit
+[ RUN      ] image_texture_limit_float3
+[ RUN      ] image_texture_limit_float4
+[ RUN      ] image_texture_limit_generated_byte
+[ RUN      ] image_texture_limit_generated_float
+[ RUN      ] image_texture_limit_half3
+[ RUN      ] image_texture_limit_half4
+[ RUN      ] image_texture_limit_packed_byte1
+[ RUN      ] image_texture_limit_packed_byte1_16bit
+[ RUN      ] image_texture_limit_packed_byte3
+[ RUN      ] image_texture_limit_packed_byte3_16bit
+[ RUN      ] image_texture_limit_packed_byte4
+[ RUN      ] image_texture_limit_packed_byte4_16bit
+[ RUN      ] image_texture_limit_packed_float3
+[ RUN      ] image_texture_limit_packed_float4
+[ RUN      ] image_texture_limit_packed_half3
+[ RUN      ] image_texture_limit_pa...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_instancing_cpu" classname="cycles_instancing_cpu" time="2.45992" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] instance_bvh2_split_displace
+[ RUN      ] instance_types
+[       OK ] instance_bvh2_split_displace
+[       OK ] instance_types
+ 
+[==========] 2 tests from 1 test case ran. (2182 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_integrator_cpu" classname="cycles_integrator_cpu" time="4.77385" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] ao_approximate
+[ RUN      ] clamp_both
+[ RUN      ] clamp_direct
+[ RUN      ] clamp_indirect
+[ RUN      ] complex_shadow_intersection
+[ RUN      ] light_path_diffuse_depth
+[ RUN      ] light_path_glossy_depth
+[ RUN      ] light_path_is_camera_ray
+[ RUN      ] light_path_is_diffuse_ray
+[ RUN      ] light_path_is_glossy_ray
+[ RUN      ] light_path_is_reflection_ray
+[ RUN      ] light_path_is_shadow_ray
+[ RUN      ] light_path_is_singular_ray
+[ RUN      ] light_path_is_transmission_ray
+[ RUN      ] light_path_is_volume_scatter_ray
+[ RUN      ] light_path_portal_depth
+[ RUN      ] light_path_ray_depth
+[ RUN      ] light_path_ray_length
+[ RUN      ] light_path_transmission_depth
+[ RUN      ] light_path_transparent_depth
+[ RUN      ] long_distance_precision
+[ RUN      ] ray_offset
+[ RUN      ] sample_subset
+[ RUN      ] shading_offset
+[ RUN      ] shadow_all_max_bounces
+[ RUN      ] transparent_shadow
+[ RUN      ] transparent_shadow_limit_0
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_cpu" classname="cycles_light_cpu" time="10.931" status="run">
+		<properties/>
+		<system-out>[==========] Running 44 tests from 1 test case.
+[ RUN      ] all_light_types
+[ RUN      ] all_light_types_in_volume
+[ RUN      ] area_light
+[ RUN      ] area_light_generated_texture
+[ RUN      ] area_light_uv
+[ RUN      ] cast_shadow_versioning
+[ RUN      ] distant_light
+[ RUN      ] distant_light_with_world_volume
+[ RUN      ] ellipse_light_spread
+[ RUN      ] ies_light
+[ RUN      ] instanced_mesh_lights
+[ RUN      ] light_falloff
+[ RUN      ] light_normalize
+[ RUN      ] light_ray_visibility
+[ RUN      ] light_ray_visibility_light_tree
+[ RUN      ] light_spread
+[ RUN      ] light_temperature
+[ RUN      ] light_texture
+[ RUN      ] light_texture_no_shadow
+[ RUN      ] light_tree_bump_map
+[ RUN      ] light_tree_bump_map_no_correction
+[ RUN      ] light_tree_multi_distant
+[ RUN      ] light_tree_node_subtended_angle
+[ RUN      ] lights_below_surface
+[ RUN      ] mesh_light
+[ RUN      ] mesh_light_backface
+[ RUN      ] mesh_light_small
+[ RUN      ] multiple_area_lights
+[ RUN      ] multiple_lights_in_volume
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_group_cpu" classname="cycles_light_group_cpu" time="2.2486" status="run">
+		<properties/>
+		<system-out>[==========] Running 3 tests from 1 test case.
+[ RUN      ] light_group_background
+[ RUN      ] light_group_simple
+[ RUN      ] light_group_two_groups
+[       OK ] light_group_background
+[       OK ] light_group_simple
+[       OK ] light_group_two_groups
+ 
+[==========] 3 tests from 1 test case ran. (1976 ms total)
+[ PASSED   ] 3 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_linking_cpu" classname="cycles_light_linking_cpu" time="5.94762" status="run">
+		<properties/>
+		<system-out>[==========] Running 29 tests from 1 test case.
+[ RUN      ] light_link_distant_multi_tree
+[ RUN      ] light_link_distant_tree
+[ RUN      ] light_link_emissive_world
+[ RUN      ] light_link_exclude
+[ RUN      ] light_link_hidden
+[ RUN      ] light_link_instanced_receiver
+[ RUN      ] light_link_mesh_tree
+[ RUN      ] light_link_simple
+[ RUN      ] light_link_simple_tree
+[ RUN      ] light_link_single_light
+[ RUN      ] light_link_surface_in_volume
+[ RUN      ] light_link_volume
+[ RUN      ] link_link_share_bit_trail
+[ RUN      ] shadow_link_blocked
+[ RUN      ] shadow_link_blocked_distant
+[ RUN      ] shadow_link_clamp
+[ RUN      ] shadow_link_distant
+[ RUN      ] shadow_link_emissive_curves_points
+[ RUN      ] shadow_link_glossy
+[ RUN      ] shadow_link_hidden
+[ RUN      ] shadow_link_mesh
+[ RUN      ] shadow_link_multiple_lights
+[ RUN      ] shadow_link_simple
+[ RUN      ] shadow_link_simple_3D_curve
+[ RUN      ] shadow_link_simple_point_cloud
+[ RUN      ] shadow_link_simple_ribbon_curve
+[ RUN      ] shado...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_lightprobe_cpu" classname="cycles_lightprobe_cpu" time="0.259374" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_mesh_cpu" classname="cycles_mesh_cpu" time="5.93225" status="run">
+		<properties/>
+		<system-out>[==========] Running 37 tests from 1 test case.
+[ RUN      ] adaptive_subdivision_geometry_features
+[ RUN      ] autosmooth_custom_normals
+[ RUN      ] autosmooth_simple
+[ RUN      ] autosmooth_subdmesh_catmull
+[ RUN      ] autosmooth_subdmesh_linear
+[ RUN      ] backface_culling
+[ RUN      ] bvh8_close_proximity_visibility
+[ RUN      ] culling
+[ RUN      ] curve_modifier
+[ RUN      ] double_instance_transformation
+[ RUN      ] edit_mode
+[ RUN      ] flat_custom_normals
+[ RUN      ] normal_edge_smooth_flat
+[ RUN      ] normal_types
+[ RUN      ] normal_types_motion
+[ RUN      ] pointiness
+[ RUN      ] pointiness_autosplit
+[ RUN      ] pointiness_split_faces
+[ RUN      ] shadow_terminator
+[ RUN      ] shadow_terminator_metal
+[ RUN      ] tangent_attribute
+[ RUN      ] tangent_missing_uv
+[ RUN      ] tangent_no_uv
+[ RUN      ] tangent_render_uv
+[ RUN      ] tangent_specific_uv_other
+[ RUN      ] tangent_specific_uv_render
+[ RUN      ] tangent_triangles
+[ RUN      ] texture_space_bezier
+[ RUN      ] texture_space...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_motion_blur_cpu" classname="cycles_motion_blur_cpu" time="6.24749" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (5922 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_node_inlining_cpu" classname="cycles_node_inlining_cpu" time="2.63128" status="run">
+		<properties/>
+		<system-out>[==========] Running 10 tests from 1 test case.
+[ RUN      ] boolean_math
+[ RUN      ] bundles
+[ RUN      ] closures
+[ RUN      ] dangling-links
+[ RUN      ] enable_output
+[ RUN      ] index_switch
+[ RUN      ] menu_socket
+[ RUN      ] repeat_zones
+[ RUN      ] string_pattern_parsing
+[ RUN      ] switch
+[       OK ] boolean_math
+[       OK ] bundles
+[       OK ] closures
+[       OK ] dangling-links
+[       OK ] enable_output
+[       OK ] index_switch
+[       OK ] menu_socket
+[       OK ] repeat_zones
+[       OK ] string_pattern_parsing
+[       OK ] switch
+ 
+[==========] 10 tests from 1 test case ran. (2331 ms total)
+[ PASSED   ] 10 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_openvdb_cpu" classname="cycles_openvdb_cpu" time="15.6818" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] fire
+[ RUN      ] openvdb_bounds
+[ RUN      ] openvdb_interpolation
+[ RUN      ] openvdb_overlap
+[ RUN      ] openvdb_slice
+[ RUN      ] openvdb_smoke
+[ RUN      ] openvdb_texture_coordinate_generated
+[ RUN      ] openvdb_velocity_grid_name
+[ RUN      ] openvdb_voxel_close_up
+[ RUN      ] principled_blackbody
+[ RUN      ] principled_smoke
+[ RUN      ] smoke
+[ RUN      ] smoke_color
+[ RUN      ] smoke_fire
+[ RUN      ] smoke_sim_offset
+[ RUN      ] volume_tricubic_interpolation
+[       OK ] fire
+[       OK ] openvdb_bounds
+[       OK ] openvdb_interpolation
+[       OK ] openvdb_overlap
+[       OK ] openvdb_slice
+[       OK ] openvdb_smoke
+[       OK ] openvdb_texture_coordinate_generated
+[       OK ] openvdb_velocity_grid_name
+[       OK ] openvdb_voxel_close_up
+[       OK ] principled_blackbody
+[       OK ] principled_smoke
+[       OK ] smoke
+[       OK ] smoke_color
+[       OK ] smoke_fire
+[       OK ] smoke_sim_offset
+[       OK ] volume_tricubic_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_pointcloud_cpu" classname="cycles_pointcloud_cpu" time="2.5662" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] point_info
+[ RUN      ] points
+[ RUN      ] points_bump
+[ RUN      ] points_emission
+[ RUN      ] points_motion
+[ RUN      ] points_transparent
+[ RUN      ] points_volume
+[       OK ] point_info
+[       OK ] points
+[       OK ] points_bump
+[       OK ] points_emission
+[       OK ] points_motion
+[       OK ] points_transparent
+[       OK ] points_volume
+ 
+[==========] 7 tests from 1 test case ran. (2301 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_principled_bsdf_cpu" classname="cycles_principled_bsdf_cpu" time="5.9144" status="run">
+		<properties/>
+		<system-out>[==========] Running 19 tests from 1 test case.
+[ RUN      ] principled_bsdf_anisotropic_transmission
+[ RUN      ] principled_bsdf_coat
+[ RUN      ] principled_bsdf_coat_zero_weight
+[ RUN      ] principled_bsdf_coated_transmission
+[ RUN      ] principled_bsdf_default
+[ RUN      ] principled_bsdf_dispersion
+[ RUN      ] principled_bsdf_emission
+[ RUN      ] principled_bsdf_emission_alpha
+[ RUN      ] principled_bsdf_metallic
+[ RUN      ] principled_bsdf_sheen
+[ RUN      ] principled_bsdf_specular
+[ RUN      ] principled_bsdf_subsurface
+[ RUN      ] principled_bsdf_thin_glass
+[ RUN      ] principled_bsdf_thin_subsurface
+[ RUN      ] principled_bsdf_thinfilm_metallic
+[ RUN      ] principled_bsdf_thinfilm_opaque_both_sides
+[ RUN      ] principled_bsdf_thinfilm_reflection
+[ RUN      ] principled_bsdf_thinfilm_transmission
+[ RUN      ] principled_bsdf_transmission
+[       OK ] principled_bsdf_anisotropic_transmission
+[       OK ] principled_bsdf_coat
+[       OK ] principled_bsdf_coat_zero_weight
+[       OK ] princi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_raycast_cpu" classname="cycles_raycast_cpu" time="2.93388" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] raycast_attribute
+[ RUN      ] raycast_bump
+[ RUN      ] raycast_direction_constant
+[ RUN      ] raycast_hit
+[ RUN      ] raycast_normal
+[ RUN      ] raycast_position
+[ RUN      ] raycast_visibility
+[       OK ] raycast_attribute
+[       OK ] raycast_bump
+[       OK ] raycast_direction_constant
+[       OK ] raycast_hit
+[       OK ] raycast_normal
+[       OK ] raycast_position
+[       OK ] raycast_visibility
+ 
+[==========] 7 tests from 1 test case ran. (2665 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_render_layer_cpu" classname="cycles_render_layer_cpu" time="8.3491" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] aov_consecutive_view_layers
+[ RUN      ] aov_position
+[ RUN      ] aov_transparency
+[ RUN      ] background_scene
+[ RUN      ] freestyle
+[ RUN      ] freestyle_stroke_material
+[ RUN      ] freestyle_stroke_texture
+[ RUN      ] motion_vectors
+[ RUN      ] radial_tiling_render
+[ RUN      ] render_passes_ao
+[ RUN      ] render_passes_aov_color
+[ RUN      ] render_passes_aov_value
+[ RUN      ] render_passes_cryptomatte_asset
+[ RUN      ] render_passes_cryptomatte_material
+[ RUN      ] render_passes_cryptomatte_object
+[ RUN      ] render_passes_diffuse_color
+[ RUN      ] render_passes_diffuse_direct
+[ RUN      ] render_passes_diffuse_indirect
+[ RUN      ] render_passes_emission
+[ RUN      ] render_passes_environment
+[ RUN      ] render_passes_mist
+[ RUN      ] render_passes_normal
+[ RUN      ] render_passes_shadow
+[ RUN      ] render_passes_specular_color
+[ RUN      ] render_passes_specular_direct
+[ RUN      ] render_passes_specular_indirect
+[ RUN      ]...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_reports_cpu" classname="cycles_reports_cpu" time="7.71052" status="run">
+		<properties/>
+		<system-out>[==========] Running 33 tests from 1 test case.
+[ RUN      ] big_plane_43865
+[ RUN      ] big_quad_50452
+[ RUN      ] big_triangles_50164
+[ RUN      ] displace_voronoi_44895
+[ RUN      ] explode_mod1_50535
+[ RUN      ] explode_mod2_50535
+[ RUN      ] filter_glossy_refraction_45609
+[ RUN      ] glass_mix_40964
+[ RUN      ] hair_particles1_50634
+[ RUN      ] hair_particles2_50634
+[ RUN      ] light_zero_strenght_48790
+[ RUN      ] many_unique_shaders_144713
+[ RUN      ] mblur_disabled_43156
+[ RUN      ] multires_bvh_slow_50655
+[ RUN      ] principled_bsdf_bevel_emission_137420
+[ RUN      ] principled_mix_53600
+[ RUN      ] ray_type_48645
+[ RUN      ] smoke_adaptive_domain_39804
+[ RUN      ] sobol_uniform_41143
+[ RUN      ] split_normals_50718
+[ RUN      ] sss_and_volume_39823
+[ RUN      ] sss_glowing_149904
+[ RUN      ] sss_spatial_splits_48860
+[ RUN      ] sss_spatial_splits_48860_camera_only
+[ RUN      ] sss_spatial_splits_mblur_48860
+[ RUN      ] transparent_curves_50533
+[ RUN      ] vector_blur_hair1_42475
+...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shader_cpu" classname="cycles_shader_cpu" time="13.2718" status="run">
+		<properties/>
+		<system-out>[==========] Running 53 tests from 1 test case.
+[ RUN      ] ambient_occlusion
+[ RUN      ] ambient_occlusion_only_local
+[ RUN      ] bevel
+[ RUN      ] bevel_mblur
+[ RUN      ] blackbody
+[ RUN      ] boolean_math_cases
+[ RUN      ] camera_data_distance
+[ RUN      ] camera_data_vector
+[ RUN      ] constant_fold
+[ RUN      ] custom_normal_map
+[ RUN      ] diffuse_normal_map
+[ RUN      ] emission
+[ RUN      ] float_math
+[ RUN      ] fresnel_layer_weight
+[ RUN      ] glossy_normal_map
+[ RUN      ] holdout
+[ RUN      ] hsv
+[ RUN      ] input_boolean
+[ RUN      ] input_integer
+[ RUN      ] input_vector
+[ RUN      ] input_vector_bsdf
+[ RUN      ] integer_math
+[ RUN      ] invert
+[ RUN      ] material_output_selection
+[ RUN      ] menu
+[ RUN      ] menu_switch
+[ RUN      ] mix_color
+[ RUN      ] node_group_color
+[ RUN      ] node_group_float
+[ RUN      ] node_group_vector
+[ RUN      ] normal
+[ RUN      ] normal_map_displaced
+[ RUN      ] normal_map_transform
+[ RUN      ] normal_mapping_light_leak
+[ RUN      ] object...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_cpu" classname="cycles_shadow_cpu" time="2.94037" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] shadow_filter
+[       OK ] shadow_filter
+ 
+[==========] 1 tests from 1 test case ran. (2018 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_catcher_cpu" classname="cycles_shadow_catcher_cpu" time="4.30948" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] shadow_catcher_cornell_box_instanced
+[ RUN      ] shadow_catcher_cornell_box_real
+[ RUN      ] shadow_catcher_pt_fully_transparent
+[ RUN      ] shadow_catcher_pt_simple
+[ RUN      ] shadow_catcher_pt_simple_semi_transparent_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_film
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface_film
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.2
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.8
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_1.0
+[ RUN      ] shadow_catcher_pt_volume
+[ RUN      ] shadow_catcher_pt_volume_dense
+[ RUN      ] shadow_catcher_pt_volume_sparse
+[ RUN      ] shadow_catcher_world
+[ RUN      ] transparent_glass
+[       OK ] shadow_catcher_cornell_box_instanced
+[       OK ] shadow_catcher_cornell_box_real
+[       OK ] shadow_catcher_pt_fully_transparent
+[       OK ] shadow_catcher_pt_simple
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_sss_cpu" classname="cycles_sss_cpu" time="5.34363" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] sss_concave_clamp
+[ RUN      ] sss_diffuse_mix_clamp
+[ RUN      ] sss_hair
+[ RUN      ] sss_reflection_clamp
+[ RUN      ] subsurface_base_color_mix
+[ RUN      ] subsurface_behind_glass
+[ RUN      ] subsurface_burley
+[ RUN      ] subsurface_cubic
+[ RUN      ] subsurface_gaussian
+[ RUN      ] subsurface_mix
+[ RUN      ] subsurface_random_walk
+[ RUN      ] subsurface_random_walk_anisotropy
+[ RUN      ] subsurface_random_walk_thin
+[ RUN      ] subsurface_small_radius
+[ RUN      ] subsurface_thickness
+[       OK ] sss_concave_clamp
+[       OK ] sss_diffuse_mix_clamp
+[       OK ] sss_hair
+[       OK ] sss_reflection_clamp
+[       OK ] subsurface_base_color_mix
+[       OK ] subsurface_behind_glass
+[       OK ] subsurface_burley
+[       OK ] subsurface_cubic
+[       OK ] subsurface_gaussian
+[       OK ] subsurface_mix
+[       OK ] subsurface_random_walk
+[       OK ] subsurface_random_walk_anisotropy
+[       OK ] subsurface_random_walk_thin
+[       OK ] subs...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_texture_cpu" classname="cycles_texture_cpu" time="9.16696" status="run">
+		<properties/>
+		<system-out>[==========] Running 42 tests from 1 test case.
+[ RUN      ] brick
+[ RUN      ] checker
+[ RUN      ] environment_equiangular
+[ RUN      ] environment_mirror_ball
+[ RUN      ] garbor
+[ RUN      ] gradient
+[ RUN      ] image
+[ RUN      ] magic
+[ RUN      ] musgrave_fbm_36
+[ RUN      ] musgrave_hetero_terrain_36
+[ RUN      ] musgrave_hybrid_multifractal_36
+[ RUN      ] musgrave_multifractal_36
+[ RUN      ] musgrave_ridged_multifractal_36
+[ RUN      ] noise
+[ RUN      ] noise_lacunarity
+[ RUN      ] sky_hosek_wilkie
+[ RUN      ] sky_multiple_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_multiple_default
+[ RUN      ] sky_multiple_increased_disc_ozone
+[ RUN      ] sky_multiple_no_disc_high_altitude
+[ RUN      ] sky_preetham
+[ RUN      ] sky_single_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_single_default
+[ RUN      ] sky_single_increased_disc_ozone
+[ RUN      ] sky_single_no_disc_high_altitude
+[ RUN      ] voronoi_distace_to_edge
+[ RUN      ] voronoi_distace_to_edge_fractal
+[ RUN      ] voronoi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_transparency_cpu" classname="cycles_transparency_cpu" time="2.4258" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] transparency_blended
+[ RUN      ] transparency_dithered
+[       OK ] transparency_blended
+[       OK ] transparency_dithered
+ 
+[==========] 2 tests from 1 test case ran. (2125 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_volume_cpu" classname="cycles_volume_cpu" time="40.6401" status="run">
+		<properties/>
+		<system-out>[==========] Running 31 tests from 1 test case.
+[ RUN      ] camera_in_volume_camera_and_volume
+[ RUN      ] camera_in_volume_camera_only
+[ RUN      ] camera_in_volume_nested
+[ RUN      ] camera_in_volume_simple
+[ RUN      ] implicit_volume
+[ RUN      ] overlapping_different_anisotropy
+[ RUN      ] overlapping_octrees
+[ RUN      ] principled_absorption
+[ RUN      ] principled_bsdf_interior
+[ RUN      ] volume_absobtion
+[ RUN      ] volume_deep_stack
+[ RUN      ] volume_edge_fireflies
+[ RUN      ] volume_instance
+[ RUN      ] volume_light_path
+[ RUN      ] volume_output_absorption
+[ RUN      ] volume_output_mix_volume
+[ RUN      ] volume_output_scatter
+[ RUN      ] volume_output_surface
+[ RUN      ] volume_overlap
+[ RUN      ] volume_scatter
+[ RUN      ] volume_scatter_albedo
+[ RUN      ] volume_scatter_draine
+[ RUN      ] volume_scatter_fournier-forand
+[ RUN      ] volume_scatter_mie
+[ RUN      ] volume_scatter_mie_small_particles
+[ RUN      ] volume_scatter_rayleigh
+[ RUN      ] volume_step_offset
+[ RUN     ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_osl_cpu" classname="cycles_osl_cpu" time="0.263825" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_updates_cpu" classname="cycles_updates_cpu" time="2.11358" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] hair_deform
+[       OK ] hair_deform
+ 
+[==========] 1 tests from 1 test case ran. (1817 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_bake_cuda" classname="cycles_bake_cuda" time="12.1776" status="run">
+		<properties/>
+		<system-out>[==========] Running 13 tests from 1 test case.
+[ RUN      ] bake_cage
+[ RUN      ] bake_denoise_margin
+[ RUN      ] bake_from_active_camera_flat
+[ RUN      ] bake_from_active_camera_smooth
+[ RUN      ] bake_from_multires_displacement
+[ RUN      ] bake_from_multires_displacement_use_lowres
+[ RUN      ] bake_from_multires_normal
+[ RUN      ] bake_from_multires_vector_displacement_object
+[ RUN      ] bake_from_multires_vector_displacement_tangent
+[ RUN      ] bake_from_selected
+[ RUN      ] bake_roughness
+[ RUN      ] bake_to_color_attribute
+[ RUN      ] bake_zspan_watertight
+[       OK ] bake_cage
+[       OK ] bake_denoise_margin
+[       OK ] bake_from_active_camera_flat
+[       OK ] bake_from_active_camera_smooth
+[       OK ] bake_from_multires_displacement
+[       OK ] bake_from_multires_displacement_use_lowres
+[       OK ] bake_from_multires_normal
+[       OK ] bake_from_multires_vector_displacement_object
+[       OK ] bake_from_multires_vector_displacement_tangent
+[       OK ] bake_from_selected
+[       OK...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_bake_raytrace_cuda" classname="cycles_bake_raytrace_cuda" time="3.53311" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] bake_bevel
+[ RUN      ] bake_split_faces
+[       OK ] bake_bevel
+[       OK ] bake_split_faces
+ 
+[==========] 2 tests from 1 test case ran. (3230 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_attributes_cuda" classname="cycles_attributes_cuda" time="7.71824" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] attribute_default_color
+[ RUN      ] attribute_pointcloud_color
+[ RUN      ] attribute_quaternion
+[ RUN      ] attribute_uniform
+[ RUN      ] attribute_view_layer
+[ RUN      ] attribute_volume_element_mesh
+[ RUN      ] attributes_long_property_path
+[       OK ] attribute_default_color
+[       OK ] attribute_pointcloud_color
+[       OK ] attribute_quaternion
+[       OK ] attribute_uniform
+[       OK ] attribute_view_layer
+[       OK ] attribute_volume_element_mesh
+[       OK ] attributes_long_property_path
+ 
+[==========] 7 tests from 1 test case ran. (7420 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_bsdf_cuda" classname="cycles_bsdf_cuda" time="32.8017" status="run">
+		<properties/>
+		<system-out>[==========] Running 35 tests from 1 test case.
+[ RUN      ] diffuse
+[ RUN      ] ggx_low_roughness
+[ RUN      ] glass_anisotropy
+[ RUN      ] glass_beckmann
+[ RUN      ] glass_furnace
+[ RUN      ] glass_ggx
+[ RUN      ] glass_multiggx_tinted
+[ RUN      ] glass_sharp
+[ RUN      ] glossy_ashikhmin
+[ RUN      ] glossy_beckmann
+[ RUN      ] glossy_furnace
+[ RUN      ] glossy_ggx
+[ RUN      ] glossy_multiscatter_ggx
+[ RUN      ] glossy_roughness_texture
+[ RUN      ] glossy_sharp
+[ RUN      ] metallic_beckmann_physical
+[ RUN      ] metallic_furnace
+[ RUN      ] metallic_ggx_physical
+[ RUN      ] metallic_multiggx_f82
+[ RUN      ] metallic_multiggx_physical
+[ RUN      ] metallic_thinfilm_f82
+[ RUN      ] metallic_thinfilm_physical
+[ RUN      ] ray_portal
+[ RUN      ] ray_portal_pass
+[ RUN      ] refraction_beckmann
+[ RUN      ] refraction_ggx
+[ RUN      ] refraction_sharp
+[ RUN      ] refraction_toggle
+[ RUN      ] shader_to_rgb
+[ RUN      ] specular
+[ RUN      ] toon_diffuse
+[ RUN      ] toon_glossy
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_camera_cuda" classname="cycles_camera_cuda" time="15.3564" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] camera_central_cylindrical
+[ RUN      ] camera_depth_of_field
+[ RUN      ] camera_equiangular_cubemap_face
+[ RUN      ] camera_equirectangular
+[ RUN      ] camera_fisheye_equidistant
+[ RUN      ] camera_fisheye_equisolid
+[ RUN      ] camera_fisheye_polynomial
+[ RUN      ] camera_mirror_ball
+[ RUN      ] camera_negative_scale
+[ RUN      ] camera_negative_scale_ortho
+[ RUN      ] camera_ortho
+[ RUN      ] camera_ortho_depth_of_field_near_clip
+[ RUN      ] camera_polygonal_bokeh
+[ RUN      ] camera_stereo_panoramic
+[ RUN      ] camera_stereo_perspective
+[       OK ] camera_central_cylindrical
+[       OK ] camera_depth_of_field
+[       OK ] camera_equiangular_cubemap_face
+[       OK ] camera_equirectangular
+[       OK ] camera_fisheye_equidistant
+[       OK ] camera_fisheye_equisolid
+[       OK ] camera_fisheye_polynomial
+[       OK ] camera_mirror_ball
+[       OK ] camera_negative_scale
+[       OK ] camera_negative_scale_ortho
+[       OK ] camera_ortho...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_colorspace_cuda" classname="cycles_colorspace_cuda" time="4.07048" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] acescg_blackbody
+[ RUN      ] rec2020_lights
+[       OK ] acescg_blackbody
+[       OK ] rec2020_lights
+ 
+[==========] 2 tests from 1 test case ran. (3748 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_cuda" classname="cycles_denoise_cuda" time="21.2438" status="run">
+		<properties/>
+		<system-out>[==========] Running 18 tests from 1 test case.
+[ RUN      ] denoise_dof_mblur
+[ RUN      ] denoise_gradients
+[ RUN      ] denoise_oidn_adaptive_sample_count
+[ RUN      ] denoise_oidn_catcher_matte
+[ RUN      ] denoise_oidn_catcher_matte_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_exposure
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_exposure
+[ RUN      ] denoise_oidn_catcher_pass
+[ RUN      ] denoise_oidn_catcher_pass_adaptive
+[ RUN      ] denoise_oidn_catcher_pass_exposure
+[ RUN      ] denoise_passes
+[ RUN      ] denoise_passes_compositor
+[ RUN      ] denoise_passes_specular
+[ RUN      ] denoise_specular
+[ RUN      ] denoise_sss
+[ RUN      ] denoise_volume
+[       OK ] denoise_dof_mblur
+[       OK ] denoise_gradients
+[       OK ] denoise_oidn_adaptive_sample_count
+[       OK ] denoise_oidn_catcher_matte
+[       OK ] denoise_oidn_catcher_matte_adaptive
+[       OK ] denoise_oidn_catcher...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_animation_cuda" classname="cycles_denoise_animation_cuda" time="2.33556" status="run">
+		<properties/>
+		<system-out>[==========] Running 4 tests from 1 test case.
+[ RUN      ] denoise
+[ RUN      ] denoise_multipart
+[ RUN      ] merge
+[ RUN      ] merge_denoise
+[       OK ] denoise
+[       OK ] denoise_multipart
+[       OK ] merge
+[       OK ] merge_denoise
+ 
+[==========] 4 tests from 1 test case ran. (2060 ms total)
+[ PASSED   ] 4 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_displacement_cuda" classname="cycles_displacement_cuda" time="20.5617" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] both_displacement
+[ RUN      ] both_displacement_corner_normals
+[ RUN      ] both_displacement_image
+[ RUN      ] bump_emission
+[ RUN      ] bump_glass
+[ RUN      ] bump_glossy
+[ RUN      ] bump_normal_texture
+[ RUN      ] bump_with_displacement
+[ RUN      ] compare_bump
+[ RUN      ] dicing_camera
+[ RUN      ] displacement_corner_normals
+[ RUN      ] displacement_flat_shading
+[ RUN      ] displacement_flat_smooth_shading
+[ RUN      ] object_dicing
+[ RUN      ] offscreen_dicing
+[ RUN      ] panorama_dicing
+[ RUN      ] true_displacement
+[ RUN      ] true_displacement_image
+[ RUN      ] true_displacement_scaled
+[ RUN      ] true_displacement_scaled_shared
+[ RUN      ] vector_displacement_object
+[ RUN      ] vector_displacement_tangent
+[       OK ] both_displacement
+[       OK ] both_displacement_corner_normals
+[       OK ] both_displacement_image
+[       OK ] bump_emission
+[       OK ] bump_glass
+[       OK ] bump_glossy
+[       OK ] bump_normal_textu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_gsplat_cuda" classname="cycles_gsplat_cuda" time="7.7363" status="run">
+		<properties/>
+		<system-out>[==========] Running 6 tests from 1 test case.
+[ RUN      ] gsplat_missing_attr
+[ RUN      ] gsplat_motion
+[ RUN      ] gsplat_motion_velocity
+[ RUN      ] gsplat_radiance_attr
+[ RUN      ] gsplat_small_model
+[ RUN      ] gsplat_small_model_diffuse
+[       OK ] gsplat_missing_attr
+[       OK ] gsplat_motion
+[       OK ] gsplat_motion_velocity
+[       OK ] gsplat_radiance_attr
+[       OK ] gsplat_small_model
+[       OK ] gsplat_small_model_diffuse
+ 
+[==========] 6 tests from 1 test case ran. (7429 ms total)
+[ PASSED   ] 6 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_hair_cuda" classname="cycles_hair_cuda" time="6.35246" status="run">
+		<properties/>
+		<system-out>[==========] Running 4 tests from 1 test case.
+[ RUN      ] hair_close_up
+[ RUN      ] hair_linear_close_up
+[ RUN      ] hair_reflection
+[ RUN      ] hair_ribbon_close_up
+[       OK ] hair_close_up
+[       OK ] hair_linear_close_up
+[       OK ] hair_reflection
+[       OK ] hair_ribbon_close_up
+ 
+[==========] 4 tests from 1 test case ran. (6052 ms total)
+[ PASSED   ] 4 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_colorspace_cuda" classname="cycles_image_colorspace_cuda" time="17.4857" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] image_acescg
+[       OK ] image_alpha_blend
+[       OK ] image_alpha_channel_packed
+[       OK ] image_alpha_ignore
+[       OK ] image_lin_rec709
+[       OK ] image_log
+[       OK ] image_non_color
+ 
+[==========] 7 tests from 1 test case ran. (8089 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] im...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_data_types_cuda" classname="cycles_image_data_types_cuda" time="21.7169" status="run">
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] image_byte1
+[ RUN      ] image_byte1_16bit
+[ RUN      ] image_byte3
+[ RUN      ] image_byte3_16bit
+[ RUN      ] image_byte4
+[ RUN      ] image_byte4_16bit
+[ RUN      ] image_cmyk_jpeg
+[ RUN      ] image_float3
+[ RUN      ] image_float4
+[ RUN      ] image_generated_byte
+[ RUN      ] image_generated_float
+[ RUN      ] image_half3
+[ RUN      ] image_half4
+[ RUN      ] image_missing
+[ RUN      ] image_packed_byte1
+[ RUN      ] image_packed_byte1_16bit
+[ RUN      ] image_packed_byte3
+[ RUN      ] image_packed_byte3_16bit
+[ RUN      ] image_packed_byte4
+[ RUN      ] image_packed_byte4_16bit
+[ RUN      ] image_packed_float3
+[ RUN      ] image_packed_float4
+[ RUN      ] image_packed_half3
+[ RUN      ] image_packed_half4
+[ RUN      ] image_sequence
+[       OK ] image_byte1
+[       OK ] image_byte1_16bit
+[       OK ] image_byte3
+[       OK ] image_byte3_16bit
+[       OK ] image_byte4
+[       OK ] image_byte4_16bit
+[       OK ] image_cmyk_jpeg
+[       OK ] ima...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mapping_cuda" classname="cycles_image_mapping_cuda" time="60.0383" status="run">
+		<properties/>
+		<system-out>[==========] Running 34 tests from 1 test case.
+[ RUN      ] image_mapping_clip_closest
+[ RUN      ] image_mapping_clip_closest_100x100
+[ RUN      ] image_mapping_clip_closest_1px
+[ RUN      ] image_mapping_clip_cubic
+[ RUN      ] image_mapping_clip_cubic_1px
+[ RUN      ] image_mapping_clip_linear
+[ RUN      ] image_mapping_clip_linear_100x100
+[ RUN      ] image_mapping_clip_linear_103x79
+[ RUN      ] image_mapping_clip_linear_1px
+[ RUN      ] image_mapping_clip_linear_4x4
+[ RUN      ] image_mapping_clip_linear_5x3
+[ RUN      ] image_mapping_extend_closest
+[ RUN      ] image_mapping_extend_closest_1px
+[ RUN      ] image_mapping_extend_cubic
+[ RUN      ] image_mapping_extend_cubic_1px
+[ RUN      ] image_mapping_extend_linear
+[ RUN      ] image_mapping_extend_linear_1px
+[ RUN      ] image_mapping_extend_linear_4x4
+[ RUN      ] image_mapping_extend_linear_5x3
+[ RUN      ] image_mapping_mirror_closest
+[ RUN      ] image_mapping_mirror_cubic
+[ RUN      ] image_mapping_mirror_linear
+[ RUN      ] image_mapping_repea...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mipmap_cuda" classname="cycles_image_mipmap_cuda" time="14.4956" status="run">
+		<properties/>
+		<system-out>[==========] Running 11 tests from 1 test case.
+[ RUN      ] image_cache_evict
+[ RUN      ] image_mipmap_area_light
+[ RUN      ] image_mipmap_filter_glossy
+[ RUN      ] image_mipmap_incomplete_derivs
+[ RUN      ] image_mipmap_large_tex
+[ RUN      ] image_mipmap_light_tree
+[ RUN      ] image_mipmap_transparent_shadow
+[ RUN      ] image_mipmap_volume
+[ RUN      ] image_mipmap_working_space
+[ RUN      ] image_mipmap_world
+[ RUN      ] image_mipmap_world_sun
+[       OK ] image_cache_evict
+[       OK ] image_mipmap_area_light
+[       OK ] image_mipmap_filter_glossy
+[       OK ] image_mipmap_incomplete_derivs
+[       OK ] image_mipmap_large_tex
+[       OK ] image_mipmap_light_tree
+[       OK ] image_mipmap_transparent_shadow
+[       OK ] image_mipmap_volume
+[       OK ] image_mipmap_working_space
+[       OK ] image_mipmap_world
+[       OK ] image_mipmap_world_sun
+ 
+[==========] 11 tests from 1 test case ran. (14183 ms total)
+[ PASSED   ] 11 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_texture_limit_cuda" classname="cycles_image_texture_limit_cuda" time="20.3108" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] image_texture_limit_byte1
+[ RUN      ] image_texture_limit_byte1_16bit
+[ RUN      ] image_texture_limit_byte3
+[ RUN      ] image_texture_limit_byte3_16bit
+[ RUN      ] image_texture_limit_byte4
+[ RUN      ] image_texture_limit_byte4_16bit
+[ RUN      ] image_texture_limit_float3
+[ RUN      ] image_texture_limit_float4
+[ RUN      ] image_texture_limit_generated_byte
+[ RUN      ] image_texture_limit_generated_float
+[ RUN      ] image_texture_limit_half3
+[ RUN      ] image_texture_limit_half4
+[ RUN      ] image_texture_limit_packed_byte1
+[ RUN      ] image_texture_limit_packed_byte1_16bit
+[ RUN      ] image_texture_limit_packed_byte3
+[ RUN      ] image_texture_limit_packed_byte3_16bit
+[ RUN      ] image_texture_limit_packed_byte4
+[ RUN      ] image_texture_limit_packed_byte4_16bit
+[ RUN      ] image_texture_limit_packed_float3
+[ RUN      ] image_texture_limit_packed_float4
+[ RUN      ] image_texture_limit_packed_half3
+[ RUN      ] image_texture_limit_pa...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_instancing_cuda" classname="cycles_instancing_cuda" time="2.78337" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] instance_bvh2_split_displace
+[       OK ] instance_bvh2_split_displace
+ 
+[==========] 1 tests from 1 test case ran. (2498 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_integrator_cuda" classname="cycles_integrator_cuda" time="35.594" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] ao_approximate
+[ RUN      ] clamp_both
+[ RUN      ] clamp_direct
+[ RUN      ] clamp_indirect
+[ RUN      ] complex_shadow_intersection
+[ RUN      ] light_path_diffuse_depth
+[ RUN      ] light_path_glossy_depth
+[ RUN      ] light_path_is_camera_ray
+[ RUN      ] light_path_is_diffuse_ray
+[ RUN      ] light_path_is_glossy_ray
+[ RUN      ] light_path_is_reflection_ray
+[ RUN      ] light_path_is_shadow_ray
+[ RUN      ] light_path_is_singular_ray
+[ RUN      ] light_path_is_transmission_ray
+[ RUN      ] light_path_is_volume_scatter_ray
+[ RUN      ] light_path_portal_depth
+[ RUN      ] light_path_ray_depth
+[ RUN      ] light_path_ray_length
+[ RUN      ] light_path_transmission_depth
+[ RUN      ] light_path_transparent_depth
+[ RUN      ] long_distance_precision
+[ RUN      ] ray_offset
+[ RUN      ] sample_subset
+[ RUN      ] shading_offset
+[ RUN      ] shadow_all_max_bounces
+[ RUN      ] transparent_shadow
+[ RUN      ] transparent_shadow_limit_0
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_cuda" classname="cycles_light_cuda" time="41.3255" status="run">
+		<properties/>
+		<system-out>[==========] Running 44 tests from 1 test case.
+[ RUN      ] all_light_types
+[ RUN      ] all_light_types_in_volume
+[ RUN      ] area_light
+[ RUN      ] area_light_generated_texture
+[ RUN      ] area_light_uv
+[ RUN      ] cast_shadow_versioning
+[ RUN      ] distant_light
+[ RUN      ] distant_light_with_world_volume
+[ RUN      ] ellipse_light_spread
+[ RUN      ] ies_light
+[ RUN      ] instanced_mesh_lights
+[ RUN      ] light_falloff
+[ RUN      ] light_normalize
+[ RUN      ] light_ray_visibility
+[ RUN      ] light_ray_visibility_light_tree
+[ RUN      ] light_spread
+[ RUN      ] light_temperature
+[ RUN      ] light_texture
+[ RUN      ] light_texture_no_shadow
+[ RUN      ] light_tree_bump_map
+[ RUN      ] light_tree_bump_map_no_correction
+[ RUN      ] light_tree_multi_distant
+[ RUN      ] light_tree_node_subtended_angle
+[ RUN      ] lights_below_surface
+[ RUN      ] mesh_light
+[ RUN      ] mesh_light_backface
+[ RUN      ] mesh_light_small
+[ RUN      ] multiple_area_lights
+[ RUN      ] multiple_lights_in_volume
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_group_cuda" classname="cycles_light_group_cuda" time="4.35715" status="run">
+		<properties/>
+		<system-out>[==========] Running 3 tests from 1 test case.
+[ RUN      ] light_group_background
+[ RUN      ] light_group_simple
+[ RUN      ] light_group_two_groups
+[       OK ] light_group_background
+[       OK ] light_group_simple
+[       OK ] light_group_two_groups
+ 
+[==========] 3 tests from 1 test case ran. (4053 ms total)
+[ PASSED   ] 3 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_linking_cuda" classname="cycles_light_linking_cuda" time="26.9881" status="run">
+		<properties/>
+		<system-out>[==========] Running 28 tests from 1 test case.
+[ RUN      ] light_link_distant_multi_tree
+[ RUN      ] light_link_distant_tree
+[ RUN      ] light_link_emissive_world
+[ RUN      ] light_link_exclude
+[ RUN      ] light_link_hidden
+[ RUN      ] light_link_instanced_receiver
+[ RUN      ] light_link_mesh_tree
+[ RUN      ] light_link_simple
+[ RUN      ] light_link_simple_tree
+[ RUN      ] light_link_single_light
+[ RUN      ] light_link_surface_in_volume
+[ RUN      ] light_link_volume
+[ RUN      ] link_link_share_bit_trail
+[ RUN      ] shadow_link_blocked
+[ RUN      ] shadow_link_blocked_distant
+[ RUN      ] shadow_link_clamp
+[ RUN      ] shadow_link_distant
+[ RUN      ] shadow_link_glossy
+[ RUN      ] shadow_link_hidden
+[ RUN      ] shadow_link_mesh
+[ RUN      ] shadow_link_multiple_lights
+[ RUN      ] shadow_link_simple
+[ RUN      ] shadow_link_simple_3D_curve
+[ RUN      ] shadow_link_simple_point_cloud
+[ RUN      ] shadow_link_simple_ribbon_curve
+[ RUN      ] shadow_link_subsurface
+[ RUN      ] shadow_link_trans...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_lightprobe_cuda" classname="cycles_lightprobe_cuda" time="0.291766" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_mesh_cuda" classname="cycles_mesh_cuda" time="33.6854" status="run">
+		<properties/>
+		<system-out>[==========] Running 37 tests from 1 test case.
+[ RUN      ] adaptive_subdivision_geometry_features
+[ RUN      ] autosmooth_custom_normals
+[ RUN      ] autosmooth_simple
+[ RUN      ] autosmooth_subdmesh_catmull
+[ RUN      ] autosmooth_subdmesh_linear
+[ RUN      ] backface_culling
+[ RUN      ] bvh8_close_proximity_visibility
+[ RUN      ] culling
+[ RUN      ] curve_modifier
+[ RUN      ] double_instance_transformation
+[ RUN      ] edit_mode
+[ RUN      ] flat_custom_normals
+[ RUN      ] normal_edge_smooth_flat
+[ RUN      ] normal_types
+[ RUN      ] normal_types_motion
+[ RUN      ] pointiness
+[ RUN      ] pointiness_autosplit
+[ RUN      ] pointiness_split_faces
+[ RUN      ] shadow_terminator
+[ RUN      ] shadow_terminator_metal
+[ RUN      ] tangent_attribute
+[ RUN      ] tangent_missing_uv
+[ RUN      ] tangent_no_uv
+[ RUN      ] tangent_render_uv
+[ RUN      ] tangent_specific_uv_other
+[ RUN      ] tangent_specific_uv_render
+[ RUN      ] tangent_triangles
+[ RUN      ] texture_space_bezier
+[ RUN      ] texture_space...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_motion_blur_cuda" classname="cycles_motion_blur_cuda" time="25.6118" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (25283 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_node_inlining_cuda" classname="cycles_node_inlining_cuda" time="10.6784" status="run">
+		<properties/>
+		<system-out>[==========] Running 10 tests from 1 test case.
+[ RUN      ] boolean_math
+[ RUN      ] bundles
+[ RUN      ] closures
+[ RUN      ] dangling-links
+[ RUN      ] enable_output
+[ RUN      ] index_switch
+[ RUN      ] menu_socket
+[ RUN      ] repeat_zones
+[ RUN      ] string_pattern_parsing
+[ RUN      ] switch
+[       OK ] boolean_math
+[       OK ] bundles
+[       OK ] closures
+[       OK ] dangling-links
+[       OK ] enable_output
+[       OK ] index_switch
+[       OK ] menu_socket
+[       OK ] repeat_zones
+[       OK ] string_pattern_parsing
+[       OK ] switch
+ 
+[==========] 10 tests from 1 test case ran. (10356 ms total)
+[ PASSED   ] 10 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_openvdb_cuda" classname="cycles_openvdb_cuda" time="20.1843" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] fire
+[ RUN      ] openvdb_bounds
+[ RUN      ] openvdb_interpolation
+[ RUN      ] openvdb_overlap
+[ RUN      ] openvdb_slice
+[ RUN      ] openvdb_smoke
+[ RUN      ] openvdb_texture_coordinate_generated
+[ RUN      ] openvdb_velocity_grid_name
+[ RUN      ] openvdb_voxel_close_up
+[ RUN      ] principled_blackbody
+[ RUN      ] principled_smoke
+[ RUN      ] smoke
+[ RUN      ] smoke_color
+[ RUN      ] smoke_fire
+[ RUN      ] smoke_sim_offset
+[ RUN      ] volume_tricubic_interpolation
+[       OK ] fire
+[       OK ] openvdb_bounds
+[       OK ] openvdb_interpolation
+[       OK ] openvdb_overlap
+[       OK ] openvdb_slice
+[       OK ] openvdb_smoke
+[       OK ] openvdb_texture_coordinate_generated
+[       OK ] openvdb_velocity_grid_name
+[       OK ] openvdb_voxel_close_up
+[       OK ] principled_blackbody
+[       OK ] principled_smoke
+[       OK ] smoke
+[       OK ] smoke_color
+[       OK ] smoke_fire
+[       OK ] smoke_sim_offset
+[       OK ] volume_tricubic_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_pointcloud_cuda" classname="cycles_pointcloud_cuda" time="8.22338" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] point_info
+[ RUN      ] points
+[ RUN      ] points_bump
+[ RUN      ] points_emission
+[ RUN      ] points_motion
+[ RUN      ] points_transparent
+[ RUN      ] points_volume
+[       OK ] point_info
+[       OK ] points
+[       OK ] points_bump
+[       OK ] points_emission
+[       OK ] points_motion
+[       OK ] points_transparent
+[       OK ] points_volume
+ 
+[==========] 7 tests from 1 test case ran. (7899 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_principled_bsdf_cuda" classname="cycles_principled_bsdf_cuda" time="20.028" status="run">
+		<properties/>
+		<system-out>[==========] Running 19 tests from 1 test case.
+[ RUN      ] principled_bsdf_anisotropic_transmission
+[ RUN      ] principled_bsdf_coat
+[ RUN      ] principled_bsdf_coat_zero_weight
+[ RUN      ] principled_bsdf_coated_transmission
+[ RUN      ] principled_bsdf_default
+[ RUN      ] principled_bsdf_dispersion
+[ RUN      ] principled_bsdf_emission
+[ RUN      ] principled_bsdf_emission_alpha
+[ RUN      ] principled_bsdf_metallic
+[ RUN      ] principled_bsdf_sheen
+[ RUN      ] principled_bsdf_specular
+[ RUN      ] principled_bsdf_subsurface
+[ RUN      ] principled_bsdf_thin_glass
+[ RUN      ] principled_bsdf_thin_subsurface
+[ RUN      ] principled_bsdf_thinfilm_metallic
+[ RUN      ] principled_bsdf_thinfilm_opaque_both_sides
+[ RUN      ] principled_bsdf_thinfilm_reflection
+[ RUN      ] principled_bsdf_thinfilm_transmission
+[ RUN      ] principled_bsdf_transmission
+[       OK ] principled_bsdf_anisotropic_transmission
+[       OK ] principled_bsdf_coat
+[       OK ] principled_bsdf_coat_zero_weight
+[       OK ] princi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_raycast_cuda" classname="cycles_raycast_cuda" time="8.41571" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] raycast_attribute
+[ RUN      ] raycast_bump
+[ RUN      ] raycast_direction_constant
+[ RUN      ] raycast_hit
+[ RUN      ] raycast_normal
+[ RUN      ] raycast_position
+[ RUN      ] raycast_visibility
+[       OK ] raycast_attribute
+[       OK ] raycast_bump
+[       OK ] raycast_direction_constant
+[       OK ] raycast_hit
+[       OK ] raycast_normal
+[       OK ] raycast_position
+[       OK ] raycast_visibility
+ 
+[==========] 7 tests from 1 test case ran. (8113 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_render_layer_cuda" classname="cycles_render_layer_cuda" time="38.9645" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] aov_consecutive_view_layers
+[ RUN      ] aov_position
+[ RUN      ] aov_transparency
+[ RUN      ] background_scene
+[ RUN      ] freestyle
+[ RUN      ] freestyle_stroke_material
+[ RUN      ] freestyle_stroke_texture
+[ RUN      ] motion_vectors
+[ RUN      ] radial_tiling_render
+[ RUN      ] render_passes_ao
+[ RUN      ] render_passes_aov_color
+[ RUN      ] render_passes_aov_value
+[ RUN      ] render_passes_cryptomatte_asset
+[ RUN      ] render_passes_cryptomatte_material
+[ RUN      ] render_passes_cryptomatte_object
+[ RUN      ] render_passes_diffuse_color
+[ RUN      ] render_passes_diffuse_direct
+[ RUN      ] render_passes_diffuse_indirect
+[ RUN      ] render_passes_emission
+[ RUN      ] render_passes_environment
+[ RUN      ] render_passes_mist
+[ RUN      ] render_passes_normal
+[ RUN      ] render_passes_shadow
+[ RUN      ] render_passes_specular_color
+[ RUN      ] render_passes_specular_direct
+[ RUN      ] render_passes_specular_indirect
+[ RUN      ]...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_reports_cuda" classname="cycles_reports_cuda" time="29.7045" status="run">
+		<properties/>
+		<system-out>[==========] Running 30 tests from 1 test case.
+[ RUN      ] big_plane_43865
+[ RUN      ] big_quad_50452
+[ RUN      ] big_triangles_50164
+[ RUN      ] displace_voronoi_44895
+[ RUN      ] explode_mod1_50535
+[ RUN      ] explode_mod2_50535
+[ RUN      ] hair_particles1_50634
+[ RUN      ] hair_particles2_50634
+[ RUN      ] light_zero_strenght_48790
+[ RUN      ] many_unique_shaders_144713
+[ RUN      ] mblur_disabled_43156
+[ RUN      ] multires_bvh_slow_50655
+[ RUN      ] principled_bsdf_bevel_emission_137420
+[ RUN      ] principled_mix_53600
+[ RUN      ] ray_type_48645
+[ RUN      ] smoke_adaptive_domain_39804
+[ RUN      ] split_normals_50718
+[ RUN      ] sss_and_volume_39823
+[ RUN      ] sss_glowing_149904
+[ RUN      ] sss_spatial_splits_48860
+[ RUN      ] sss_spatial_splits_48860_camera_only
+[ RUN      ] sss_spatial_splits_mblur_48860
+[ RUN      ] transparent_curves_50533
+[ RUN      ] vector_blur_hair1_42475
+[ RUN      ] vector_blur_hair2_42475
+[ RUN      ] volume_overlap2_53854
+[ RUN      ] volume_overlap_emissi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shader_cuda" classname="cycles_shader_cuda" time="51.7517" status="run">
+		<properties/>
+		<system-out>[==========] Running 52 tests from 1 test case.
+[ RUN      ] ambient_occlusion
+[ RUN      ] ambient_occlusion_only_local
+[ RUN      ] bevel
+[ RUN      ] blackbody
+[ RUN      ] boolean_math_cases
+[ RUN      ] camera_data_distance
+[ RUN      ] camera_data_vector
+[ RUN      ] constant_fold
+[ RUN      ] custom_normal_map
+[ RUN      ] diffuse_normal_map
+[ RUN      ] emission
+[ RUN      ] float_math
+[ RUN      ] fresnel_layer_weight
+[ RUN      ] glossy_normal_map
+[ RUN      ] holdout
+[ RUN      ] hsv
+[ RUN      ] input_boolean
+[ RUN      ] input_integer
+[ RUN      ] input_vector
+[ RUN      ] input_vector_bsdf
+[ RUN      ] integer_math
+[ RUN      ] invert
+[ RUN      ] material_output_selection
+[ RUN      ] menu
+[ RUN      ] menu_switch
+[ RUN      ] mix_color
+[ RUN      ] node_group_color
+[ RUN      ] node_group_float
+[ RUN      ] node_group_vector
+[ RUN      ] normal
+[ RUN      ] normal_map_displaced
+[ RUN      ] normal_map_transform
+[ RUN      ] normal_mapping_light_leak
+[ RUN      ] object_info
+[ RUN      ] rgb_cu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_cuda" classname="cycles_shadow_cuda" time="2.72632" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] shadow_filter
+[       OK ] shadow_filter
+ 
+[==========] 1 tests from 1 test case ran. (2445 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_catcher_cuda" classname="cycles_shadow_catcher_cuda" time="16.0248" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] shadow_catcher_cornell_box_instanced
+[ RUN      ] shadow_catcher_cornell_box_real
+[ RUN      ] shadow_catcher_pt_fully_transparent
+[ RUN      ] shadow_catcher_pt_simple
+[ RUN      ] shadow_catcher_pt_simple_semi_transparent_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_film
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface_film
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.2
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.8
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_1.0
+[ RUN      ] shadow_catcher_pt_volume
+[ RUN      ] shadow_catcher_pt_volume_dense
+[ RUN      ] shadow_catcher_pt_volume_sparse
+[ RUN      ] shadow_catcher_world
+[ RUN      ] transparent_glass
+[       OK ] shadow_catcher_cornell_box_instanced
+[       OK ] shadow_catcher_cornell_box_real
+[       OK ] shadow_catcher_pt_fully_transparent
+[       OK ] shadow_catcher_pt_simple
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_sss_cuda" classname="cycles_sss_cuda" time="14.9503" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] sss_concave_clamp
+[ RUN      ] sss_diffuse_mix_clamp
+[ RUN      ] sss_hair
+[ RUN      ] sss_reflection_clamp
+[ RUN      ] subsurface_base_color_mix
+[ RUN      ] subsurface_behind_glass
+[ RUN      ] subsurface_burley
+[ RUN      ] subsurface_cubic
+[ RUN      ] subsurface_gaussian
+[ RUN      ] subsurface_mix
+[ RUN      ] subsurface_random_walk
+[ RUN      ] subsurface_random_walk_anisotropy
+[ RUN      ] subsurface_random_walk_thin
+[ RUN      ] subsurface_small_radius
+[ RUN      ] subsurface_thickness
+[       OK ] sss_concave_clamp
+[       OK ] sss_diffuse_mix_clamp
+[       OK ] sss_hair
+[       OK ] sss_reflection_clamp
+[       OK ] subsurface_base_color_mix
+[       OK ] subsurface_behind_glass
+[       OK ] subsurface_burley
+[       OK ] subsurface_cubic
+[       OK ] subsurface_gaussian
+[       OK ] subsurface_mix
+[       OK ] subsurface_random_walk
+[       OK ] subsurface_random_walk_anisotropy
+[       OK ] subsurface_random_walk_thin
+[       OK ] subs...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_texture_cuda" classname="cycles_texture_cuda" time="36.5666" status="run">
+		<properties/>
+		<system-out>[==========] Running 42 tests from 1 test case.
+[ RUN      ] brick
+[ RUN      ] checker
+[ RUN      ] environment_equiangular
+[ RUN      ] environment_mirror_ball
+[ RUN      ] garbor
+[ RUN      ] gradient
+[ RUN      ] image
+[ RUN      ] magic
+[ RUN      ] musgrave_fbm_36
+[ RUN      ] musgrave_hetero_terrain_36
+[ RUN      ] musgrave_hybrid_multifractal_36
+[ RUN      ] musgrave_multifractal_36
+[ RUN      ] musgrave_ridged_multifractal_36
+[ RUN      ] noise
+[ RUN      ] noise_lacunarity
+[ RUN      ] sky_hosek_wilkie
+[ RUN      ] sky_multiple_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_multiple_default
+[ RUN      ] sky_multiple_increased_disc_ozone
+[ RUN      ] sky_multiple_no_disc_high_altitude
+[ RUN      ] sky_preetham
+[ RUN      ] sky_single_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_single_default
+[ RUN      ] sky_single_increased_disc_ozone
+[ RUN      ] sky_single_no_disc_high_altitude
+[ RUN      ] voronoi_distace_to_edge
+[ RUN      ] voronoi_distace_to_edge_fractal
+[ RUN      ] voronoi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_transparency_cuda" classname="cycles_transparency_cuda" time="3.83947" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] transparency_blended
+[ RUN      ] transparency_dithered
+[       OK ] transparency_blended
+[       OK ] transparency_dithered
+ 
+[==========] 2 tests from 1 test case ran. (3535 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_volume_cuda" classname="cycles_volume_cuda" time="71.5389" status="run">
+		<properties/>
+		<system-out>[==========] Running 31 tests from 1 test case.
+[ RUN      ] camera_in_volume_camera_and_volume
+[ RUN      ] camera_in_volume_camera_only
+[ RUN      ] camera_in_volume_nested
+[ RUN      ] camera_in_volume_simple
+[ RUN      ] implicit_volume
+[ RUN      ] overlapping_different_anisotropy
+[ RUN      ] overlapping_octrees
+[ RUN      ] principled_absorption
+[ RUN      ] principled_bsdf_interior
+[ RUN      ] volume_absobtion
+[ RUN      ] volume_deep_stack
+[ RUN      ] volume_edge_fireflies
+[ RUN      ] volume_instance
+[ RUN      ] volume_light_path
+[ RUN      ] volume_output_absorption
+[ RUN      ] volume_output_mix_volume
+[ RUN      ] volume_output_scatter
+[ RUN      ] volume_output_surface
+[ RUN      ] volume_overlap
+[ RUN      ] volume_scatter
+[ RUN      ] volume_scatter_albedo
+[ RUN      ] volume_scatter_draine
+[ RUN      ] volume_scatter_fournier-forand
+[ RUN      ] volume_scatter_mie
+[ RUN      ] volume_scatter_mie_small_particles
+[ RUN      ] volume_scatter_rayleigh
+[ RUN      ] volume_step_offset
+[ RUN     ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_osl_cuda" classname="cycles_osl_cuda" time="0.261496" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_updates_cuda" classname="cycles_updates_cuda" time="2.74161" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] hair_deform
+[       OK ] hair_deform
+ 
+[==========] 1 tests from 1 test case ran. (2455 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_bake_optix" classname="cycles_bake_optix" time="15.9082" status="run">
+		<properties/>
+		<system-out>[==========] Running 13 tests from 1 test case.
+[ RUN      ] bake_cage
+[ RUN      ] bake_denoise_margin
+[ RUN      ] bake_from_active_camera_flat
+[ RUN      ] bake_from_active_camera_smooth
+[ RUN      ] bake_from_multires_displacement
+[ RUN      ] bake_from_multires_displacement_use_lowres
+[ RUN      ] bake_from_multires_normal
+[ RUN      ] bake_from_multires_vector_displacement_object
+[ RUN      ] bake_from_multires_vector_displacement_tangent
+[ RUN      ] bake_from_selected
+[ RUN      ] bake_roughness
+[ RUN      ] bake_to_color_attribute
+[ RUN      ] bake_zspan_watertight
+[       OK ] bake_cage
+[       OK ] bake_denoise_margin
+[       OK ] bake_from_active_camera_flat
+[       OK ] bake_from_active_camera_smooth
+[       OK ] bake_from_multires_displacement
+[       OK ] bake_from_multires_displacement_use_lowres
+[       OK ] bake_from_multires_normal
+[       OK ] bake_from_multires_vector_displacement_object
+[       OK ] bake_from_multires_vector_displacement_tangent
+[       OK ] bake_from_selected
+[       OK...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_bake_raytrace_optix" classname="cycles_bake_raytrace_optix" time="247.107" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] bake_bevel
+[ RUN      ] bake_split_faces
+[       OK ] bake_bevel
+[       OK ] bake_split_faces
+ 
+[==========] 2 tests from 1 test case ran. (246782 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_attributes_optix" classname="cycles_attributes_optix" time="13.1961" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] attribute_default_color
+[ RUN      ] attribute_pointcloud_color
+[ RUN      ] attribute_quaternion
+[ RUN      ] attribute_uniform
+[ RUN      ] attribute_view_layer
+[ RUN      ] attribute_volume_element_mesh
+[ RUN      ] attributes_long_property_path
+[       OK ] attribute_default_color
+[       OK ] attribute_pointcloud_color
+[       OK ] attribute_quaternion
+[       OK ] attribute_uniform
+[       OK ] attribute_view_layer
+[       OK ] attribute_volume_element_mesh
+[       OK ] attributes_long_property_path
+ 
+[==========] 7 tests from 1 test case ran. (12902 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_bsdf_optix" classname="cycles_bsdf_optix" time="44.5524" status="run">
+		<properties/>
+		<system-out>[==========] Running 35 tests from 1 test case.
+[ RUN      ] diffuse
+[ RUN      ] ggx_low_roughness
+[ RUN      ] glass_anisotropy
+[ RUN      ] glass_beckmann
+[ RUN      ] glass_furnace
+[ RUN      ] glass_ggx
+[ RUN      ] glass_multiggx_tinted
+[ RUN      ] glass_sharp
+[ RUN      ] glossy_ashikhmin
+[ RUN      ] glossy_beckmann
+[ RUN      ] glossy_furnace
+[ RUN      ] glossy_ggx
+[ RUN      ] glossy_multiscatter_ggx
+[ RUN      ] glossy_roughness_texture
+[ RUN      ] glossy_sharp
+[ RUN      ] metallic_beckmann_physical
+[ RUN      ] metallic_furnace
+[ RUN      ] metallic_ggx_physical
+[ RUN      ] metallic_multiggx_f82
+[ RUN      ] metallic_multiggx_physical
+[ RUN      ] metallic_thinfilm_f82
+[ RUN      ] metallic_thinfilm_physical
+[ RUN      ] ray_portal
+[ RUN      ] ray_portal_pass
+[ RUN      ] refraction_beckmann
+[ RUN      ] refraction_ggx
+[ RUN      ] refraction_sharp
+[ RUN      ] refraction_toggle
+[ RUN      ] shader_to_rgb
+[ RUN      ] specular
+[ RUN      ] toon_diffuse
+[ RUN      ] toon_glossy
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_camera_optix" classname="cycles_camera_optix" time="20.0663" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] camera_central_cylindrical
+[ RUN      ] camera_depth_of_field
+[ RUN      ] camera_equiangular_cubemap_face
+[ RUN      ] camera_equirectangular
+[ RUN      ] camera_fisheye_equidistant
+[ RUN      ] camera_fisheye_equisolid
+[ RUN      ] camera_fisheye_polynomial
+[ RUN      ] camera_mirror_ball
+[ RUN      ] camera_negative_scale
+[ RUN      ] camera_negative_scale_ortho
+[ RUN      ] camera_ortho
+[ RUN      ] camera_ortho_depth_of_field_near_clip
+[ RUN      ] camera_polygonal_bokeh
+[ RUN      ] camera_stereo_panoramic
+[ RUN      ] camera_stereo_perspective
+[       OK ] camera_central_cylindrical
+[       OK ] camera_depth_of_field
+[       OK ] camera_equiangular_cubemap_face
+[       OK ] camera_equirectangular
+[       OK ] camera_fisheye_equidistant
+[       OK ] camera_fisheye_equisolid
+[       OK ] camera_fisheye_polynomial
+[       OK ] camera_mirror_ball
+[       OK ] camera_negative_scale
+[       OK ] camera_negative_scale_ortho
+[       OK ] camera_ortho...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_colorspace_optix" classname="cycles_colorspace_optix" time="4.948" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] acescg_blackbody
+[ RUN      ] rec2020_lights
+[       OK ] acescg_blackbody
+[       OK ] rec2020_lights
+ 
+[==========] 2 tests from 1 test case ran. (4643 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_optix" classname="cycles_denoise_optix" time="26.7383" status="run">
+		<properties/>
+		<system-out>[==========] Running 18 tests from 1 test case.
+[ RUN      ] denoise_dof_mblur
+[ RUN      ] denoise_gradients
+[ RUN      ] denoise_oidn_adaptive_sample_count
+[ RUN      ] denoise_oidn_catcher_matte
+[ RUN      ] denoise_oidn_catcher_matte_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_exposure
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_adaptive
+[ RUN      ] denoise_oidn_catcher_matte_with_shadow_exposure
+[ RUN      ] denoise_oidn_catcher_pass
+[ RUN      ] denoise_oidn_catcher_pass_adaptive
+[ RUN      ] denoise_oidn_catcher_pass_exposure
+[ RUN      ] denoise_passes
+[ RUN      ] denoise_passes_compositor
+[ RUN      ] denoise_passes_specular
+[ RUN      ] denoise_specular
+[ RUN      ] denoise_sss
+[ RUN      ] denoise_volume
+[       OK ] denoise_dof_mblur
+[       OK ] denoise_gradients
+[       OK ] denoise_oidn_adaptive_sample_count
+[       OK ] denoise_oidn_catcher_matte
+[       OK ] denoise_oidn_catcher_matte_adaptive
+[       OK ] denoise_oidn_catcher...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_denoise_animation_optix" classname="cycles_denoise_animation_optix" time="2.36673" status="run">
+		<properties/>
+		<system-out>[==========] Running 4 tests from 1 test case.
+[ RUN      ] denoise
+[ RUN      ] denoise_multipart
+[ RUN      ] merge
+[ RUN      ] merge_denoise
+[       OK ] denoise
+[       OK ] denoise_multipart
+[       OK ] merge
+[       OK ] merge_denoise
+ 
+[==========] 4 tests from 1 test case ran. (2076 ms total)
+[ PASSED   ] 4 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_displacement_optix" classname="cycles_displacement_optix" time="27.2015" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] both_displacement
+[ RUN      ] both_displacement_corner_normals
+[ RUN      ] both_displacement_image
+[ RUN      ] bump_emission
+[ RUN      ] bump_glass
+[ RUN      ] bump_glossy
+[ RUN      ] bump_normal_texture
+[ RUN      ] bump_with_displacement
+[ RUN      ] compare_bump
+[ RUN      ] dicing_camera
+[ RUN      ] displacement_corner_normals
+[ RUN      ] displacement_flat_shading
+[ RUN      ] displacement_flat_smooth_shading
+[ RUN      ] object_dicing
+[ RUN      ] offscreen_dicing
+[ RUN      ] panorama_dicing
+[ RUN      ] true_displacement
+[ RUN      ] true_displacement_image
+[ RUN      ] true_displacement_scaled
+[ RUN      ] true_displacement_scaled_shared
+[ RUN      ] vector_displacement_object
+[ RUN      ] vector_displacement_tangent
+[       OK ] both_displacement
+[       OK ] both_displacement_corner_normals
+[       OK ] both_displacement_image
+[       OK ] bump_emission
+[       OK ] bump_glass
+[       OK ] bump_glossy
+[       OK ] bump_normal_textu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_gsplat_optix" classname="cycles_gsplat_optix" time="11.5018" status="run">
+		<properties/>
+		<system-out>[==========] Running 6 tests from 1 test case.
+[ RUN      ] gsplat_missing_attr
+[ RUN      ] gsplat_motion
+[ RUN      ] gsplat_motion_velocity
+[ RUN      ] gsplat_radiance_attr
+[ RUN      ] gsplat_small_model
+[ RUN      ] gsplat_small_model_diffuse
+[       OK ] gsplat_missing_attr
+[       OK ] gsplat_motion
+[       OK ] gsplat_motion_velocity
+[       OK ] gsplat_radiance_attr
+[       OK ] gsplat_small_model
+[       OK ] gsplat_small_model_diffuse
+ 
+[==========] 6 tests from 1 test case ran. (11190 ms total)
+[ PASSED   ] 6 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_hair_optix" classname="cycles_hair_optix" time="8.682" status="run">
+		<properties/>
+		<system-out>[==========] Running 4 tests from 1 test case.
+[ RUN      ] hair_close_up
+[ RUN      ] hair_linear_close_up
+[ RUN      ] hair_reflection
+[ RUN      ] hair_ribbon_close_up
+[       OK ] hair_close_up
+[       OK ] hair_linear_close_up
+[       OK ] hair_reflection
+[       OK ] hair_ribbon_close_up
+ 
+[==========] 4 tests from 1 test case ran. (8363 ms total)
+[ PASSED   ] 4 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_colorspace_optix" classname="cycles_image_colorspace_optix" time="20.3576" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] image_acescg
+[       OK ] image_alpha_blend
+[       OK ] image_alpha_channel_packed
+[       OK ] image_alpha_ignore
+[       OK ] image_lin_rec709
+[       OK ] image_log
+[       OK ] image_non_color
+ 
+[==========] 7 tests from 1 test case ran. (9667 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+[==========] Running 7 tests from 1 test case.
+[ RUN      ] image_acescg
+[ RUN      ] image_alpha_blend
+[ RUN      ] image_alpha_channel_packed
+[ RUN      ] image_alpha_ignore
+[ RUN      ] image_lin_rec709
+[ RUN      ] image_log
+[ RUN      ] image_non_color
+[       OK ] ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_data_types_optix" classname="cycles_image_data_types_optix" time="28.5146" status="run">
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] image_byte1
+[ RUN      ] image_byte1_16bit
+[ RUN      ] image_byte3
+[ RUN      ] image_byte3_16bit
+[ RUN      ] image_byte4
+[ RUN      ] image_byte4_16bit
+[ RUN      ] image_cmyk_jpeg
+[ RUN      ] image_float3
+[ RUN      ] image_float4
+[ RUN      ] image_generated_byte
+[ RUN      ] image_generated_float
+[ RUN      ] image_half3
+[ RUN      ] image_half4
+[ RUN      ] image_missing
+[ RUN      ] image_packed_byte1
+[ RUN      ] image_packed_byte1_16bit
+[ RUN      ] image_packed_byte3
+[ RUN      ] image_packed_byte3_16bit
+[ RUN      ] image_packed_byte4
+[ RUN      ] image_packed_byte4_16bit
+[ RUN      ] image_packed_float3
+[ RUN      ] image_packed_float4
+[ RUN      ] image_packed_half3
+[ RUN      ] image_packed_half4
+[ RUN      ] image_sequence
+[       OK ] image_byte1
+[       OK ] image_byte1_16bit
+[       OK ] image_byte3
+[       OK ] image_byte3_16bit
+[       OK ] image_byte4
+[       OK ] image_byte4_16bit
+[       OK ] image_cmyk_jpeg
+[       OK ] ima...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mapping_optix" classname="cycles_image_mapping_optix" time="77.1427" status="run">
+		<properties/>
+		<system-out>[==========] Running 34 tests from 1 test case.
+[ RUN      ] image_mapping_clip_closest
+[ RUN      ] image_mapping_clip_closest_100x100
+[ RUN      ] image_mapping_clip_closest_1px
+[ RUN      ] image_mapping_clip_cubic
+[ RUN      ] image_mapping_clip_cubic_1px
+[ RUN      ] image_mapping_clip_linear
+[ RUN      ] image_mapping_clip_linear_100x100
+[ RUN      ] image_mapping_clip_linear_103x79
+[ RUN      ] image_mapping_clip_linear_1px
+[ RUN      ] image_mapping_clip_linear_4x4
+[ RUN      ] image_mapping_clip_linear_5x3
+[ RUN      ] image_mapping_extend_closest
+[ RUN      ] image_mapping_extend_closest_1px
+[ RUN      ] image_mapping_extend_cubic
+[ RUN      ] image_mapping_extend_cubic_1px
+[ RUN      ] image_mapping_extend_linear
+[ RUN      ] image_mapping_extend_linear_1px
+[ RUN      ] image_mapping_extend_linear_4x4
+[ RUN      ] image_mapping_extend_linear_5x3
+[ RUN      ] image_mapping_mirror_closest
+[ RUN      ] image_mapping_mirror_cubic
+[ RUN      ] image_mapping_mirror_linear
+[ RUN      ] image_mapping_repea...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_mipmap_optix" classname="cycles_image_mipmap_optix" time="17.9401" status="run">
+		<properties/>
+		<system-out>[==========] Running 11 tests from 1 test case.
+[ RUN      ] image_cache_evict
+[ RUN      ] image_mipmap_area_light
+[ RUN      ] image_mipmap_filter_glossy
+[ RUN      ] image_mipmap_incomplete_derivs
+[ RUN      ] image_mipmap_large_tex
+[ RUN      ] image_mipmap_light_tree
+[ RUN      ] image_mipmap_transparent_shadow
+[ RUN      ] image_mipmap_volume
+[ RUN      ] image_mipmap_working_space
+[ RUN      ] image_mipmap_world
+[ RUN      ] image_mipmap_world_sun
+[       OK ] image_cache_evict
+[       OK ] image_mipmap_area_light
+[       OK ] image_mipmap_filter_glossy
+[       OK ] image_mipmap_incomplete_derivs
+[       OK ] image_mipmap_large_tex
+[       OK ] image_mipmap_light_tree
+[       OK ] image_mipmap_transparent_shadow
+[       OK ] image_mipmap_volume
+[       OK ] image_mipmap_working_space
+[       OK ] image_mipmap_world
+[       OK ] image_mipmap_world_sun
+ 
+[==========] 11 tests from 1 test case ran. (17622 ms total)
+[ PASSED   ] 11 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_image_texture_limit_optix" classname="cycles_image_texture_limit_optix" time="26.8052" status="run">
+		<properties/>
+		<system-out>[==========] Running 22 tests from 1 test case.
+[ RUN      ] image_texture_limit_byte1
+[ RUN      ] image_texture_limit_byte1_16bit
+[ RUN      ] image_texture_limit_byte3
+[ RUN      ] image_texture_limit_byte3_16bit
+[ RUN      ] image_texture_limit_byte4
+[ RUN      ] image_texture_limit_byte4_16bit
+[ RUN      ] image_texture_limit_float3
+[ RUN      ] image_texture_limit_float4
+[ RUN      ] image_texture_limit_generated_byte
+[ RUN      ] image_texture_limit_generated_float
+[ RUN      ] image_texture_limit_half3
+[ RUN      ] image_texture_limit_half4
+[ RUN      ] image_texture_limit_packed_byte1
+[ RUN      ] image_texture_limit_packed_byte1_16bit
+[ RUN      ] image_texture_limit_packed_byte3
+[ RUN      ] image_texture_limit_packed_byte3_16bit
+[ RUN      ] image_texture_limit_packed_byte4
+[ RUN      ] image_texture_limit_packed_byte4_16bit
+[ RUN      ] image_texture_limit_packed_float3
+[ RUN      ] image_texture_limit_packed_float4
+[ RUN      ] image_texture_limit_packed_half3
+[ RUN      ] image_texture_limit_pa...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_instancing_optix" classname="cycles_instancing_optix" time="3.27139" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] instance_bvh2_split_displace
+[       OK ] instance_bvh2_split_displace
+ 
+[==========] 1 tests from 1 test case ran. (2934 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_integrator_optix" classname="cycles_integrator_optix" time="66.8289" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] ao_approximate
+[ RUN      ] clamp_both
+[ RUN      ] clamp_direct
+[ RUN      ] clamp_indirect
+[ RUN      ] complex_shadow_intersection
+[ RUN      ] light_path_diffuse_depth
+[ RUN      ] light_path_glossy_depth
+[ RUN      ] light_path_is_camera_ray
+[ RUN      ] light_path_is_diffuse_ray
+[ RUN      ] light_path_is_glossy_ray
+[ RUN      ] light_path_is_reflection_ray
+[ RUN      ] light_path_is_shadow_ray
+[ RUN      ] light_path_is_singular_ray
+[ RUN      ] light_path_is_transmission_ray
+[ RUN      ] light_path_is_volume_scatter_ray
+[ RUN      ] light_path_portal_depth
+[ RUN      ] light_path_ray_depth
+[ RUN      ] light_path_ray_length
+[ RUN      ] light_path_transmission_depth
+[ RUN      ] light_path_transparent_depth
+[ RUN      ] long_distance_precision
+[ RUN      ] ray_offset
+[ RUN      ] sample_subset
+[ RUN      ] shading_offset
+[ RUN      ] shadow_all_max_bounces
+[ RUN      ] transparent_shadow
+[ RUN      ] transparent_shadow_limit_0
+[ RUN      ] t...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_optix" classname="cycles_light_optix" time="51.3982" status="run">
+		<properties/>
+		<system-out>[==========] Running 44 tests from 1 test case.
+[ RUN      ] all_light_types
+[ RUN      ] all_light_types_in_volume
+[ RUN      ] area_light
+[ RUN      ] area_light_generated_texture
+[ RUN      ] area_light_uv
+[ RUN      ] cast_shadow_versioning
+[ RUN      ] distant_light
+[ RUN      ] distant_light_with_world_volume
+[ RUN      ] ellipse_light_spread
+[ RUN      ] ies_light
+[ RUN      ] instanced_mesh_lights
+[ RUN      ] light_falloff
+[ RUN      ] light_normalize
+[ RUN      ] light_ray_visibility
+[ RUN      ] light_ray_visibility_light_tree
+[ RUN      ] light_spread
+[ RUN      ] light_temperature
+[ RUN      ] light_texture
+[ RUN      ] light_texture_no_shadow
+[ RUN      ] light_tree_bump_map
+[ RUN      ] light_tree_bump_map_no_correction
+[ RUN      ] light_tree_multi_distant
+[ RUN      ] light_tree_node_subtended_angle
+[ RUN      ] lights_below_surface
+[ RUN      ] mesh_light
+[ RUN      ] mesh_light_backface
+[ RUN      ] mesh_light_small
+[ RUN      ] multiple_area_lights
+[ RUN      ] multiple_lights_in_volume
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_group_optix" classname="cycles_light_group_optix" time="6.44008" status="run">
+		<properties/>
+		<system-out>[==========] Running 3 tests from 1 test case.
+[ RUN      ] light_group_background
+[ RUN      ] light_group_simple
+[ RUN      ] light_group_two_groups
+[       OK ] light_group_background
+[       OK ] light_group_simple
+[       OK ] light_group_two_groups
+ 
+[==========] 3 tests from 1 test case ran. (6130 ms total)
+[ PASSED   ] 3 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_light_linking_optix" classname="cycles_light_linking_optix" time="35.2334" status="run">
+		<properties/>
+		<system-out>[==========] Running 28 tests from 1 test case.
+[ RUN      ] light_link_distant_multi_tree
+[ RUN      ] light_link_distant_tree
+[ RUN      ] light_link_emissive_world
+[ RUN      ] light_link_exclude
+[ RUN      ] light_link_hidden
+[ RUN      ] light_link_instanced_receiver
+[ RUN      ] light_link_mesh_tree
+[ RUN      ] light_link_simple
+[ RUN      ] light_link_simple_tree
+[ RUN      ] light_link_single_light
+[ RUN      ] light_link_surface_in_volume
+[ RUN      ] light_link_volume
+[ RUN      ] link_link_share_bit_trail
+[ RUN      ] shadow_link_blocked
+[ RUN      ] shadow_link_blocked_distant
+[ RUN      ] shadow_link_clamp
+[ RUN      ] shadow_link_distant
+[ RUN      ] shadow_link_glossy
+[ RUN      ] shadow_link_hidden
+[ RUN      ] shadow_link_mesh
+[ RUN      ] shadow_link_multiple_lights
+[ RUN      ] shadow_link_simple
+[ RUN      ] shadow_link_simple_3D_curve
+[ RUN      ] shadow_link_simple_point_cloud
+[ RUN      ] shadow_link_simple_ribbon_curve
+[ RUN      ] shadow_link_subsurface
+[ RUN      ] shadow_link_trans...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_lightprobe_optix" classname="cycles_lightprobe_optix" time="0.307744" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_mesh_optix" classname="cycles_mesh_optix" time="44.1485" status="run">
+		<properties/>
+		<system-out>[==========] Running 37 tests from 1 test case.
+[ RUN      ] adaptive_subdivision_geometry_features
+[ RUN      ] autosmooth_custom_normals
+[ RUN      ] autosmooth_simple
+[ RUN      ] autosmooth_subdmesh_catmull
+[ RUN      ] autosmooth_subdmesh_linear
+[ RUN      ] backface_culling
+[ RUN      ] bvh8_close_proximity_visibility
+[ RUN      ] culling
+[ RUN      ] curve_modifier
+[ RUN      ] double_instance_transformation
+[ RUN      ] edit_mode
+[ RUN      ] flat_custom_normals
+[ RUN      ] normal_edge_smooth_flat
+[ RUN      ] normal_types
+[ RUN      ] normal_types_motion
+[ RUN      ] pointiness
+[ RUN      ] pointiness_autosplit
+[ RUN      ] pointiness_split_faces
+[ RUN      ] shadow_terminator
+[ RUN      ] shadow_terminator_metal
+[ RUN      ] tangent_attribute
+[ RUN      ] tangent_missing_uv
+[ RUN      ] tangent_no_uv
+[ RUN      ] tangent_render_uv
+[ RUN      ] tangent_specific_uv_other
+[ RUN      ] tangent_specific_uv_render
+[ RUN      ] tangent_triangles
+[ RUN      ] texture_space_bezier
+[ RUN      ] texture_space...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_motion_blur_optix" classname="cycles_motion_blur_optix" time="29.3027" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (28999 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_node_inlining_optix" classname="cycles_node_inlining_optix" time="12.7343" status="run">
+		<properties/>
+		<system-out>[==========] Running 10 tests from 1 test case.
+[ RUN      ] boolean_math
+[ RUN      ] bundles
+[ RUN      ] closures
+[ RUN      ] dangling-links
+[ RUN      ] enable_output
+[ RUN      ] index_switch
+[ RUN      ] menu_socket
+[ RUN      ] repeat_zones
+[ RUN      ] string_pattern_parsing
+[ RUN      ] switch
+[       OK ] boolean_math
+[       OK ] bundles
+[       OK ] closures
+[       OK ] dangling-links
+[       OK ] enable_output
+[       OK ] index_switch
+[       OK ] menu_socket
+[       OK ] repeat_zones
+[       OK ] string_pattern_parsing
+[       OK ] switch
+ 
+[==========] 10 tests from 1 test case ran. (12441 ms total)
+[ PASSED   ] 10 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_openvdb_optix" classname="cycles_openvdb_optix" time="26.0757" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] fire
+[ RUN      ] openvdb_bounds
+[ RUN      ] openvdb_interpolation
+[ RUN      ] openvdb_overlap
+[ RUN      ] openvdb_slice
+[ RUN      ] openvdb_smoke
+[ RUN      ] openvdb_texture_coordinate_generated
+[ RUN      ] openvdb_velocity_grid_name
+[ RUN      ] openvdb_voxel_close_up
+[ RUN      ] principled_blackbody
+[ RUN      ] principled_smoke
+[ RUN      ] smoke
+[ RUN      ] smoke_color
+[ RUN      ] smoke_fire
+[ RUN      ] smoke_sim_offset
+[ RUN      ] volume_tricubic_interpolation
+[       OK ] fire
+[       OK ] openvdb_bounds
+[       OK ] openvdb_interpolation
+[       OK ] openvdb_overlap
+[       OK ] openvdb_slice
+[       OK ] openvdb_smoke
+[       OK ] openvdb_texture_coordinate_generated
+[       OK ] openvdb_velocity_grid_name
+[       OK ] openvdb_voxel_close_up
+[       OK ] principled_blackbody
+[       OK ] principled_smoke
+[       OK ] smoke
+[       OK ] smoke_color
+[       OK ] smoke_fire
+[       OK ] smoke_sim_offset
+[       OK ] volume_tricubic_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_pointcloud_optix" classname="cycles_pointcloud_optix" time="10.0391" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] point_info
+[ RUN      ] points
+[ RUN      ] points_bump
+[ RUN      ] points_emission
+[ RUN      ] points_motion
+[ RUN      ] points_transparent
+[ RUN      ] points_volume
+[       OK ] point_info
+[       OK ] points
+[       OK ] points_bump
+[       OK ] points_emission
+[       OK ] points_motion
+[       OK ] points_transparent
+[       OK ] points_volume
+ 
+[==========] 7 tests from 1 test case ran. (9738 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_principled_bsdf_optix" classname="cycles_principled_bsdf_optix" time="24.8982" status="run">
+		<properties/>
+		<system-out>[==========] Running 19 tests from 1 test case.
+[ RUN      ] principled_bsdf_anisotropic_transmission
+[ RUN      ] principled_bsdf_coat
+[ RUN      ] principled_bsdf_coat_zero_weight
+[ RUN      ] principled_bsdf_coated_transmission
+[ RUN      ] principled_bsdf_default
+[ RUN      ] principled_bsdf_dispersion
+[ RUN      ] principled_bsdf_emission
+[ RUN      ] principled_bsdf_emission_alpha
+[ RUN      ] principled_bsdf_metallic
+[ RUN      ] principled_bsdf_sheen
+[ RUN      ] principled_bsdf_specular
+[ RUN      ] principled_bsdf_subsurface
+[ RUN      ] principled_bsdf_thin_glass
+[ RUN      ] principled_bsdf_thin_subsurface
+[ RUN      ] principled_bsdf_thinfilm_metallic
+[ RUN      ] principled_bsdf_thinfilm_opaque_both_sides
+[ RUN      ] principled_bsdf_thinfilm_reflection
+[ RUN      ] principled_bsdf_thinfilm_transmission
+[ RUN      ] principled_bsdf_transmission
+[       OK ] principled_bsdf_anisotropic_transmission
+[       OK ] principled_bsdf_coat
+[       OK ] principled_bsdf_coat_zero_weight
+[       OK ] princi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_raycast_optix" classname="cycles_raycast_optix" time="11.3724" status="run">
+		<properties/>
+		<system-out>[==========] Running 7 tests from 1 test case.
+[ RUN      ] raycast_attribute
+[ RUN      ] raycast_bump
+[ RUN      ] raycast_direction_constant
+[ RUN      ] raycast_hit
+[ RUN      ] raycast_normal
+[ RUN      ] raycast_position
+[ RUN      ] raycast_visibility
+[       OK ] raycast_attribute
+[       OK ] raycast_bump
+[       OK ] raycast_direction_constant
+[       OK ] raycast_hit
+[       OK ] raycast_normal
+[       OK ] raycast_position
+[       OK ] raycast_visibility
+ 
+[==========] 7 tests from 1 test case ran. (11007 ms total)
+[ PASSED   ] 7 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_render_layer_optix" classname="cycles_render_layer_optix" time="46.8711" status="run">
+		<properties/>
+		<system-out>[==========] Running 32 tests from 1 test case.
+[ RUN      ] aov_consecutive_view_layers
+[ RUN      ] aov_position
+[ RUN      ] aov_transparency
+[ RUN      ] background_scene
+[ RUN      ] freestyle
+[ RUN      ] freestyle_stroke_material
+[ RUN      ] freestyle_stroke_texture
+[ RUN      ] motion_vectors
+[ RUN      ] radial_tiling_render
+[ RUN      ] render_passes_ao
+[ RUN      ] render_passes_aov_color
+[ RUN      ] render_passes_aov_value
+[ RUN      ] render_passes_cryptomatte_asset
+[ RUN      ] render_passes_cryptomatte_material
+[ RUN      ] render_passes_cryptomatte_object
+[ RUN      ] render_passes_diffuse_color
+[ RUN      ] render_passes_diffuse_direct
+[ RUN      ] render_passes_diffuse_indirect
+[ RUN      ] render_passes_emission
+[ RUN      ] render_passes_environment
+[ RUN      ] render_passes_mist
+[ RUN      ] render_passes_normal
+[ RUN      ] render_passes_shadow
+[ RUN      ] render_passes_specular_color
+[ RUN      ] render_passes_specular_direct
+[ RUN      ] render_passes_specular_indirect
+[ RUN      ]...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_reports_optix" classname="cycles_reports_optix" time="33.8841" status="run">
+		<properties/>
+		<system-out>[==========] Running 28 tests from 1 test case.
+[ RUN      ] big_quad_50452
+[ RUN      ] displace_voronoi_44895
+[ RUN      ] explode_mod1_50535
+[ RUN      ] explode_mod2_50535
+[ RUN      ] hair_particles1_50634
+[ RUN      ] hair_particles2_50634
+[ RUN      ] light_zero_strenght_48790
+[ RUN      ] many_unique_shaders_144713
+[ RUN      ] mblur_disabled_43156
+[ RUN      ] multires_bvh_slow_50655
+[ RUN      ] principled_bsdf_bevel_emission_137420
+[ RUN      ] principled_mix_53600
+[ RUN      ] ray_type_48645
+[ RUN      ] smoke_adaptive_domain_39804
+[ RUN      ] split_normals_50718
+[ RUN      ] sss_and_volume_39823
+[ RUN      ] sss_glowing_149904
+[ RUN      ] sss_spatial_splits_48860
+[ RUN      ] sss_spatial_splits_48860_camera_only
+[ RUN      ] sss_spatial_splits_mblur_48860
+[ RUN      ] transparent_curves_50533
+[ RUN      ] vector_blur_hair1_42475
+[ RUN      ] vector_blur_hair2_42475
+[ RUN      ] volume_overlap2_53854
+[ RUN      ] volume_overlap_emission_46108
+[ RUN      ] volume_phase_mix_background_mis_161678
+[...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shader_optix" classname="cycles_shader_optix" time="66.6841" status="run">
+		<properties/>
+		<system-out>[==========] Running 52 tests from 1 test case.
+[ RUN      ] ambient_occlusion
+[ RUN      ] ambient_occlusion_only_local
+[ RUN      ] bevel
+[ RUN      ] blackbody
+[ RUN      ] boolean_math_cases
+[ RUN      ] camera_data_distance
+[ RUN      ] camera_data_vector
+[ RUN      ] constant_fold
+[ RUN      ] custom_normal_map
+[ RUN      ] diffuse_normal_map
+[ RUN      ] emission
+[ RUN      ] float_math
+[ RUN      ] fresnel_layer_weight
+[ RUN      ] glossy_normal_map
+[ RUN      ] holdout
+[ RUN      ] hsv
+[ RUN      ] input_boolean
+[ RUN      ] input_integer
+[ RUN      ] input_vector
+[ RUN      ] input_vector_bsdf
+[ RUN      ] integer_math
+[ RUN      ] invert
+[ RUN      ] material_output_selection
+[ RUN      ] menu
+[ RUN      ] menu_switch
+[ RUN      ] mix_color
+[ RUN      ] node_group_color
+[ RUN      ] node_group_float
+[ RUN      ] node_group_vector
+[ RUN      ] normal
+[ RUN      ] normal_map_displaced
+[ RUN      ] normal_map_transform
+[ RUN      ] normal_mapping_light_leak
+[ RUN      ] object_info
+[ RUN      ] rgb_cu...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_optix" classname="cycles_shadow_optix" time="3.50323" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] shadow_filter
+[       OK ] shadow_filter
+ 
+[==========] 1 tests from 1 test case ran. (3176 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_shadow_catcher_optix" classname="cycles_shadow_catcher_optix" time="20.3129" status="run">
+		<properties/>
+		<system-out>[==========] Running 16 tests from 1 test case.
+[ RUN      ] shadow_catcher_cornell_box_instanced
+[ RUN      ] shadow_catcher_cornell_box_real
+[ RUN      ] shadow_catcher_pt_fully_transparent
+[ RUN      ] shadow_catcher_pt_simple
+[ RUN      ] shadow_catcher_pt_simple_semi_transparent_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_film
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface
+[ RUN      ] shadow_catcher_pt_simple_transparent_mix_surface_film
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.2
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_0.8
+[ RUN      ] shadow_catcher_pt_transparent_lamp_only_1.0
+[ RUN      ] shadow_catcher_pt_volume
+[ RUN      ] shadow_catcher_pt_volume_dense
+[ RUN      ] shadow_catcher_pt_volume_sparse
+[ RUN      ] shadow_catcher_world
+[ RUN      ] transparent_glass
+[       OK ] shadow_catcher_cornell_box_instanced
+[       OK ] shadow_catcher_cornell_box_real
+[       OK ] shadow_catcher_pt_fully_transparent
+[       OK ] shadow_catcher_pt_simple
+[ ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_sss_optix" classname="cycles_sss_optix" time="19.5684" status="run">
+		<properties/>
+		<system-out>[==========] Running 15 tests from 1 test case.
+[ RUN      ] sss_concave_clamp
+[ RUN      ] sss_diffuse_mix_clamp
+[ RUN      ] sss_hair
+[ RUN      ] sss_reflection_clamp
+[ RUN      ] subsurface_base_color_mix
+[ RUN      ] subsurface_behind_glass
+[ RUN      ] subsurface_burley
+[ RUN      ] subsurface_cubic
+[ RUN      ] subsurface_gaussian
+[ RUN      ] subsurface_mix
+[ RUN      ] subsurface_random_walk
+[ RUN      ] subsurface_random_walk_anisotropy
+[ RUN      ] subsurface_random_walk_thin
+[ RUN      ] subsurface_small_radius
+[ RUN      ] subsurface_thickness
+[       OK ] sss_concave_clamp
+[       OK ] sss_diffuse_mix_clamp
+[       OK ] sss_hair
+[       OK ] sss_reflection_clamp
+[       OK ] subsurface_base_color_mix
+[       OK ] subsurface_behind_glass
+[       OK ] subsurface_burley
+[       OK ] subsurface_cubic
+[       OK ] subsurface_gaussian
+[       OK ] subsurface_mix
+[       OK ] subsurface_random_walk
+[       OK ] subsurface_random_walk_anisotropy
+[       OK ] subsurface_random_walk_thin
+[       OK ] subs...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_texture_optix" classname="cycles_texture_optix" time="50.1859" status="run">
+		<properties/>
+		<system-out>[==========] Running 42 tests from 1 test case.
+[ RUN      ] brick
+[ RUN      ] checker
+[ RUN      ] environment_equiangular
+[ RUN      ] environment_mirror_ball
+[ RUN      ] garbor
+[ RUN      ] gradient
+[ RUN      ] image
+[ RUN      ] magic
+[ RUN      ] musgrave_fbm_36
+[ RUN      ] musgrave_hetero_terrain_36
+[ RUN      ] musgrave_hybrid_multifractal_36
+[ RUN      ] musgrave_multifractal_36
+[ RUN      ] musgrave_ridged_multifractal_36
+[ RUN      ] noise
+[ RUN      ] noise_lacunarity
+[ RUN      ] sky_hosek_wilkie
+[ RUN      ] sky_multiple_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_multiple_default
+[ RUN      ] sky_multiple_increased_disc_ozone
+[ RUN      ] sky_multiple_no_disc_high_altitude
+[ RUN      ] sky_preetham
+[ RUN      ] sky_single_decreased_disc_increased_air_aerosols
+[ RUN      ] sky_single_default
+[ RUN      ] sky_single_increased_disc_ozone
+[ RUN      ] sky_single_no_disc_high_altitude
+[ RUN      ] voronoi_distace_to_edge
+[ RUN      ] voronoi_distace_to_edge_fractal
+[ RUN      ] voronoi...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_transparency_optix" classname="cycles_transparency_optix" time="4.7534" status="run">
+		<properties/>
+		<system-out>[==========] Running 2 tests from 1 test case.
+[ RUN      ] transparency_blended
+[ RUN      ] transparency_dithered
+[       OK ] transparency_blended
+[       OK ] transparency_dithered
+ 
+[==========] 2 tests from 1 test case ran. (4466 ms total)
+[ PASSED   ] 2 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_volume_optix" classname="cycles_volume_optix" time="88.6981" status="run">
+		<properties/>
+		<system-out>[==========] Running 31 tests from 1 test case.
+[ RUN      ] camera_in_volume_camera_and_volume
+[ RUN      ] camera_in_volume_camera_only
+[ RUN      ] camera_in_volume_nested
+[ RUN      ] camera_in_volume_simple
+[ RUN      ] implicit_volume
+[ RUN      ] overlapping_different_anisotropy
+[ RUN      ] overlapping_octrees
+[ RUN      ] principled_absorption
+[ RUN      ] principled_bsdf_interior
+[ RUN      ] volume_absobtion
+[ RUN      ] volume_deep_stack
+[ RUN      ] volume_edge_fireflies
+[ RUN      ] volume_instance
+[ RUN      ] volume_light_path
+[ RUN      ] volume_output_absorption
+[ RUN      ] volume_output_mix_volume
+[ RUN      ] volume_output_scatter
+[ RUN      ] volume_output_surface
+[ RUN      ] volume_overlap
+[ RUN      ] volume_scatter
+[ RUN      ] volume_scatter_albedo
+[ RUN      ] volume_scatter_draine
+[ RUN      ] volume_scatter_fournier-forand
+[ RUN      ] volume_scatter_mie
+[ RUN      ] volume_scatter_mie_small_particles
+[ RUN      ] volume_scatter_rayleigh
+[ RUN      ] volume_step_offset
+[ RUN     ...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="cycles_osl_optix" classname="cycles_osl_optix" time="0.256655" status="run">
+		<properties/>
+		<system-out>[==========] Running 0 tests from 1 test case.
+ 
+[==========] 0 tests from 1 test case ran. (0 ms total)
+[ PASSED   ] 0 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+	<testcase name="cycles_updates_optix" classname="cycles_updates_optix" time="3.00925" status="run">
+		<properties/>
+		<system-out>[==========] Running 1 tests from 1 test case.
+[ RUN      ] hair_deform
+[       OK ] hair_deform
+ 
+[==========] 1 tests from 1 test case ran. (2750 ms total)
+[ PASSED   ] 1 tests.
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+</system-out>
+	</testcase>
+</testsuite>

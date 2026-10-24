@@ -142,6 +142,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: final slice-2 validation at `d03695edf72` (including encoding-2 decoder/loader): coherent two-GPU build, unit target, depcheck and all five CPU/CUDA/OptiX furnace cases pass. Regression is **117/120**, only the three accepted motion-blur failures; the environmental OptiX shadow-catcher failure passed. Harness stopped on literal four-failure equality; merge awaits advisor confirmation, not a new renderer defect. Slice 3 matched render comparison is running independently. `results/2026-10-24-slice2-final/gates.md`.
+
 - 2026-10-24, cloud session: implemented the format/reference/kernel half of `05_learned_shading_frames.md` (`.nnm` encoding 2; `KernelNeuralModel.frames_k` takes the old pad field; standalone parity 47/47 on four builds, selftest and torch-free tests pass) and taught `scene/neural.cpp` to load it, since the embedded test set now includes encoding-2 models (clang syntax check only; needs `ctest -R "^cycles$"` on the box). The closure in `shader_nodes.cpp` still accepts only `bsdf_dirs` files; trainer and export are the local agent's.
 - 2026-10-24, cloud session: reviewed slice 2 (`neural-p2-closure` @ 122a630b): approved; merge after the slice-1 fix and the missing gates (both ctest sets, depcheck, CUDA and 3090 furnace). Next is slice 3 (side-by-side render plus render time per spp), then learned shading frames, specified in `05_learned_shading_frames.md`; the cloud session implements its format, reference and `mlp.h` part.
 - 2026-10-24, local: **slice 2 (neural closure) works** on CPU/CUDA/OptiX (neural-p2-closure @ 122a630b): kernel matches numpy reference, furnace 0.9989 vs Principled, MIS PASS, no new spills. results/2026-10-24-slice2/report.md
@@ -204,6 +206,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   (`results/2026-10-23-buildbox/ctest_baseline_full.txt`).
 
 ## Blocked
+
+- 2026-10-24: slice-2 merge only awaits confirmation that the improved 117/120 subset (OptiX shadow-catcher now passes) satisfies the literal "unchanged failing set" gate. No new runtime failure. `results/2026-10-24-slice2-final/gates.md`.
 
 - (Resolved 2026-10-24) `KernelNeuralMlp.OutputTransforms`: fixed in `9f7c3f74`, verified on the Windows build: 100% of the `cycles` unit-test target passes. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
 - Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.
