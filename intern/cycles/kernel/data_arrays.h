@@ -89,6 +89,7 @@ KERNEL_DATA_ARRAY(float, ies)
 KERNEL_DATA_ARRAY(uint, neural_models)
 KERNEL_DATA_ARRAY(half, neural_weights)
 KERNEL_DATA_ARRAY(half, neural_latents)
+KERNEL_DATA_ARRAY(float, neural_proxy)
 
 /* Volume. */
 KERNEL_DATA_ARRAY(KernelOctreeNode, volume_tree_nodes)

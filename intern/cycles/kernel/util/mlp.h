@@ -32,6 +32,14 @@ CCL_NAMESPACE_BEGIN
 #define NEURAL_MAX_LATENT_CHANNELS 16
 #define NEURAL_MAX_HIDDEN 4
 
+/* Layout of one record of the `neural_proxy` array (floats), one per model slot: the proxy block of
+ * the `.nnm` file (nnm_format.md section 3a). Written by NeuralManager, read by the neural BSDF. */
+#define NEURAL_PROXY_STRIDE 8
+#define NEURAL_PROXY_ALPHA 0 /* alpha_x; v1 closures are isotropic, alpha_y == alpha_x. */
+#define NEURAL_PROXY_ALPHA_Y 1
+#define NEURAL_PROXY_P_DIFFUSE 2
+#define NEURAL_PROXY_ALBEDO 3 /* r, g, b */
+
 enum NeuralActivation {
   NEURAL_ACTIVATION_RELU = 0,
   NEURAL_ACTIVATION_LEAKY_RELU = 1,
