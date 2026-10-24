@@ -45,7 +45,7 @@ header or another block.
 | 0 | 4 | char[4] | `magic` | ASCII `NNM1` |
 | 4 | 4 | u32 | `version` | 1 |
 | 8 | 4 | u32 | `header_size` | 256 |
-| 12 | 4 | u32 | `flags` | 0 (reserved) |
+| 12 | 4 | u32 | `flags` | bit 0 `FLAG_PROXY`: the proxy block of section 3a is present. Other bits 0; readers reject unknown bits |
 | 16 | 4 | u32 | `input_dim` | 1..64. Width of the MLP input vector = encoded features + latent channels |
 | 20 | 4 | u32 | `output_dim` | 1..16 |
 | 24 | 4 | u32 | `num_hidden` | 1..4 hidden layers |
@@ -71,7 +71,29 @@ header or another block.
 | 128 | 4 | u32 | `num_layers` | `num_hidden + 1` |
 | 132 | 20 | u32[5] | `layer_offset[5]` | byte offset of each layer from `weight_offset`; entries `>= num_layers` are 0 |
 | 152 | 8 | u64 | `file_size` | exact size of the file |
-| 160 | 96 | | reserved | zero |
+| 160 | 24 | f32[6] | `proxy` | section 3a if `flags` bit 0, else zero |
+| 184 | 72 | | reserved | zero |
+
+### 3a. Proxy block (flag bit 0)
+
+Per-material constants for the Cycles neural closure, version 1 of the closure
+(`01_cycles_neural_closures_spec.md` section 4). Six little-endian f32 at offset 160:
+
+| Offset | Field | Range | Use in the closure |
+|---:|---|---|---|
+| 160 | `alpha_x` | [1e-3, 1] | GGX roughness of the sampling proxy, tangent direction |
+| 164 | `alpha_y` | [1e-3, 1] | same, bitangent direction (equal to `alpha_x` for isotropic) |
+| 168 | `p_diffuse` | [0.1, 1] | probability of the cosine lobe in the proxy mixture |
+| 172 | `albedo_r` | [0, 1] | material albedo, constant over the surface in v1 |
+| 176 | `albedo_g` | [0, 1] | |
+| 180 | `albedo_b` | [0, 1] | |
+
+The proxy only affects noise, never the expected value, as long as the closure
+reports the pdf of the procedure it actually samples (MIS stays unbiased). The
+albedo feeds `bsdf_albedo` (closure selection weight and the denoising-albedo
+pass), so in v1 those passes see a constant colour per material. A later
+version replaces the block with a per-texel head network; it will use a new
+flag bit, not reinterpret this one. Files without the flag stay valid.
 
 Enumerations:
 
@@ -91,7 +113,7 @@ Bitterli paper before relying on it for anything but parity.
 |---:|---|---|
 | 0 | none | `x` |
 | 1 | exp | `exp(clamp(x, -20, 14))` (the clamp matches the training forward pass) |
-| 2 | softplus | `x > 20 ? x : log1p(exp(x))` |
+| 2 | softplus | `log(1 + exp(x))`, computed as `max(x, 0) + log1p(exp(-|x|))` (`mlp.h`: `neural_softplus`) |
 
 | `input_encoding_id` | Name | Caller passes | MLP input (before latent) |
 |---:|---|---|---|

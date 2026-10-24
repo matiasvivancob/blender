@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import struct
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 
@@ -34,6 +34,15 @@ MAX_LATENT_CHANNELS = 16
 MAX_LATENT_SIZE = 16384
 MAX_TESTVEC = 64
 WIDTHS = (16, 32, 64)
+
+# Header flags (nnm_format.md section 3a). Unknown bits are rejected.
+FLAG_PROXY = 1
+KNOWN_FLAGS = FLAG_PROXY
+# Proxy block: alpha_x, alpha_y, p_diffuse, albedo_r, albedo_g, albedo_b (f32) at header offset 160.
+PROXY_OFFSET = 160
+_PROXY = struct.Struct("<6f")
+PROXY_END = PROXY_OFFSET + _PROXY.size
+ALPHA_MIN, P_DIFFUSE_MIN = 1e-3, 0.1
 
 # magic, version, header_size, flags,
 # input_dim, output_dim, num_hidden, hidden_width, activation, out_transform, encoding, latent_channels,
@@ -74,6 +83,9 @@ class NnmModel:
     latent_levels: List[np.ndarray] = field(default_factory=list)  # each (h, w, C) f16, level 0 first
     tv_inputs: np.ndarray = field(default_factory=lambda: np.zeros((0, 0), np.float32))
     tv_outputs: np.ndarray = field(default_factory=lambda: np.zeros((0, 0), np.float32))
+    # Per-material sampling proxy and albedo for the Cycles closure, or None:
+    # (alpha_x, alpha_y, p_diffuse, albedo_r, albedo_g, albedo_b).
+    proxy: Optional[Tuple[float, float, float, float, float, float]] = None
 
     # -- derived quantities ------------------------------------------------
     @property
@@ -181,6 +193,14 @@ def validate_model(m: NnmModel) -> None:
         _check(m.tv_inputs.shape[1] == m.tv_in_dim, f"test vector input width {m.tv_inputs.shape[1]} != {m.tv_in_dim}")
         _check(m.tv_outputs.shape[1] == m.output_dim, "test vector output width")
 
+    if m.proxy is not None:
+        _check(len(m.proxy) == 6, "proxy needs 6 values")
+        ax, ay, pd, *alb = (float(v) for v in m.proxy)
+        _check(all(np.isfinite([ax, ay, pd, *alb])), "proxy values must be finite")
+        _check(ALPHA_MIN <= ax <= 1.0 and ALPHA_MIN <= ay <= 1.0, "proxy alpha must be in [1e-3, 1]")
+        _check(P_DIFFUSE_MIN <= pd <= 1.0, "proxy p_diffuse must be in [0.1, 1]")
+        _check(all(0.0 <= a <= 1.0 for a in alb), "proxy albedo must be in [0, 1]")
+
 
 def _pack_layer(w: np.ndarray, b: np.ndarray) -> bytes:
     i, o = w.shape
@@ -220,7 +240,7 @@ def write_nnm(model: NnmModel, path=None) -> bytes:
 
     lay = (offs + [0] * 5)[:5]
     header = _HEADER.pack(
-        MAGIC, VERSION, HEADER_SIZE, 0,
+        MAGIC, VERSION, HEADER_SIZE, FLAG_PROXY if model.proxy is not None else 0,
         model.input_dim, model.output_dim, model.num_hidden, model.width,
         model.activation, model.output_transform, model.encoding, model.latent_channels,
         float(model.act_beta), float(model.act_eps),
@@ -231,6 +251,8 @@ def write_nnm(model: NnmModel, path=None) -> bytes:
     )
     out = bytearray(file_size)
     out[:HEADER_SIZE] = header
+    if model.proxy is not None:
+        _PROXY.pack_into(out, PROXY_OFFSET, *(float(v) for v in model.proxy))
     out[weight_offset:weight_offset + len(weights)] = weights
     if latents:
         out[latent_offset:latent_offset + len(latents)] = latents
@@ -261,13 +283,18 @@ def read_nnm(src) -> NnmModel:
     _check(magic == MAGIC, f"bad magic {magic!r}")
     _check(version == VERSION, f"unsupported version {version}")
     _check(header_size == HEADER_SIZE, "bad header_size")
-    _check(flags == 0, "non-zero flags")
+    _check(flags & ~KNOWN_FLAGS == 0, f"unknown flags {flags:#x}")
     _check(file_size == len(data), f"file_size {file_size} != actual {len(data)}")
-    _check(data[160:HEADER_SIZE] == bytes(96), "non-zero reserved header bytes")
+    if flags & FLAG_PROXY:
+        proxy = tuple(float(v) for v in _PROXY.unpack_from(data, PROXY_OFFSET))
+        _check(data[PROXY_END:HEADER_SIZE] == bytes(HEADER_SIZE - PROXY_END), "non-zero reserved header bytes")
+    else:
+        proxy = None
+        _check(data[PROXY_OFFSET:HEADER_SIZE] == bytes(HEADER_SIZE - PROXY_OFFSET), "non-zero reserved header bytes")
 
     # Build a skeleton model to reuse the dimension rules.
     m = NnmModel(input_dim, output_dim, num_hidden, width, layers=[], activation=act, act_beta=beta,
-                 act_eps=eps, output_transform=xform, encoding=enc, latent_channels=lat_c)
+                 act_eps=eps, output_transform=xform, encoding=enc, latent_channels=lat_c, proxy=proxy)
     _check(1 <= num_hidden <= MAX_HIDDEN and width in WIDTHS, "bad topology")
     _check(num_layers == num_hidden + 1, "num_layers != num_hidden + 1")
     sizes = layer_sizes(m)

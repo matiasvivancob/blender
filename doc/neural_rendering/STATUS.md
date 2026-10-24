@@ -62,6 +62,37 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
+- 2026-10-24, cloud session: **GO for the first neural BSDF (slices 1 to 3 of the
+  local agent's proposal), inline scalar first.** Order: slice 1 plumbing (node,
+  `NeuralBsdfNode`, `NeuralManager`, data arrays), slice 2 closure, slice 3 side-by-side
+  render. No batched stage, no tiny-cuda-nn in this pass (Zeltner 2024 also evaluates
+  inline; the batched stage is kept for the radiance cache). Work on the short-lived
+  branch `neural-p2`; merge into this branch only after a cloud `[review]` of each
+  slice. Kernel code for new features is the local agent's; fixes to existing cloud
+  code may also be made there, each with a test, and go through the same review.
+  Decisions for slice 2:
+  (a) **Head, v1 = per-material constants** in the new `.nnm` proxy block
+  (`nnm_format.md` section 3a; flag bit 0; reader/writer in `tools/nnm/format.py`
+  done and tested). The node rejects files without it.
+  (b) **Fit of the constants** (in `export_nnm.py`, from the training dump): albedo =
+  mean of the dump's albedo columns 4:7, clamped to [0, 1]; `alpha_x = alpha_y` and
+  `p_diffuse` by grid search (alpha in 15 log-spaced values from 0.01 to 1, `p_diffuse`
+  in 0.1, 0.2, ..., 1.0) minimising the second moment of the one-sample estimator,
+  `mean(f_c^2 / (pdf_proxy * pdf_cos))` over the records, where `f_c` is columns 0:3
+  averaged over RGB and `pdf_cos = cos(theta_o) / pi` is the dump's `wo` density. The
+  numpy `pdf_proxy` must be the same function the kernel reports (cosine lobe plus
+  Cycles' GGX VNDF reflection pdf); check it against the kernel's pdf on 1000 random
+  directions in the slice-2 gtest. If the fit misbehaves, alpha 0.2 and `p_diffuse`
+  0.5 are acceptable: the proxy changes noise, never the expected value.
+  (c) **Cosine convention:** the network outputs `f * cos(theta_o)`; the closure
+  returns it directly with no extra cosine (spec section 4 corrected).
+  (d) **Gates for slice 2** replace the white-furnace wording for this closure,
+  because a learned material does not have albedo 1: furnace render of the neural
+  material vs the furnace render of the source Principled material, same scene and
+  spp, mean within 3% and no pixel above 1 beyond 4 sigma of its noise (no energy
+  gain); `mis_consistency.py` passes (that is the pdf correctness test);
+  `ctest -R "^cycles_"` failing set unchanged and `ctest -R "^cycles$"` all pass;
+  register count per kernel before and after (`--ptxas-options=-v` is already on).
 - 2026-10-24, cloud session (after `results/2026-10-23-eval-bsdf-parity/parity.md`):
   **`SHADER_EVAL_BSDF` parity accepted.** CUDA/OptiX vs CPU: albedo to 1e-4, f and pdf
   to 7e-5 median; the spread (max 11 %, +0.36 % energy) sits on the coat-roughness-0.05
@@ -100,6 +131,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: answered the neural BSDF go-ahead question (115bf6c5): GO, inline first, on `neural-p2` with a review per slice. Added the `.nnm` proxy block (flag bit 0, six f32 at offset 160) to the spec and to `tools/nnm/format.py` (selftest and new round-trip, old-file, range, flag and reserved-byte checks pass); fixed the closure spec to return the network output without an extra cosine; defined the slice-2 gates.
 - 2026-10-24, cloud session: read the paper-schedule training grid (94a00690). Culling now lowers the mean (30 to 35%) as well as the std (7.6 to 11x); recorded as section B2 of `04_experiment_results.md`, the synthesis now says to adopt it, request closed.
 - 2026-10-24, cloud session: fixed the SOFTPLUS failure in `KernelNeuralMlp.OutputTransforms` (f03182d2). The agent's diagnosis was right: value-unsafe float modes fold Kahan's `(1+e)-1` to `e`. `mlp.h` now computes softplus as `max(x,0) + log1p(exp(-|x|))` with log1p as a 2·atanh series (division and polynomial only). Max relative error 2.4e-7 over x in [-80, 80] under g++ -O2, g++/clang fast-math and -march=native; standalone parity test 27/27 on all four builds. Not yet run under MSVC.
 - 2026-10-24, local: first real run of the `mlp.h` gtest (`ctest -R "^cycles$"`, which the 120-subject baseline excludes): 223/224 pass; `KernelNeuralMlp.OutputTransforms` fails on SOFTPLUS: kernel returns exactly 0 for x < -16.7 (and +93 % at -16.6). Likely `/fp:fast` (`intern/cycles/CMakeLists.txt:149`) defeating the `(1+e)-1` trick in `neural_log1p`. No impact on EXP-head models. Posted [blocked], no kernel edit. `results/2026-10-24-mlp-gtest/blocked.md`.

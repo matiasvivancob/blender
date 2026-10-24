@@ -261,7 +261,8 @@ latent `z[8..16]` as half, the albedo and a frame rotation; same pattern as
 **Setup and SVM wiring.** `bsdf_neural_setup(kg, sd, weight, N, T, model, uv)`
 using `bsdf_alloc` (`closure/alloc.h:~65`): sample the latent pyramid; run a
 tiny head MLP `z -> {albedo_rgb, alpha_x, alpha_y, p_d}` once per shading
-point; clamp alpha to at least 1e-3 and `p_d` to at least 0.1; set
+point (v1: the per-material constants of the `.nnm` proxy block instead,
+`nnm_format.md` section 3a; files without the block are rejected by the node); clamp alpha to at least 1e-3 and `p_d` to at least 0.1; set
 `sample_weight *= average(albedo)` as the NOTE at `bsdf.h:704-708` requires;
 set `sd->runtime_flag |= SR_BSDF | SR_BSDF_HAS_EVAL` (not
 `SR_BSDF_HAS_TRANSMISSION`). In `kernel/svm/closure.h` add a case in
@@ -270,10 +271,13 @@ set `sd->runtime_flag |= SR_BSDF | SR_BSDF_HAS_EVAL` (not
 
 **eval** (`bsdf_neural_eval`, case in `bsdf_eval` at `bsdf.h:554`): build the
 frame from `make_orthonormals_tangent(N, T)`; reject `cosNI <= 0` or `cosNO <=
-0`; input `[z, wi_local, wo_local, encoding]`, MLP outputs RGB; return
-`rgb_to_spectrum(f) * cosNO` (cosine included, as `bsdf_diffuse_eval`,
-`bsdf_diffuse.h:38-49`; `rgb_to_spectrum` at `kernel/util/colorspace.h:40`).
-pdf is `p_d * cosNO / pi + (1 - p_d) * pdf_ggx`; for `pdf_ggx` fill a
+0`; input `[encoding(wi_local, wo_local), z]` in the `.nnm` order. The network is
+trained on `f * cos(theta_o)` (`tools/train/dump_format.md`, columns 0:3), so its
+output already includes the cosine: return `rgb_to_spectrum(y)` with no extra
+`cosNO` factor (`rgb_to_spectrum` at `kernel/util/colorspace.h:40`; Cycles' eval
+convention includes the cosine, as `bsdf_diffuse_eval`, `bsdf_diffuse.h:38-49`).
+`wi` is the direction toward the viewer (`sd->wi`), `wo` toward the light, as in
+the dump. pdf is `p_d * cosNO / pi + (1 - p_d) * pdf_ggx`; for `pdf_ggx` fill a
 stack-local `MicrofacetBsdf` proxy with `fresnel_type = NONE` and call
 `bsdf_microfacet_eval<MicrofacetType::GGX>` (`bsdf_microfacet.h:836`), keeping
 only its pdf. In the staged design, `eval` enqueues the query and the stage
