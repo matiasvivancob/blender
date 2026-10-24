@@ -21,6 +21,9 @@ namespace nodes::node_shader_bsdf_neural_cc {
 
 static void node_declare(NodeDeclarationBuilder &b)
 {
+  b.add_input<decl::Vector>("UV"_ustr)
+      .hide_value()
+      .description("Where the neural material is looked up (the active UV map if not linked)");
   b.add_input<decl::Vector>("Normal"_ustr).hide_value();
   b.add_output<decl::Shader>("BSDF"_ustr);
 }

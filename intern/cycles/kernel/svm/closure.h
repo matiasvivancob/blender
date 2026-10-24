@@ -51,6 +51,9 @@ ccl_device_inline int svm_node_closure_bsdf_skip(int offset, const uint type)
     case CLOSURE_BSDF_TRANSPARENT_ID:
       offset += sizeof(SVMNodeSimpleBsdfData) / sizeof(uint);
       break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      offset += sizeof(SVMNodeNeuralBsdfData) / sizeof(uint);
+      break;
     case CLOSURE_BSDF_RAY_PORTAL_ID:
       offset += sizeof(SVMNodeRayPortalBsdfData) / sizeof(uint);
       break;
@@ -819,6 +822,17 @@ ccl_device
       const Spectrum weight = closure_weight * mix_weight;
       const float roughness = saturatef(stack_load(stack, bsdf_data.param1));
       bsdf_sheen_setup(kg, sd, weight, N, roughness);
+      break;
+    }
+    case CLOSURE_BSDF_NEURAL_ID: {
+      const ccl_global SVMNodeNeuralBsdfData &bsdf_data = svm_node_get<SVMNodeNeuralBsdfData>(
+          kg, &offset);
+      float3 N = stack_load_float3_default(stack, bsdf_data.normal_offset, sd->N);
+      N = safe_normalize_fallback(N, sd->N);
+
+      const Spectrum weight = closure_weight * mix_weight;
+      const float3 uv = stack_load(stack, bsdf_data.uv);
+      bsdf_neural_setup(kg, sd, weight, N, bsdf_data.slot, make_float2(uv.x, uv.y));
       break;
     }
     case CLOSURE_BSDF_GLOSSY_TOON_ID:

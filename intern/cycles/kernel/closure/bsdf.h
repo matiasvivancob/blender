@@ -13,6 +13,7 @@
 #include "kernel/closure/bsdf_microfacet.h"
 #include "kernel/closure/bsdf_burley.h"
 #include "kernel/closure/bsdf_sheen.h"
+#include "kernel/closure/bsdf_neural.h"
 #include "kernel/closure/bsdf_transparent.h"
 #include "kernel/closure/bsdf_ray_portal.h"
 #include "kernel/closure/bsdf_ashikhmin_shirley.h"
@@ -35,6 +36,12 @@ ccl_device_inline float bsdf_get_specular_roughness_squared(const ccl_private Sh
   if (CLOSURE_IS_BSDF_MICROFACET(sc->type)) {
     ccl_private MicrofacetBsdf *bsdf = (ccl_private MicrofacetBsdf *)sc;
     return bsdf->alpha_x * bsdf->alpha_y;
+  }
+
+  if (sc->type == CLOSURE_BSDF_NEURAL_ID) {
+    /* The sampling proxy's roughness, the best available estimate of how sharp the lobe is. */
+    const float alpha = ((const ccl_private NeuralBsdf *)sc)->alpha;
+    return alpha * alpha;
   }
 
   return 1.0f;
@@ -295,6 +302,9 @@ ccl_device_inline int bsdf_sample(KernelGlobals kg,
       *sampled_roughness = one_float2();
       *eta = 1.0f;
       break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      label = bsdf_neural_sample(kg, sc, sd->wi, rand, eval, wo, pdf, sampled_roughness, eta);
+      break;
 #endif
     default:
       label = LABEL_NONE;
@@ -431,6 +441,11 @@ ccl_device_inline void bsdf_roughness_eta(const ccl_private ShaderClosure *sc,
       *roughness = make_float2(alpha, alpha);
       *eta = 1.0f;
       break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      alpha = ((ccl_private NeuralBsdf *)sc)->alpha;
+      *roughness = make_float2(alpha, alpha);
+      *eta = 1.0f;
+      break;
 #endif
     default:
       *roughness = one_float2();
@@ -526,6 +541,11 @@ ccl_device_inline int bsdf_label(const KernelGlobals kg,
 #  endif
     case CLOSURE_BSDF_SHEEN_ID:
       label = LABEL_REFLECT | LABEL_DIFFUSE;
+      break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      label = LABEL_REFLECT |
+              ((((const ccl_private NeuralBsdf *)sc)->p_diffuse > 0.5f) ? LABEL_DIFFUSE :
+                                                                          LABEL_GLOSSY);
       break;
 #endif
     default:
@@ -638,6 +658,9 @@ ccl_device_inline
     case CLOSURE_BSDF_SHEEN_ID:
       eval = bsdf_sheen_eval(sc, sd->wi, wo, pdf);
       break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      eval = bsdf_neural_eval(kg, sc, sd->wi, wo, pdf);
+      break;
 #endif
     default:
       break;
@@ -680,6 +703,9 @@ ccl_device void bsdf_blur(ccl_private ShaderClosure *sc, const float roughness)
     case CLOSURE_BSDF_ASHIKHMIN_SHIRLEY_ID:
       bsdf_ashikhmin_shirley_blur(sc, roughness);
       break;
+    case CLOSURE_BSDF_NEURAL_ID:
+      bsdf_neural_blur(sc, roughness);
+      break;
 #  ifdef __PRINCIPLED_HAIR__
     case CLOSURE_BSDF_HAIR_CHIANG_ID:
       bsdf_hair_chiang_blur(sc, roughness);
@@ -714,6 +740,9 @@ ccl_device_inline Spectrum bsdf_albedo(KernelGlobals kg,
   if (CLOSURE_IS_BSDF_MICROFACET(sc->type)) {
     albedo = bsdf_microfacet_estimate_albedo(
         kg, sd->wi, (const ccl_private MicrofacetBsdf *)sc, reflection, transmission);
+  }
+  else if (sc->type == CLOSURE_BSDF_NEURAL_ID) {
+    albedo = bsdf_neural_albedo(kg, sc);
   }
 #  ifdef __PRINCIPLED_HAIR__
   else if (sc->type == CLOSURE_BSDF_HAIR_CHIANG_ID) {

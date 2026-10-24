@@ -59,6 +59,7 @@ DeviceScene::DeviceScene(Device *device)
       neural_models(device, "neural_models", MEM_GLOBAL),
       neural_weights(device, "neural_weights", MEM_GLOBAL),
       neural_latents(device, "neural_latents", MEM_GLOBAL),
+      neural_proxy(device, "neural_proxy", MEM_GLOBAL),
       volume_tree_nodes(device, "volume_tree_nodes", MEM_GLOBAL),
       volume_tree_roots(device, "volume_tree_roots", MEM_GLOBAL),
       volume_tree_root_ids(device, "volume_tree_root_ids", MEM_GLOBAL),
