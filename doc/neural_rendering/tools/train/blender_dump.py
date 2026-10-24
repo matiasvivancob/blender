@@ -2,9 +2,9 @@
 """Blender-side driver that writes a BSDF dump (dump_format.md) using the Cycles eval_bsdf wrapper.
 
 *** Status: `engine.eval_bsdf` and this driver ran on CPU, CUDA and OptiX on 2026-10-23
-(results/2026-10-23-eval-bsdf-parity). Still unverified until --probe passes on a scene: the assumption that
-Cycles' triangle index `prim` equals the index into `mesh.loop_triangles` of the evaluated mesh, and the
-barycentric convention. ***
+(results/2026-10-23-eval-bsdf-parity), and --probe passed on 2026-10-24 on a plane and on a mesh with quads and
+an n-gon (max albedo error 1.2e-7): the prim index is the `mesh.loop_triangles` index and the barycentric
+convention matches. Re-run --probe for a new kind of geometry (curves, point clouds, instancing). ***
 
 Run (from doc/neural_rendering/tools/train, or give the full path of this file), CPU or CUDA/OptiX Cycles device
 as set in the scene's Cycles settings:
@@ -27,7 +27,8 @@ this script computed for that (prim, barycentric) from `loop_triangles`. A wrong
 offset or a different barycentric convention shows up as a large error. Pass: max abs error below 1e-3 on 256
 points. Run it once per new scene or mesh type before trusting a dump.
 
-Requirements on the scene: the object has one material with the surface shader to be learned, an active UV
+Requirements on the scene: a camera (any; without one -f never calls the engine and Blender exits 0), the
+object has one material with the surface shader to be learned, an active UV
 layer (or --uv-layer) that maps the area of interest into [0,1]^2 without overlaps (the latent grid is indexed
 by that UV), and the Cycles device in the render settings is the one to use. Lights and world are irrelevant:
 eval_bsdf evaluates the closures of the surface shader only. Shaders with transmission, emission only, volumes or
@@ -194,6 +195,14 @@ class BsdfDumpEngine(CyclesRender):
 
 def main():
     a = script_args()
+    if bpy.context.scene.camera is None:
+        # Without a camera, -f logs an error, never calls the engine and Blender still exits 0.
+        print("BSDF_DUMP ERROR: the scene has no camera; -f would skip the engine silently. Add any camera.",
+              file=sys.stderr, flush=True)
+        sys.exit(1)
+    if a.object not in bpy.data.objects:
+        print(f"BSDF_DUMP ERROR: no object named {a.object!r}", file=sys.stderr, flush=True)
+        sys.exit(1)
     default_output_path()
     if a.probe:
         obj = bpy.data.objects[a.object]
