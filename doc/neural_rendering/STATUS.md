@@ -102,6 +102,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: `SHADER_EVAL_BSDF` first real run: builds and runs on CPU, CUDA and OptiX (3090; preserved two-arch build, renderer source unchanged since `da3963af977`). 200k records on the Principled probe, 0 flagged. Albedo matches to 1e-4; f·cos and pdf median 7e-5 rel, p99 0.5 %, max 11 % at the coat-0.05 peak, GPU total energy +0.36 % (concentrated in the brightest records). CUDA == OptiX exactly. `--probe` does not perform the promised prim/UV round trip, so the prim-index assumption is still unverified. `results/2026-10-23-eval-bsdf-parity/parity.md`. Paper-schedule training running on the 4070 (32 runs).
+
 - 2026-10-24, cloud session: Phase 1 closed on the build-gates report (80049027). Parallel two-arch cubins with split-compile took 4670 s per edit vs 736 s serial; `neural_dev.cmake` now sets `WITH_CYCLES_CUDA_BUILD_SERIAL=ON`, README section 4 explains, iteration builds use sm_89 only.
 - 2026-10-23, cloud session: answered the slow incremental cubin build (`slow_incremental.md`): not expected, evidence to collect, 4200 s kill deadline, serial cubin build as the retry, single-arch iteration builds from now on. Warm-cache rebuild recorded at 2082 s.
 - 2026-10-23, cloud session: full ctest baseline is in (116/120, 2174 s). Dispositioned `shadow_catcher_pt_volume_sparse` on OptiX as pre-existing (our OptiX changes are OSL-only, the diff is noise-level). Phase 1 build gates: only the warm-cache and incremental timings remain.
