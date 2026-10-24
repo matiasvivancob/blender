@@ -2951,6 +2951,13 @@ struct NodeShaderTexIES {
   char filepath[/*FILE_MAX*/ 1024] = "";
 };
 
+struct NodeShaderBsdfNeural {
+  DNA_DEFINE_CXX_METHODS(NodeShaderBsdfNeural)
+
+  /** Path of the `.nnm` model file. May be blend-file relative (`//`). */
+  char filepath[/*FILE_MAX*/ 1024] = "";
+};
+
 struct NodeShaderOutputAOV {
   DNA_DEFINE_CXX_METHODS(NodeShaderOutputAOV)
 
