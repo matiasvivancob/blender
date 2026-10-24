@@ -22,6 +22,7 @@ namespace {
 constexpr uint32_t NNM_HEADER_SIZE = 256;
 constexpr uint32_t NNM_FLAG_PROXY = 1;
 constexpr size_t NNM_PROXY_OFFSET = 160;
+constexpr size_t NNM_RESERVED_OFFSET = 192;
 
 /* Little-endian reads at a byte offset; every supported host is little-endian. */
 struct Bytes {
@@ -144,11 +145,12 @@ bool NeuralFile::load(const vector<uint8_t> &data)
   const uint64_t testvec_offset = h.u64(104), testvec_size = h.u64(112);
   const uint32_t testvec_in_dim = h.u32(120), testvec_out_dim = h.u32(124);
   const uint32_t num_layers = h.u32(128);
+  const uint32_t frames_k = h.u32(184), frames_offset = h.u32(188);
 
   if (input_dim < 1 || input_dim > NEURAL_MAX_INPUT || output_dim < 1 ||
       output_dim > NEURAL_MAX_OUTPUT || num_hidden < 1 || num_hidden > NEURAL_MAX_HIDDEN ||
       !(width == 16 || width == 32 || width == 64) || activation > 2 || transform > 2 ||
-      encoding > 1 || latent_channels > NEURAL_MAX_LATENT_CHANNELS || testvec_count > 64)
+      encoding > 2 || latent_channels > NEURAL_MAX_LATENT_CHANNELS || testvec_count > 64)
   {
     return fail("a dimension or enumeration is out of range");
   }
@@ -166,6 +168,21 @@ bool NeuralFile::load(const vector<uint8_t> &data)
   const uint32_t encoded_dim = input_dim - latent_channels;
   if (encoding == NEURAL_ENCODING_BSDF_DIRS && encoded_dim != 12) {
     return fail("bsdf_dirs encoding needs 12 encoded inputs");
+  }
+  /* Learned shading frames (nnm_format.md section 7a, 05_learned_shading_frames.md). */
+  if (encoding == NEURAL_ENCODING_LEARNED_FRAMES) {
+    if (latent_channels < 1) {
+      return fail("learned_frames encoding needs a latent");
+    }
+    if (frames_k < 1 || frames_k > NEURAL_MAX_FRAMES) {
+      return fail("frames_k out of range");
+    }
+    if (encoded_dim != 6 * frames_k) {
+      return fail("learned_frames needs 6 * frames_k encoded inputs");
+    }
+  }
+  else if (frames_k != 0 || frames_offset != 0) {
+    return fail("frames fields must be zero without the learned_frames encoding");
   }
 
   /* Latent description: all fields zero iff there are no latents. */
@@ -214,12 +231,22 @@ bool NeuralFile::load(const vector<uint8_t> &data)
       return fail("unused layer offsets must be zero");
     }
   }
+  /* The frame layer follows the last MLP layer inside the weight blob. */
+  if (frames_k > 0) {
+    if (uint64_t(frames_offset) != layer_offset) {
+      return fail("frames_offset does not point right after the last MLP layer");
+    }
+    layer_offset += uint64_t(latent_channels + 1) * uint64_t(neural_pad8(int(6 * frames_k))) * 2;
+  }
   if (weight_offset != NNM_HEADER_SIZE || weight_size != layer_offset) {
     return fail("weight block size or position is wrong");
   }
 
   /* Test vectors (section 6). */
-  const uint32_t caller_dim = (encoding == NEURAL_ENCODING_BSDF_DIRS) ? 6 : encoded_dim;
+  const uint32_t caller_dim = (encoding == NEURAL_ENCODING_BSDF_DIRS ||
+                               encoding == NEURAL_ENCODING_LEARNED_FRAMES) ?
+                                  6 :
+                                  encoded_dim;
   const uint32_t expected_tv_in = caller_dim + (latent_channels > 0 ? 2 : 0);
   if (testvec_in_dim != expected_tv_in || testvec_out_dim != output_dim ||
       testvec_size != uint64_t(testvec_count) * (expected_tv_in + output_dim) * 4 ||
@@ -275,11 +302,12 @@ bool NeuralFile::load(const vector<uint8_t> &data)
     proxy.alpha_y = ay;
     proxy.p_diffuse = pd;
     proxy.albedo = make_float3(ar, ag, ab);
-    if (!all_zero(file + NNM_PROXY_OFFSET + 24, NNM_HEADER_SIZE - NNM_PROXY_OFFSET - 24)) {
-      return fail("reserved header bytes are not zero");
-    }
   }
-  else if (!all_zero(file + NNM_PROXY_OFFSET, NNM_HEADER_SIZE - NNM_PROXY_OFFSET)) {
+  else if (!all_zero(file + NNM_PROXY_OFFSET, 24)) {
+    return fail("proxy bytes are set but the proxy flag is not");
+  }
+  /* Bytes 184..192 are frames_k and frames_offset, checked above; the rest is reserved. */
+  if (!all_zero(file + NNM_RESERVED_OFFSET, NNM_HEADER_SIZE - NNM_RESERVED_OFFSET)) {
     return fail("reserved header bytes are not zero");
   }
 
@@ -313,6 +341,7 @@ bool NeuralFile::load(const vector<uint8_t> &data)
   model.latent_width = int(latent_width);
   model.latent_height = int(latent_height);
   model.latent_levels = latent_channels > 0 ? 1 : 0;
+  model.frames_k = int(frames_k);
 
   /* Self-check: the kernel decoder must reproduce every embedded test vector
    * (|got - expected| <= 1e-4 |expected| + 1e-5, nnm_format.md section 6). */
