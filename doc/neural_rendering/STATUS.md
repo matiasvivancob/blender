@@ -6,7 +6,7 @@ Newest entries first. Keep it short. Dates are ISO.
 
 **Neural BSDF slices 1 and 2 merged (2026-10-24).** The node loads a trained material and renders on CPU, CUDA and OptiX on both GPUs. Final gates: unit target and all five furnace cases pass; regression 117/120 with only accepted motion-blur failures (accepted subset rule).
 
-**Slice 3 accepted and harness merged.** Matched 1024-spp probe renders show 1.94% mean / 8.27% p99 raw RGB image error; inline neural sampling is slower than Principled (diagnostic ~4.69x CPU, ~2.62x OptiX 4070). See `results/2026-10-24-slice3/report.md`. Next prerequisite is the UV-tangent frame correction (`06_uv_tangent_frame.md`), before learned frames. Owner-selected real target is ` Procedural Ceramic` on `Sphere`; native reference captured, training awaits frame-confirmation disposition and emission-preservation contract. No demonstrated speedup.
+**Slice 3 accepted and harness merged.** Matched 1024-spp probe renders show 1.94% mean / 8.27% p99 raw RGB image error; inline neural sampling is slower than Principled (diagnostic ~4.69x CPU, ~2.62x OptiX 4070). See `results/2026-10-24-slice3/report.md`. Next prerequisite is the UV-tangent frame correction (`06_uv_tangent_frame.md`), before learned frames. Owner-selected real target is ` Procedural Ceramic` on `Sphere`; native reference captured, hybrid neural-scattering/native-emission approved by owner and advisor. Training follows the UV-frame correction and probe validation; no pending design decision. No demonstrated speedup.
 
 ## Requested (for local agents)
 
@@ -167,6 +167,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: owner explicitly approved hybrid emission preservation for ` Procedural Ceramic`: neural BSDF for scattering plus original native emission only, without double-counting native scattering. Advisor resolved both design questions in 6385746382 / `bc0f8b18098`; UV-frame correction and probe validation precede ceramic training. Updated the original request rather than opening a duplicate. `results/2026-10-24-ceramic-start/question.md`.
+
 - 2026-10-24, cloud session: answered the ceramic question (31d8e571): UV tangent frame first (with a numpy frame-rotation check to size the benefit), then the ceramic as hybrid neural scattering plus native emission.
 - 2026-10-24, local: owner selected ` Procedural Ceramic` on `Sphere` in the updated playground. Captured native reference on a separate scene copy, source hash unchanged; no training yet. Confirmed actual nonzero emission in a no-lights test, so BSDF-only replacement would lose part of the material. Requested hybrid emission handling and disposition of the tangent confirmation: edge frames alternate 0/45 degrees, but class-average residual differs only 2.87% (weak separation). `results/2026-10-24-ceramic-start/question.md`. Slice-3 harness merged as `46f9fcff96d` per 6384854622 approval.
 - 2026-10-24, cloud session: reviewed slice 3 (ae0d7dc5). Traced the residual's triangle pattern to the frame definition in my spec (`dPdu` is `p1 - p0` per triangle); wrote `06_uv_tangent_frame.md` as the fix and made it the next step, before learned frames.
@@ -241,7 +243,7 @@ pass on some runs. Harnesses check `failed <= accepted`, not equality.
 
 ## Blocked
 
-- 2026-10-24: ceramic training awaits advisor disposition on weak tangent/residual class separation and preservation of the selected material's verified emission (BSDF-only model cannot represent it). Native reference and source hash preserved. `results/2026-10-24-ceramic-start/question.md`.
+- (Resolved design decision 2026-10-24) advisor cleared the UV-tangent correction and hybrid native-emission path in 6385746382; owner explicitly approved emission preservation. Implementation and validation remain prerequisites to ceramic training, not unanswered questions. `results/2026-10-24-ceramic-start/question.md`.
 
 - (Resolved 2026-10-24) improved regression subset accepted in 6384700080; slice 2 merged as `a92a0d9ca5c`. No active merge block; slice-3 harness review pending.
 
