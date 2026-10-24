@@ -4,11 +4,9 @@ Newest entries first. Keep it short. Dates are ISO.
 
 ## Current phase
 
-**Phase 1 complete (2026-10-24).** Windows build green on both cards, furnace
-passes under CUDA and OptiX, ctest baseline 116/120 with four accepted failures,
-build timings recorded. **Phase 2: neural material training on real hardware**
-(training rerun, then `SHADER_EVAL_BSDF` parity and dumps of real Cycles
-materials). Kernel iteration cost: about 6 minutes per header edit (sm_89, serial).
+**Neural BSDF slices 1 and 2 merged (2026-10-24).** The node loads a trained material and renders on CPU, CUDA and OptiX on both GPUs. Final gates: unit target and all five furnace cases pass; regression 117/120 with only accepted motion-blur failures (accepted subset rule).
+
+**Slice 3 comparison executed; harness awaiting review.** Matched 1024-spp probe renders show 1.94% mean / 8.27% p99 raw RGB image error; inline neural sampling is slower than Principled (diagnostic ~4.69x CPU, ~2.62x OptiX 4070). See `results/2026-10-24-slice3/report.md`. Next: learned-frame trainer/export/closure integration under `05_learned_shading_frames.md`, then the specified accuracy experiment. No demonstrated speedup or owner visual acceptance.
 
 ## Requested (for local agents)
 
@@ -142,6 +140,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: slice 2 merged as `a92a0d9ca5c` after advisor approved the improved regression subset (6384700080); harness updated and retained XML revalidated with negative tests. Slice 3 executed on CPU and OptiX 4070: raw RGB image error 1.94% mean / 8.27% p99 at matched 1024 spp, visible broad bands/highlight retained but structured residuals. Neural sampling cost is higher (~4.69x CPU, ~2.62x GPU diagnostics), not a speedup. Harness `neural-p3` @ `ff5115d7d9d` pending review. `results/2026-10-24-slice3/report.md`.
+
 - 2026-10-24, cloud session: slice 2 final gates (d03695ed) accepted: 117/120 with only the three motion-blur subjects failing is within the accepted set; regression rule is now subset, not equality. Slice 2 may merge.
 - 2026-10-24, local: final slice-2 validation at `d03695edf72` (including encoding-2 decoder/loader): coherent two-GPU build, unit target, depcheck and all five CPU/CUDA/OptiX furnace cases pass. Regression is **117/120**, only the three accepted motion-blur failures; the environmental OptiX shadow-catcher failure passed. Harness stopped on literal four-failure equality; merge awaits advisor confirmation, not a new renderer defect. Slice 3 matched render comparison is running independently. `results/2026-10-24-slice2-final/gates.md`.
 
@@ -213,7 +213,7 @@ pass on some runs. Harnesses check `failed <= accepted`, not equality.
 
 ## Blocked
 
-- 2026-10-24: slice-2 merge only awaits confirmation that the improved 117/120 subset (OptiX shadow-catcher now passes) satisfies the literal "unchanged failing set" gate. No new runtime failure. `results/2026-10-24-slice2-final/gates.md`.
+- (Resolved 2026-10-24) improved regression subset accepted in 6384700080; slice 2 merged as `a92a0d9ca5c`. No active merge block; slice-3 harness review pending.
 
 - (Resolved 2026-10-24) `KernelNeuralMlp.OutputTransforms`: fixed in `9f7c3f74`, verified on the Windows build: 100% of the `cycles` unit-test target passes. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
-- Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.
+- (Historical baseline, disposition accepted; not an active block.) Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.

@@ -1,0 +1,131 @@
+{
+  "source": "d03695edf723728778565b5530edfa2988a58b96",
+  "binary_sha256": "dbed2114c7e7f700dd56b58147d435655a2a409c621149d565ae23e4213d5cc4",
+  "qualification": "diagnostic; no merge waiver; timings may be affected by desktop GPU activity",
+  "CPU": {
+    "exit": 0,
+    "process_seconds": 389.3331096000038,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--log-level",
+      "1",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled_render.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\slice3_20261024\\CPU"
+    ],
+    "result": {
+      "device": "CPU",
+      "res": 512,
+      "spp": 1024,
+      "box": 8,
+      "pixels_in_mask_boxes": 4096,
+      "image_mean": {
+        "principled": 4.6849212646484375,
+        "neural": 4.682191371917725
+      },
+      "mean_ratio_neural_over_principled": 0.9994173049926758,
+      "noise_floor_principled_s0_vs_s1": {
+        "mean": 9.524735651211813e-05,
+        "p99": 0.0012808849569410086
+      },
+      "neural_vs_principled": {
+        "mean": 0.014987166039645672,
+        "p99": 0.058967601507902145
+      },
+      "raw_rgb_neural_vs_principled": {
+        "mean": 0.019444210454821587,
+        "p99": 0.08272340893745422
+      },
+      "raw_rgb_native_repeat": {
+        "mean": 0.000970597320701927,
+        "p99": 0.014711112715303898
+      },
+      "timing_scope": "diagnostic best-of-two wall-time slope, not an equal-quality speedup",
+      "ms_per_sample": {
+        "principled": 27.22478660741347,
+        "neural": 127.69363392856445
+      },
+      "cost_ratio_neural_over_principled": 4.690344713070871,
+      "seconds_64spp_512spp": {
+        "principled": [
+          2.148797999951057,
+          14.345502400072291
+        ],
+        "neural": [
+          8.42383109999355,
+          65.63057909999043
+        ]
+      }
+    }
+  },
+  "OPTIX": {
+    "exit": 0,
+    "process_seconds": 16.38552150002215,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--log-level",
+      "1",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled_render.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\slice3_20261024\\OPTIX"
+    ],
+    "result": {
+      "device": "OPTIX 4070",
+      "res": 512,
+      "spp": 1024,
+      "box": 8,
+      "pixels_in_mask_boxes": 4096,
+      "image_mean": {
+        "principled": 4.684905529022217,
+        "neural": 4.682243824005127
+      },
+      "mean_ratio_neural_over_principled": 0.999431848526001,
+      "noise_floor_principled_s0_vs_s1": {
+        "mean": 9.536415745969862e-05,
+        "p99": 0.0012803334975615144
+      },
+      "neural_vs_principled": {
+        "mean": 0.014985429123044014,
+        "p99": 0.058960434049367905
+      },
+      "raw_rgb_neural_vs_principled": {
+        "mean": 0.019442817196249962,
+        "p99": 0.08273736387491226
+      },
+      "raw_rgb_native_repeat": {
+        "mean": 0.0009707810240797698,
+        "p99": 0.01471530832350254
+      },
+      "timing_scope": "diagnostic best-of-two wall-time slope, not an equal-quality speedup",
+      "ms_per_sample": {
+        "principled": 0.686427232202342,
+        "neural": 2.253066071456747
+      },
+      "cost_ratio_neural_over_principled": 3.2823086931268457,
+      "seconds_64spp_512spp": {
+        "principled": [
+          0.6262217999901623,
+          0.9337412000168115
+        ],
+        "neural": [
+          0.6321551000000909,
+          1.6415287000127137
+        ]
+      }
+    }
+  }
+}

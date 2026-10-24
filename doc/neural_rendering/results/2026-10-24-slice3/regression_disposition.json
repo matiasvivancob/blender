@@ -1,0 +1,13 @@
+{
+  "original_campaign_status": "BLOCKED by strict equality assertion; original summary preserved",
+  "disposition": "PASS under advisor-approved subset rule, PR comment 6384700080",
+  "subjects": 120,
+  "passed": 117,
+  "failed": [
+    "cycles_motion_blur_cpu",
+    "cycles_motion_blur_cuda",
+    "cycles_motion_blur_optix"
+  ],
+  "skipped": 0,
+  "rerendered": false
+}
