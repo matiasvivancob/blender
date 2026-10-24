@@ -1,5 +1,20 @@
 # UV-tangent frame correction: ready for code review, final gates running
 
+## Review fixes applied (head `80e28b275d6`)
+
+All items from 6387253670 are implemented and pushed:
+
+- Dump driver validates both explicit and implicit UV selection against the render-active map before rendering and again on the evaluated object. A real two-map Blender fixture passes for `UVMap` (exit 0, `PROBE PASS`) and rejects `Other` (exit 1, `UV frame mismatch`). Three Python tests pass, including mismatched and missing render-active maps. Dump metadata now records the resolved map name.
+- Pure frame math moved from `kernel/closure/bsdf_neural_frame.h` to registered `kernel/geom/neural_frame.h`; triangle geometry no longer depends on a closure header.
+- Ran installed clang-format 19.1.5 on the modified shader-node section and new helper/tests. Documented motion-triangle fallback and transformed-UV limitation in the closure header.
+
+The first final-gates job has passed the two-arch build, unit/depcheck, all five furnace cases and CPU/OptiX MIS, and is now running regression. Retrained-model furnace ratios are **0.998776 CPU** and **0.998784 on all GPUs**, safely above the requested 0.99 watch point; zero energy-excess pixels. Those results are still associated with the pre-review runtime.
+
+A second tracked runner is **queued on the exact owned validation process handle**, not waiting for user input: after the first job completes, it rebuilds and repeats the full gates on `80e28b275d6`. This prevents changing the installed executable during active tests and keeps final-head qualification explicit. Separate artifacts: `real/uv_frame_p4/review_fix_gates/`. No new probe training is needed for guard/format/header-placement fixes, which do not alter its frame math.
+
+---
+
+
 Plain result: the new frame is consistent across triangles, and retraining reduces the probe image error from **1.944% to 1.576%**. The large triangle-cell pattern is gone from the inspected residual; fine grid/stripe errors remain. Ceramic training has not started.
 
 Branch: `neural-p4` @ `341469b0c0b` (renderer commit `6518ed887bc`). Base: coordination `f2f134c2de8`. No rebase. Please review the implementation while the remaining gates finish; **do not merge yet**.
