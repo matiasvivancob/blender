@@ -104,6 +104,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: rewritten `--probe` passes on CPU on both scenes (`ProbePlane`; cube subdivided once with one 8-vertex n-gon, Smart UV Project): max abs error 1.2e-07, 0 flagged, 55 of 256 records on the n-gon. Prim-index and barycentric assumptions confirmed for quads and n-gons. Note: a scene without a camera makes `-f 1` skip the engine and still exit 0. `results/2026-10-24-eval-bsdf-probe/probe.md`.
+
 - 2026-10-24, cloud session: closed the OptiX cooperative-vector request on `optix_coopvec.md` (supported on both cards per the 9.1 guide; corrected the unsupported Ada/Blackwell-only claim in `00_synthesis.md`).
 - 2026-10-24, cloud session: accepted the eval_bsdf parity run (a12682e2); `blender_dump.py --probe` is now a real prim/barycentric round trip (diffuse probe material with color from UV, pass at 1e-3 on 256 points; `probe_check` unit-tested on good, shuffled and flagged data here, not run in Blender), and the script no longer writes the render result to C:\\tmp. Training dumps on CPU.
 - 2026-10-24, local: OptiX cooperative vectors from the installed 9.1.0 docs (no release-notes PDF ships with the SDK): the feature table (Programming Guide ch. 12, printed p. 134) lists Cooperative Vector "yes" for Turing, Ampere, Ada Lovelace and Blackwell, so both the 3090 and the 4070 Ti Super. The documents give no per-generation acceleration difference; `00_synthesis.md`'s "acceleration documented for Ada and Blackwell" is not supported by them. Runtime check would be `OPTIX_DEVICE_PROPERTY_COOP_VEC` per device (not run). `results/2026-10-23-buildbox/optix_coopvec.md`.
