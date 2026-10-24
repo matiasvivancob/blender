@@ -32,6 +32,7 @@ set(SRC
   integrator_tile_test.cpp
   kernel_camera_projection_test.cpp
   kernel_neural_mlp_test.cpp
+  kernel_neural_frame_test.cpp
   render_graph_finalize_test.cpp
   scene_neural_test.cpp
   util_aligned_malloc_test.cpp

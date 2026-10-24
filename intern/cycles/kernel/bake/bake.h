@@ -321,20 +321,15 @@ ccl_device void kernel_bsdf_evaluate(KernelGlobals kg,
    * dPdv are not flipped yet, so the frame does not depend on which side wi is on. */
   if (flags & KERNEL_BSDF_EVAL_LOCAL_FRAME) {
     const float3 N = sd.N;
-    float3 T;
-    float3 B;
+    float3 tangent = zero_float3();
 #ifdef __DPDU__
-    T = sd.dPdu - N * dot(sd.dPdu, N);
-    const float T_len_sq = len_squared(T);
-    if (T_len_sq > 1e-20f) {
-      T *= inversesqrtf(T_len_sq);
-    }
-    else
+    tangent = sd.dPdu;
 #endif
-    {
-      make_orthonormals(N, &T, &B);
+    if (flags & KERNEL_BSDF_EVAL_UV_TANGENT_FRAME) {
+      tangent = neural_uv_tangent(kg, &sd, find_attribute(kg, &sd, ATTR_STD_UV));
     }
-    B = cross(N, T);
+    const float3 T = neural_frame_tangent(N, tangent);
+    const float3 B = cross(N, T);
 
     wi = normalize(wi.x * T + wi.y * B + wi.z * N);
     wo = normalize(wo.x * T + wo.y * B + wo.z * N);

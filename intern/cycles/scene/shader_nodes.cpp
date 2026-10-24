@@ -2685,6 +2685,27 @@ void NeuralBsdfNode::get_slot()
   }
 }
 
+ustring NeuralBsdfNode::uv_attribute()
+{
+  const ShaderInput *in = input("UV");
+  if (in->link && in->link->parent->type == UVMapNode::get_node_type()) {
+    return static_cast<UVMapNode *>(in->link->parent)->get_attribute();
+  }
+  return ustring();
+}
+
+void NeuralBsdfNode::attributes(Shader *shader, AttributeRequestSet *attributes)
+{
+  const ustring uv_name = uv_attribute();
+  if (uv_name.empty()) {
+    attributes->add(ATTR_STD_UV);
+  }
+  else {
+    attributes->add(uv_name);
+  }
+  ShaderNode::attributes(shader, attributes);
+}
+
 void NeuralBsdfNode::compile(SVMCompiler &compiler)
 {
   neural_manager = compiler.scene->neural_manager.get();
@@ -2698,7 +2719,10 @@ void NeuralBsdfNode::compile(SVMCompiler &compiler)
     closure = CLOSURE_BSDF_NEURAL_ID;
     BsdfNode::compile(compiler,
                       SVMNodeNeuralBsdfData{.uv = compiler.input_float3("UV"),
-                                            .slot = uint(slot),
+                                                                  .slot = uint(slot),
+                                                                  .uv_attribute = uv_attribute().empty() ?
+                                                                      compiler.attribute(ATTR_STD_UV) :
+                                                                      compiler.attribute(uv_attribute()),
                                             .normal_offset = compiler.input_link("Normal")});
     return;
   }

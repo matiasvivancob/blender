@@ -804,6 +804,11 @@ bool BlenderSession::eval_bsdf(blender::Depsgraph &b_depsgraph_,
   const SessionParams session_params = BlenderSync::get_session_params(
       b_engine, b_userpref, *b_scene, background, pixelsize);
 
+  if (!scene->bsdf_eval_uv) {
+    scene->bsdf_eval_uv = true;
+    sync->tag_update();
+  }
+
   /* Sync scene. The object is marked as bake target so that it can be found in the Cycles scene
    * below, as done for baking. This also makes sure it is synced even if invisible. */
   sync->set_bake_target(b_object);

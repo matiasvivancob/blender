@@ -5,6 +5,7 @@
 #pragma once
 
 #include "kernel/closure/alloc.h"
+#include "kernel/geom/triangle.h"
 #include "kernel/closure/bsdf_microfacet.h"
 #include "kernel/closure/bsdf_util.h"
 #include "kernel/sample/mapping.h"
@@ -21,7 +22,7 @@ CCL_NAMESPACE_BEGIN
  * product, so it is returned as is, without another cosine.
  *
  * The local frame is the one of SHADER_EVAL_BSDF, which produced the training data: z is the
- * shading normal, x the projection of dPdu on the tangent plane, y = z cross x.
+ * shading normal, x the projected texture-U tangent, y = z cross x.
  *
  * Sampling uses a per-material proxy stored in the `.nnm` proxy block: a mixture of a cosine lobe
  * (probability `p_diffuse`) and a GGX visible-normal reflection lobe (`alpha`). The reported pdf is
@@ -69,7 +70,8 @@ ccl_device void bsdf_neural_setup(KernelGlobals kg,
                                   const Spectrum weight,
                                   const float3 N,
                                   const uint model,
-                                  const float2 uv)
+                                  const float2 uv,
+                                  const AttributeDescriptor uv_desc)
 {
   ccl_private NeuralBsdf *bsdf = (ccl_private NeuralBsdf *)bsdf_alloc(
       sd, sizeof(NeuralBsdf), weight);
@@ -88,21 +90,7 @@ ccl_device void bsdf_neural_setup(KernelGlobals kg,
   bsdf->alpha = proxy[NEURAL_PROXY_ALPHA];
   bsdf->p_diffuse = proxy[NEURAL_PROXY_P_DIFFUSE];
 
-  /* Local frame x axis as in SHADER_EVAL_BSDF (dPdu on the tangent plane). */
-  float3 T;
-#ifdef __DPDU__
-  T = sd->dPdu - N * dot(sd->dPdu, N);
-  const float T_len_sq = len_squared(T);
-  if (T_len_sq > 1e-20f) {
-    T *= inversesqrtf(T_len_sq);
-  }
-  else
-#endif
-  {
-    float3 B;
-    make_orthonormals(N, &T, &B);
-  }
-  bsdf->T = T;
+  bsdf->T = neural_frame_tangent(N, neural_uv_tangent(kg, sd, uv_desc));
 
   /* The sample weight must match the albedo reported by bsdf_albedo(), see the note there. */
   bsdf->sample_weight *= saturatef(average(bsdf_neural_albedo_rgb(kg, model)));

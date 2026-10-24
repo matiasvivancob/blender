@@ -832,7 +832,8 @@ ccl_device
 
       const Spectrum weight = closure_weight * mix_weight;
       const float3 uv = stack_load(stack, bsdf_data.uv);
-      bsdf_neural_setup(kg, sd, weight, N, bsdf_data.slot, make_float2(uv.x, uv.y));
+      bsdf_neural_setup(kg, sd, weight, N, bsdf_data.slot, make_float2(uv.x, uv.y),
+                        find_attribute(kg, sd, bsdf_data.uv_attribute));
       break;
     }
     case CLOSURE_BSDF_GLOSSY_TOON_ID:

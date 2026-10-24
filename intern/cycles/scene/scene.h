@@ -203,6 +203,9 @@ class Scene : public NodeOwner {
 
   void device_update(Device *device, Progress &progress);
 
+  /* BSDF evaluation needs the default UV map even when the source shader does not. */
+  bool bsdf_eval_uv = false;
+
   bool need_global_attribute(AttributeStandard std) const;
   void need_global_attributes(AttributeRequestSet &attributes);
 

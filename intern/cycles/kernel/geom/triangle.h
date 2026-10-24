@@ -13,6 +13,7 @@
 #include "kernel/globals.h"
 
 #include "kernel/geom/attribute.h"
+#include "kernel/closure/bsdf_neural_frame.h"
 #include "kernel/geom/object.h"
 
 CCL_NAMESPACE_BEGIN
@@ -257,6 +258,46 @@ ccl_device_inline void triangle_dPdudv(KernelGlobals kg,
   /* compute derivatives of P w.r.t. uv */
   *dPdu = (p1 - p0);
   *dPdv = (p2 - p0);
+}
+
+/* Raw texture-U tangent shared by neural baking and shading. The frame projection is shared too. */
+ccl_device_inline float3 neural_uv_tangent(KernelGlobals kg,
+                                           const ccl_private ShaderData *sd,
+                                           const AttributeDescriptor desc)
+{
+  float3 fallback = zero_float3();
+#ifdef __DPDU__
+  fallback = sd->dPdu;
+#endif
+  if (!(sd->type & PRIMITIVE_TRIANGLE) || !is_attribute_found(desc) ||
+      !(desc.element & (ATTR_ELEMENT_VERTEX | ATTR_ELEMENT_CORNER)))
+  {
+    return fallback;
+  }
+  const uint3 indices = kernel_data_fetch(tri_vindex, sd->prim);
+  const int offset = kernel_data_fetch(objects, sd->object).position_offset;
+  const float3 p0 = kernel_data_fetch(tri_verts, offset + indices.x);
+  const float3 p1 = kernel_data_fetch(tri_verts, offset + indices.y);
+  const float3 p2 = kernel_data_fetch(tri_verts, offset + indices.z);
+  float2 uv[3];
+  if (desc.element & ATTR_ELEMENT_VERTEX) {
+    attribute_data_fetch_3<float2>(kg, desc.element, desc.offset,
+                                 indices.x, indices.y, indices.z, uv);
+  }
+  else {
+    const int corner = sd->prim * 3;
+    attribute_data_fetch_3<float2>(kg, desc.element, desc.offset,
+                                 corner, corner + 1, corner + 2, uv);
+  }
+  float3 tangent = neural_uv_tangent_from_edges(p1 - p0, p2 - p0,
+                                                uv[1] - uv[0], uv[2] - uv[0], zero_float3());
+  if (is_zero(tangent)) {
+    return fallback;
+  }
+  if (!(sd->object_flag & SD_OBJECT_TRANSFORM_APPLIED)) {
+    object_dir_transform(kg, sd, &tangent);
+  }
+  return tangent;
 }
 
 /* Partial derivative of f w.r.t. x, namely ∂f/∂x.

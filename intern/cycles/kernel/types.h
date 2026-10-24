@@ -1781,6 +1781,7 @@ enum KernelBsdfEvalInputFlag {
   /* Directions are given in the local shading frame (z along shading normal, x along dPdu
    * projected onto the tangent plane) instead of world space. */
   KERNEL_BSDF_EVAL_LOCAL_FRAME = (1 << 0),
+  KERNEL_BSDF_EVAL_UV_TANGENT_FRAME = (1 << 1),
 };
 
 /* Bits of the float flags channel (index 7) written by SHADER_EVAL_BSDF. Zero means valid. */

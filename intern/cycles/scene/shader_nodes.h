@@ -667,7 +667,11 @@ class NeuralBsdfNode : public BsdfNode {
   NODE_SOCKET_API(ustring, filename)
   NODE_SOCKET_API(float3, uv)
 
+  void attributes(Shader *shader, AttributeRequestSet *attributes) override;
+  bool has_attribute_dependency() override { return true; }
+
  private:
+  ustring uv_attribute();
   NeuralManager *neural_manager = nullptr;
   int slot = -1;
 

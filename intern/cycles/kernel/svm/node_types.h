@@ -1055,6 +1055,7 @@ static_assert(sizeof(SVMNodeSimpleBsdfData) % sizeof(uint) == 0);
 struct SVMNodeNeuralBsdfData {
   SVMInputFloat3 uv;
   uint slot;
+  uint uv_attribute;
   SVMStackOffset normal_offset;
   uint8_t _pad[3];
 };
