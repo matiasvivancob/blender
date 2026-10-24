@@ -1,0 +1,11 @@
+{
+  "case": "serial_two_arch_edit",
+  "elapsed_seconds": 736.4381389999762,
+  "exit_code": 0,
+  "command": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "D:\\Github\\Blender-RND\\build.cmd"
+  ]
+}

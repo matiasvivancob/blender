@@ -1,0 +1,11 @@
+{
+  "case": "incremental_edit",
+  "elapsed_seconds": 4758.551277100109,
+  "exit_code": 0,
+  "command": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "D:\\Github\\Blender-RND\\build.cmd"
+  ]
+}
