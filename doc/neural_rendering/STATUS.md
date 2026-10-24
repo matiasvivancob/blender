@@ -142,6 +142,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: **slice 2 (neural closure) works** on CPU/CUDA/OptiX (neural-p2-closure @ 122a630b): kernel matches numpy reference, furnace 0.9989 vs Principled, MIS PASS, no new spills. results/2026-10-24-slice2/report.md
+
 - 2026-10-24, cloud session: reviewed slice 1 (`neural-p2` @ 5d0d064d, 22 files, read not built): approved after one fix, an u64 overflow in the `.nnm` block-bounds check that lets a corrupt offset read out of bounds; plus 32-bit packing-offset and MD5-length guards. Slice 2 needs `UV` and `Tangent` inputs on the node. Merge with a merge commit after the fix.
 - 2026-10-24, local: **slice 1 of the neural BSDF is ready for review** (`neural-p2`, head `5d0d064d`): Neural BSDF node (Cycles only), `.nnm` loader that validates the whole format and runs the kernel decoder on the embedded test vectors, `NeuralManager`, device arrays. Gates: unit tests 228/228 (4 new), `^cycles_` 116/120 with the identical failing set, node gate green on CPU, CUDA and OptiX on both cards (neural node == Diffuse of the file albedo, invalid files black). Slice 2 (closure) is built on `neural-p2-closure` and is being tested. `results/2026-10-24-slice1/review.md`.
 - 2026-10-24, cloud session: read the real-material run (e17ed043): culled 2x32 at 64x64 renders the probe sphere at 2.6% relative L1. Decided the proxy alpha grid (down to 1e-3) and to keep fp16; `blender_dump.py` render failures now exit 1.
