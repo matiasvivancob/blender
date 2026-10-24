@@ -4,7 +4,7 @@
     python3 -m nnm.gen_test_header [OUT_HEADER]        (run from doc/neural_rendering/tools)
 
 Embeds a small set of .nnm files (every width, every activation and every output
-transform, plus the bsdf_dirs / raw / latent variants) as uint32 word arrays so
+transform, plus the bsdf_dirs / raw / latent / learned_frames variants) as uint32 word arrays so
 the unit test needs no data files, and a table of reference encodings. The
 output is deterministic; regenerate it whenever the format or the reference
 decoder changes.
@@ -18,7 +18,7 @@ import numpy as np
 
 from .format import write_nnm
 from .reference import encode_bsdf_dirs
-from .selftest import make_model, model_name
+from .selftest import frames_models, make_model, model_name
 
 # (width, activation, output transform, structural variant, seed). The 9 (activation, transform)
 # pairs are spread over the three widths so that every pair is covered once and every activation and
@@ -30,6 +30,15 @@ EMBEDDED = [
     (64, 0, 2, 2, 31), (64, 1, 0, 4, 32), (64, 2, 1, 1, 33),
 ]
 NUM_TEST_VECTORS = 8
+
+# learned_frames (encoding 2) models, picked from selftest.frames_models(): K = 2 and K = 1 at every width with every
+# activation (a diagonal of the full grid, which the standalone test covers completely), plus the two models whose
+# frames hit the |v|^2 <= 1e-12 and cross-product fallbacks.
+EMBEDDED_FRAMES = [
+    "frames_k2_w16_act0_out0", "frames_k2_w32_act1_out2", "frames_k2_w64_act2_out1",
+    "frames_k1_w16_act1_out1", "frames_k1_w32_act2_out0", "frames_k1_w64_act0_out2",
+    "frames_k2_w32_act2_out1_fallback_nt", "frames_k2_w32_act2_out1_fallback_cross",
+]
 
 DEFAULT_OUT = os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "intern", "cycles", "test",
                            "kernel_neural_mlp_test_data.h")
@@ -94,6 +103,13 @@ def main(argv=None) -> None:
         var = "k_" + name
         parts.append(f"static const uint32_t {var}[] = {{\n{fmt_words(words(data))}\n}};\n\n")
         entries.append(f'    {{"{name}", {var}, {len(data)}}},')
+    frame_models = dict(frames_models(NUM_TEST_VECTORS))
+    for name in EMBEDDED_FRAMES:
+        data = write_nnm(frame_models[name])
+        total += len(data)
+        var = "k_" + name
+        parts.append(f"static const uint32_t {var}[] = {{\n{fmt_words(words(data))}\n}};\n\n")
+        entries.append(f'    {{"{name}", {var}, {len(data)}}},')
     parts.append("static const EmbeddedModel k_models[] = {\n" + "\n".join(entries) + "\n};\n\n")
     ec = encode_cases()
     rows = ",\n".join("    {" + ", ".join(repr(float(x)) + "f" for x in r) + "}" for r in ec)
@@ -102,7 +118,7 @@ def main(argv=None) -> None:
     parts.append("}  // namespace ccl::neural_test_data\n")
     with open(out_path, "w") as f:
         f.write("".join(parts))
-    print(f"wrote {out_path}: {len(EMBEDDED)} models, {total} bytes of model data, {os.path.getsize(out_path)} bytes of source")
+    print(f"wrote {out_path}: {len(EMBEDDED) + len(EMBEDDED_FRAMES)} models, {total} bytes of model data, {os.path.getsize(out_path)} bytes of source")
 
 
 if __name__ == "__main__":

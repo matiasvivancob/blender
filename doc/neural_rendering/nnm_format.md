@@ -52,7 +52,7 @@ header or another block.
 | 28 | 4 | u32 | `hidden_width` | 16, 32 or 64 |
 | 32 | 4 | u32 | `activation_id` | 0 ReLU, 1 LeakyReLU(eps), 2 LeakySmeLU(beta, eps) |
 | 36 | 4 | u32 | `output_transform_id` | 0 none, 1 exp, 2 softplus |
-| 40 | 4 | u32 | `input_encoding_id` | 0 raw, 1 `bsdf_dirs` |
+| 40 | 4 | u32 | `input_encoding_id` | 0 raw, 1 `bsdf_dirs`, 2 `learned_frames` |
 | 44 | 4 | u32 | `latent_channels` | 0..16. 0 means no latent |
 | 48 | 4 | f32 | `act_beta` | finite, > 0 if activation 2, else 0 |
 | 52 | 4 | f32 | `act_eps` | finite, in [0, 1) if activation 1 or 2, else 0 |
@@ -72,7 +72,9 @@ header or another block.
 | 132 | 20 | u32[5] | `layer_offset[5]` | byte offset of each layer from `weight_offset`; entries `>= num_layers` are 0 |
 | 152 | 8 | u64 | `file_size` | exact size of the file |
 | 160 | 24 | f32[6] | `proxy` | section 3a if `flags` bit 0, else zero |
-| 184 | 72 | | reserved | zero |
+| 184 | 4 | u32 | `frames_k` | 0 unless `input_encoding_id` is 2; then 1..4 (version 1 writers use 2). Section 7a |
+| 188 | 4 | u32 | `frames_offset` | 0 unless encoding 2; then the byte offset of the frame layer from `weight_offset` (section 4) |
+| 192 | 64 | | reserved | zero |
 
 ### 3a. Proxy block (flag bit 0)
 
@@ -119,8 +121,10 @@ Bitterli paper before relying on it for anything but parity.
 |---:|---|---|---|
 | 0 | raw | `input_dim - latent_channels` floats (at least 1) | the same floats |
 | 1 | bsdf_dirs | `wi`, `wo`: 6 floats, unit vectors in the local shading frame, z up, both z > 0 | 12 floats, section 7 |
+| 2 | learned_frames | `wi`, `wo`: 6 floats, as for `bsdf_dirs` | `6 * frames_k` floats, section 7a; needs `latent_channels >= 1` |
 
-For `bsdf_dirs`, `input_dim - latent_channels` must be exactly 12.
+For `bsdf_dirs`, `input_dim - latent_channels` must be exactly 12. For `learned_frames` it must be
+exactly `6 * frames_k` (12 for the usual `frames_k = 2`).
 
 The MLP input vector is `[encoded features (E floats), latent texel (latent_channels floats)]`,
 in that order, `E = input_dim - latent_channels`. (This matches the training
@@ -151,7 +155,17 @@ row  in_l        :  b[o]      for o in 0 .. P_l-1    (bias, one separate row)
 Columns `o >= out_l` are zero padding. Size of layer `l` is
 `(in_l + 1) * P_l * 2` bytes, always a multiple of 16. Layers follow one
 another with no gap, in order; `layer_offset[l]` is the sum of the sizes of the
-layers before `l`, and `weight_size` is the sum of all layer sizes.
+layers before `l`, and `weight_size` is the sum of all layer sizes (plus the frame layer if there is one, below).
+
+**Frame layer (encoding 2 only).** Stored after the last MLP layer, with no gap, packed like
+an MLP layer: `C + 1` rows of `pad8(6K)` f16 values with `C = latent_channels`, `K = frames_k`;
+rows `0 .. C-1` hold `Wf[c][o]` for `o` in `0 .. 6K-1` (input-major, one row per latent
+channel), row `C` holds the bias `bf[o]`; columns `o >= 6K` are zero padding. Its size is
+`(C + 1) * pad8(6K) * 2` bytes (always a multiple of 16) and is included in `weight_size`.
+It is not an MLP layer: `num_layers` and `layer_offset[]` do not count or list it.
+`frames_offset` (header) is the sum of the sizes of the MLP layers, i.e. the first byte after
+the last MLP layer, relative to `weight_offset`. Files without encoding 2 contain no frame
+layer and are laid out exactly as before.
 
 Forward pass, normative (`x` and all accumulators are f32, weights are promoted
 from f16 exactly):
@@ -213,7 +227,7 @@ Present iff `testvec_count > 0`. `testvec_count` records of
 record = [ caller inputs (caller_dim floats),  u, v  (only if latent_channels > 0),  expected outputs (output_dim floats) ]
 ```
 
-`caller_dim` is 6 for `bsdf_dirs` and `input_dim - latent_channels` for `raw`.
+`caller_dim` is 6 for `bsdf_dirs` and `learned_frames` and `input_dim - latent_channels` for `raw`.
 `testvec_in_dim = caller_dim + (latent_channels > 0 ? 2 : 0)`,
 `testvec_out_dim = output_dim`. `u`, `v` are in [0, 1].
 
@@ -249,17 +263,57 @@ wd     = (wix * hz + (-hx * wiz) + k * hy,
 `|v|^2 = (1 - hz)(1 + hz)` simplified); `tools/nnm/selftest.py` checks that
 identity independently.
 
+## 7a. `learned_frames` encoding
+
+Source: `05_learned_shading_frames.md` (Zeltner et al. 2024, section 4.2). Inputs: `z`
+(`C = latent_channels` floats, the level 0 bilinear latent sample at `(u, v)`, section 5),
+and `wi`, `wo` (unit, local frame, z > 0). The latent lookup therefore happens **before** the
+encoding. `K = frames_k`, frame layer `Wf` (`C x 6K`) and `bf` (`6K`) as in section 4, f16
+promoted to f32 exactly:
+
+```
+f = bf;  for c ascending: f[o] = fma(z[c], Wf[c][o], f[o])      # same order as an MLP layer, f32
+for k in 0 .. K-1:
+    n = f[6k + 0 .. 6k + 3]                                      # normal
+    t = f[6k + 3 .. 6k + 6]                                      # tangent
+    n = n / sqrt(dot(n, n))   if dot(n, n) > 1e-12 else (0, 0, 1)
+    t = t / sqrt(dot(t, t))   if dot(t, t) > 1e-12 else (1, 0, 0)
+    b = cross(n, t)
+    b = b / sqrt(dot(b, b))   if dot(b, b) > 1e-12 else a        # a from make_orthonormals(n, &a, &bb)
+    out[6k + 0 .. 6k + 3] = (dot(wi, t), dot(wi, b), dot(wi, n))
+    out[6k + 3 .. 6k + 6] = (dot(wo, t), dot(wo, b), dot(wo, n))
+```
+
+`dot(p, q) = (p.x*q.x + p.y*q.y) + p.z*q.z` and `cross(n, t) = (n.y*t.z - n.z*t.y,
+n.z*t.x - n.x*t.z, n.x*t.y - n.y*t.x)`, plain f32 operations. `n` and `t` are not
+orthogonalised; only `b` is derived. There is no activation. The fallback `a` is the first output
+of `make_orthonormals` in `intern/cycles/util/math_float3.h`, which has the construction
+`a = (n.z - n.y, n.x - n.z, n.y - n.x)` if `n.x != n.y || n.x != n.z`, else
+`a = (n.z - n.y, n.x + n.z, -n.y - n.x)`, followed by `a = a / sqrt(dot(a, a))`; it is a unit
+vector orthogonal to `n`.
+
+The MLP input is `[out (6K floats), z (C floats)]`, the usual `[encoded, latent]` order. With
+identity frames (`Wf = 0`, `bf` = `(0, 0, 1, 1, 0, 0)` per frame, i.e. `n = z axis`, `t = x axis`),
+`b = (0, 1, 0)` and the output is `(wi, wo)` repeated `K` times.
+
 ## 8. Validation rules a reader must enforce
 
 1. magic, version, `header_size`, `file_size` equal the actual size.
 2. All enumerations known; widths, depths and dimensions in range as in section 3.
 3. `bsdf_dirs` implies `input_dim - latent_channels == 12`; `raw` implies it is >= 1.
+   `learned_frames` implies `latent_channels >= 1`, `1 <= frames_k <= 4` and
+   `input_dim - latent_channels == 6 * frames_k`. For encodings 0 and 1, `frames_k` and
+   `frames_offset` (bytes 184..192) are zero. For encoding 2, `frames_offset` equals the sum
+   of the MLP layer sizes, and `weight_size` equals that sum plus the frame layer size
+   `(latent_channels + 1) * pad8(6 * frames_k) * 2`.
 4. `latent_*` fields all zero iff `latent_channels == 0`.
 5. `num_layers == num_hidden + 1`; `layer_offset[]` and `weight_size` equal the
    values computed from section 4.
 6. `latent_size`, `testvec_size`, `testvec_in_dim`, `testvec_out_dim` equal the
    computed values; all blocks inside the file, aligned, non-overlapping.
-7. All f16 weights and latents finite (no Inf or NaN).
+7. All f16 weights (including the frame layer) and latents finite (no Inf or NaN). Padding
+   columns of every layer and of the frame layer are zero, and the reserved header bytes
+   192..256 are zero (the proxy block bytes 160..184 are zero unless `FLAG_PROXY`).
 
 ## 9. Runtime mapping
 
@@ -271,3 +325,7 @@ and `latent_offset` (level 0 of its latent blob within the shared latent array).
 Layer offsets are not stored per model; they are recomputed from the dimensions
 with `neural_layer_offset()`, the same rule as section 4. Test vectors are not
 uploaded.
+
+For encoding 2 the kernel also carries `frames_k` (it reuses the formerly unused last int of the
+64-byte struct). The frame layer offset is not stored: like the layer offsets it is recomputed,
+`neural_frames_offset()` is the end of the last MLP layer.

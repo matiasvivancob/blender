@@ -31,6 +31,7 @@ CCL_NAMESPACE_BEGIN
 #define NEURAL_MAX_OUTPUT 16
 #define NEURAL_MAX_LATENT_CHANNELS 16
 #define NEURAL_MAX_HIDDEN 4
+#define NEURAL_MAX_FRAMES 4
 
 enum NeuralActivation {
   NEURAL_ACTIVATION_RELU = 0,
@@ -47,6 +48,7 @@ enum NeuralOutputTransform {
 enum NeuralInputEncoding {
   NEURAL_ENCODING_RAW = 0,
   NEURAL_ENCODING_BSDF_DIRS = 1,
+  NEURAL_ENCODING_LEARNED_FRAMES = 2,
 };
 
 /* Runtime description of one model, filled from a `.nnm` header. Offsets count fp16 elements into
@@ -71,7 +73,7 @@ struct ccl_align(16) KernelNeuralModel {
   int latent_levels;
   uint weight_offset; /* In fp16 elements. */
   uint latent_offset; /* In fp16 elements, level 0. */
-  int pad;
+  int frames_k; /* Learned frames K (1..4) for NEURAL_ENCODING_LEARNED_FRAMES, else 0. */
 };
 static_assert(sizeof(KernelNeuralModel) == 64, "KernelNeuralModel size/alignment mismatch");
 
@@ -118,6 +120,15 @@ ccl_device_inline uint neural_layer_offset(const ccl_global KernelNeuralModel &m
     offset += uint((in + 1) * neural_pad8(out));
   }
   return offset;
+}
+
+/* Offset in fp16 elements, relative to `weight_offset`, of the learned frame layer (nnm_format.md
+ * section 4: right after the last MLP layer, included in the weight blob). There is no room for a
+ * separate `frames_offset` in the 64-byte KernelNeuralModel, and the format fixes it to the end of
+ * the MLP layers, so it is recomputed like the layer offsets. Only meaningful if frames_k > 0. */
+ccl_device_inline uint neural_frames_offset(const ccl_global KernelNeuralModel &m)
+{
+  return neural_layer_offset(m, m.num_hidden + 1);
 }
 
 /* ------------------------------------------------------------------------------------------
@@ -368,6 +379,118 @@ ccl_device void neural_encode_bsdf_dirs(const float3 wi, const float3 wo, ccl_pr
 }
 
 /* ------------------------------------------------------------------------------------------
+ * Learned shading frames (nnm_format.md section 7, 05_learned_shading_frames.md section 2).
+ * ------------------------------------------------------------------------------------------ */
+
+/* Normalise (x, y, z) in place by division with sqrtf of the plain squared length, or replace it
+ * with (fx, fy, fz) when the squared length is <= 1e-12. */
+ccl_device_inline void neural_frame_normalize(ccl_private float *x,
+                                              ccl_private float *y,
+                                              ccl_private float *z,
+                                              const float fx,
+                                              const float fy,
+                                              const float fz)
+{
+  const float l2 = (*x * *x + *y * *y) + *z * *z;
+  if (l2 > 1e-12f) {
+    const float len = sqrtf(l2);
+    *x = *x / len;
+    *y = *y / len;
+    *z = *z / len;
+  }
+  else {
+    *x = fx;
+    *y = fy;
+    *z = fz;
+  }
+}
+
+template<int N_PAD>
+ccl_device_inline void neural_encode_learned_frames_n(ccl_global const half *frame_layer,
+                                                      const int latent_channels,
+                                                      const int frames_k,
+                                                      const float3 wi,
+                                                      const float3 wo,
+                                                      ccl_private const float *z,
+                                                      ccl_private float *out)
+{
+  /* f = bf + sum_c z[c] * Wf[c], same axpy/fma order as an MLP layer. */
+  float f[N_PAD];
+  neural_linear<N_PAD>(frame_layer, z, latent_channels, f);
+
+  for (int k = 0; k < frames_k; k++) {
+    float nx = f[6 * k + 0], ny = f[6 * k + 1], nz = f[6 * k + 2];
+    float tx = f[6 * k + 3], ty = f[6 * k + 4], tz = f[6 * k + 5];
+    neural_frame_normalize(&nx, &ny, &nz, 0.0f, 0.0f, 1.0f);
+    neural_frame_normalize(&tx, &ty, &tz, 1.0f, 0.0f, 0.0f);
+
+    /* b = n x t, normalised; if (almost) parallel use a unit vector orthogonal to n: the first
+     * output `a` of make_orthonormals(n, &a, &b) (util/math_float3.h). */
+    float bx = ny * tz - nz * ty;
+    float by = nz * tx - nx * tz;
+    float bz = nx * ty - ny * tx;
+    const float l2b = (bx * bx + by * by) + bz * bz;
+    if (l2b > 1e-12f) {
+      const float len = sqrtf(l2b);
+      bx = bx / len;
+      by = by / len;
+      bz = bz / len;
+    }
+    else {
+      /* Same construction as make_orthonormals() in util/math_float3.h (first output `a`), written
+       * out so that this header does not depend on float3 normalize(), whose SSE4.2 intrinsics
+       * do not compile in the generic standalone build. */
+      if (nx != ny || nx != nz) {
+        bx = nz - ny;
+        by = nx - nz;
+        bz = ny - nx;
+      }
+      else {
+        bx = nz - ny;
+        by = nx + nz;
+        bz = -ny - nx;
+      }
+      const float len = sqrtf((bx * bx + by * by) + bz * bz);
+      bx = bx / len;
+      by = by / len;
+      bz = bz / len;
+    }
+
+    ccl_private float *o = out + 6 * k;
+    o[0] = (wi.x * tx + wi.y * ty) + wi.z * tz;
+    o[1] = (wi.x * bx + wi.y * by) + wi.z * bz;
+    o[2] = (wi.x * nx + wi.y * ny) + wi.z * nz;
+    o[3] = (wo.x * tx + wo.y * ty) + wo.z * tz;
+    o[4] = (wo.x * bx + wo.y * by) + wo.z * bz;
+    o[5] = (wo.x * nx + wo.y * ny) + wo.z * nz;
+  }
+}
+
+/* Writes `out[6 * m.frames_k]`: the directions wi, wo (unit, local frame) expressed in K frames
+ * derived from the latent sample `z[m.latent_channels]`. The frame layer is read from
+ * `weights + m.weight_offset + neural_frames_offset(m)`. */
+ccl_device void neural_encode_learned_frames(ccl_global const half *weights,
+                                             const ccl_global KernelNeuralModel &m,
+                                             const float3 wi,
+                                             const float3 wo,
+                                             ccl_private const float *z,
+                                             ccl_private float *out)
+{
+  ccl_global const half *frame_layer = weights + m.weight_offset + neural_frames_offset(m);
+  /* 6K padded to a multiple of 8: 8 (K = 1), 16 (K = 2), 24 (K = 3, 4). */
+  const int n_pad = neural_pad8(6 * m.frames_k);
+  if (n_pad <= 8) {
+    neural_encode_learned_frames_n<8>(frame_layer, m.latent_channels, m.frames_k, wi, wo, z, out);
+  }
+  else if (n_pad <= 16) {
+    neural_encode_learned_frames_n<16>(frame_layer, m.latent_channels, m.frames_k, wi, wo, z, out);
+  }
+  else {
+    neural_encode_learned_frames_n<24>(frame_layer, m.latent_channels, m.frames_k, wi, wo, z, out);
+  }
+}
+
+/* ------------------------------------------------------------------------------------------
  * Latent texture (nnm_format.md section 5).
  * ------------------------------------------------------------------------------------------ */
 
@@ -417,7 +540,7 @@ ccl_device void neural_latent_sample_bilinear(ccl_global const half *latents,
  * Full pipeline: caller input -> encoding -> latent lookup -> MLP.
  * ------------------------------------------------------------------------------------------ */
 
-/* `caller` holds 6 floats (wi, wo) for the bsdf_dirs encoding, or `input_dim - latent_channels`
+/* `caller` holds 6 floats (wi, wo) for the bsdf_dirs and learned_frames encodings, or `input_dim - latent_channels`
  * floats for the raw encoding. `u`, `v` are ignored when the model has no latent. */
 ccl_device void neural_model_eval(ccl_global const half *weights,
                                   ccl_global const half *latents,
@@ -430,19 +553,31 @@ ccl_device void neural_model_eval(ccl_global const half *weights,
   float x[NEURAL_MAX_INPUT];
   const int encoded_dim = m.input_dim - m.latent_channels;
 
-  if (m.encoding == NEURAL_ENCODING_BSDF_DIRS) {
-    neural_encode_bsdf_dirs(make_float3(caller[0], caller[1], caller[2]),
-                            make_float3(caller[3], caller[4], caller[5]),
-                            x);
+  if (m.encoding == NEURAL_ENCODING_LEARNED_FRAMES) {
+    /* The frames depend on the latent sample: look it up first (into its final slot), then encode. */
+    neural_latent_sample_bilinear(latents, m, u, v, x + encoded_dim);
+    neural_encode_learned_frames(weights,
+                                 m,
+                                 make_float3(caller[0], caller[1], caller[2]),
+                                 make_float3(caller[3], caller[4], caller[5]),
+                                 x + encoded_dim,
+                                 x);
   }
   else {
-    for (int i = 0; i < encoded_dim; i++) {
-      x[i] = caller[i];
+    if (m.encoding == NEURAL_ENCODING_BSDF_DIRS) {
+      neural_encode_bsdf_dirs(make_float3(caller[0], caller[1], caller[2]),
+                              make_float3(caller[3], caller[4], caller[5]),
+                              x);
     }
-  }
+    else {
+      for (int i = 0; i < encoded_dim; i++) {
+        x[i] = caller[i];
+      }
+    }
 
-  if (m.latent_channels > 0) {
-    neural_latent_sample_bilinear(latents, m, u, v, x + encoded_dim);
+    if (m.latent_channels > 0) {
+      neural_latent_sample_bilinear(latents, m, u, v, x + encoded_dim);
+    }
   }
 
   neural_mlp_eval_dispatch(weights, m, x, out);
