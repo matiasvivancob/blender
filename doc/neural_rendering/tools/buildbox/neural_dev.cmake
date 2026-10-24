@@ -72,6 +72,14 @@ set(WITH_CYCLES_CUDA_BINARIES         ON  CACHE BOOL "" FORCE)
 # NOTE: the value is a ;-separated CMake list.
 set(CYCLES_CUDA_BINARIES_ARCH         "sm_86;sm_89" CACHE STRING "" FORCE)
 
+# Serial cubin builds. Measured on the workstation (results/2026-10-23-buildbox,
+# CUDA 13.3): with the default, two concurrent nvcc/ptxas with --split-compile=0
+# took 4670 s for a one-line header edit; serial (which also drops split-compile,
+# kernel/device/cuda/CMakeLists.txt:209) took 736 s for both archs, 375 s for
+# sm_89 alone. No paging, no throttling: the split-compile threads oversubscribe
+# the CPU. Keep this ON.
+set(WITH_CYCLES_CUDA_BUILD_SERIAL     ON  CACHE BOOL "" FORCE)
+
 # Other vendors off. HIP/oneAPI/HIPRT are defined in CMakeLists.txt inside
 # `if(NOT APPLE AND NOT (WIN32 AND ...ARM64))`; Metal only exists on Apple.
 set(WITH_CYCLES_DEVICE_HIP            OFF CACHE BOOL "" FORCE)

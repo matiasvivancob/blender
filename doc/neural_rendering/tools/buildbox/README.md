@@ -360,9 +360,13 @@ and `tinycudann` checks mean something.
 
 Not set on purpose: `WITH_CYCLES_PARALLEL_DEVICE_KERNEL_BUILD` (advanced, builds
 different devices' kernels concurrently, "uses more memory"; try it on a box
-with 64 GB or more) and `WITH_CYCLES_CUDA_BUILD_SERIAL`. With two architectures
-and nvcc >= 12.9 the CMake adds `--split-compile=0` automatically
-(`_num_binaries LESS_EQUAL 2`). Since `-C` only pre-populates the cache and every
+with 64 GB or more). `WITH_CYCLES_CUDA_BUILD_SERIAL` is ON: without it, two
+architectures and nvcc >= 12.9 make the CMake add `--split-compile=0`
+(`_num_binaries LESS_EQUAL 2`), and on the workstation the two concurrent ptxas
+then took 4670 s for a header edit against 736 s serial (CUDA 13.3, no paging, CPU
+oversubscribed). For kernel iteration also set
+`-DCYCLES_CUDA_BINARIES_ARCH=sm_89` (375 s per header edit); build both archs only
+before a `[result]`. Since `-C` only pre-populates the cache and every
 value is FORCEd, change a value later with a plain `cmake -D... <build dir>`.
 
 Verify that `sm_86;sm_89` is in effect:
