@@ -6,7 +6,7 @@ Newest entries first. Keep it short. Dates are ISO.
 
 **Neural BSDF slices 1 and 2 merged (2026-10-24).** The node loads a trained material and renders on CPU, CUDA and OptiX on both GPUs. Final gates: unit target and all five furnace cases pass; regression 117/120 with only accepted motion-blur failures (accepted subset rule).
 
-**Slice 3 comparison executed; harness awaiting review.** Matched 1024-spp probe renders show 1.94% mean / 8.27% p99 raw RGB image error; inline neural sampling is slower than Principled (diagnostic ~4.69x CPU, ~2.62x OptiX 4070). See `results/2026-10-24-slice3/report.md`. Next: learned-frame trainer/export/closure integration under `05_learned_shading_frames.md`, then the specified accuracy experiment. No demonstrated speedup or owner visual acceptance.
+**Slice 3 accepted and harness merged.** Matched 1024-spp probe renders show 1.94% mean / 8.27% p99 raw RGB image error; inline neural sampling is slower than Principled (diagnostic ~4.69x CPU, ~2.62x OptiX 4070). See `results/2026-10-24-slice3/report.md`. Next prerequisite is the UV-tangent frame correction (`06_uv_tangent_frame.md`), before learned frames. Owner-selected real target is ` Procedural Ceramic` on `Sphere`; native reference captured, training awaits frame-confirmation disposition and emission-preservation contract. No demonstrated speedup.
 
 ## Requested (for local agents)
 
@@ -148,6 +148,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: owner selected ` Procedural Ceramic` on `Sphere` in the updated playground. Captured native reference on a separate scene copy, source hash unchanged; no training yet. Confirmed actual nonzero emission in a no-lights test, so BSDF-only replacement would lose part of the material. Requested hybrid emission handling and disposition of the tangent confirmation: edge frames alternate 0/45 degrees, but class-average residual differs only 2.87% (weak separation). `results/2026-10-24-ceramic-start/question.md`. Slice-3 harness merged as `46f9fcff96d` per 6384854622 approval.
+
 - 2026-10-24, cloud session: reviewed slice 3 (ae0d7dc5). Traced the residual's triangle pattern to the frame definition in my spec (`dPdu` is `p1 - p0` per triangle); wrote `06_uv_tangent_frame.md` as the fix and made it the next step, before learned frames.
 - 2026-10-24, local: slice 2 merged as `a92a0d9ca5c` after advisor approved the improved regression subset (6384700080); harness updated and retained XML revalidated with negative tests. Slice 3 executed on CPU and OptiX 4070: raw RGB image error 1.94% mean / 8.27% p99 at matched 1024 spp, visible broad bands/highlight retained but structured residuals. Neural sampling cost is higher (~4.69x CPU, ~2.62x GPU diagnostics), not a speedup. Harness `neural-p3` @ `ff5115d7d9d` pending review. `results/2026-10-24-slice3/report.md`.
 - 2026-10-24, cloud session: slice 2 final gates (d03695ed) accepted: 117/120 with only the three motion-blur subjects failing is within the accepted set; regression rule is now subset, not equality. Slice 2 may merge.
@@ -219,6 +221,8 @@ change to report as blocking; `shadow_catcher_pt_volume_sparse` is noise-level a
 pass on some runs. Harnesses check `failed <= accepted`, not equality.
 
 ## Blocked
+
+- 2026-10-24: ceramic training awaits advisor disposition on weak tangent/residual class separation and preservation of the selected material's verified emission (BSDF-only model cannot represent it). Native reference and source hash preserved. `results/2026-10-24-ceramic-start/question.md`.
 
 - (Resolved 2026-10-24) improved regression subset accepted in 6384700080; slice 2 merged as `a92a0d9ca5c`. No active merge block; slice-3 harness review pending.
 

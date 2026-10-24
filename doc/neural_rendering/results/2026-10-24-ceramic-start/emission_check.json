@@ -1,0 +1,6 @@
+{
+  "method": "Native shader unchanged; no lights, black world, all other geometry hidden; CPU 16spp",
+  "max_rgb": 0.02418392151594162,
+  "mean_rgb": 9.041481098392978e-05,
+  "nonzero_pixels": 22599
+}

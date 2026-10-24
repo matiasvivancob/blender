@@ -1,0 +1,85 @@
+{
+  "scene": "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+  "object": "ProbePlane",
+  "edge_angles_counts": {
+    "0.0": 256,
+    "45.0": 256
+  },
+  "first_triangles": [
+    {
+      "index": 0,
+      "polygon": 0,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 1,
+      "polygon": 0,
+      "edge_angle_deg": 45.0
+    },
+    {
+      "index": 2,
+      "polygon": 1,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 3,
+      "polygon": 1,
+      "edge_angle_deg": 45.0
+    },
+    {
+      "index": 4,
+      "polygon": 2,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 5,
+      "polygon": 2,
+      "edge_angle_deg": 45.0
+    },
+    {
+      "index": 6,
+      "polygon": 3,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 7,
+      "polygon": 3,
+      "edge_angle_deg": 45.0
+    },
+    {
+      "index": 8,
+      "polygon": 4,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 9,
+      "polygon": 4,
+      "edge_angle_deg": 45.0
+    },
+    {
+      "index": 10,
+      "polygon": 5,
+      "edge_angle_deg": 0.0
+    },
+    {
+      "index": 11,
+      "polygon": 5,
+      "edge_angle_deg": 45.0
+    }
+  ],
+  "residual_by_edge_angle": {
+    "0.0": {
+      "pixels": 6947,
+      "mean": 0.022770350688565172,
+      "median": 0.01796664483845234,
+      "p99": 0.08475944742560386
+    },
+    "45.0": {
+      "pixels": 6977,
+      "mean": 0.02213544660492373,
+      "median": 0.018291659653186798,
+      "p99": 0.0724110591411589
+    }
+  },
+  "method": "Existing CPU 1024spp residual; every fourth pixel, ray cast into probe plane; angle is object-space edge p1-p0 mod 180. No renderer changes."
+}
