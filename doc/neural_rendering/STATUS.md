@@ -104,6 +104,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: first real run of the `mlp.h` gtest (`ctest -R "^cycles$"`, which the 120-subject baseline excludes): 223/224 pass; `KernelNeuralMlp.OutputTransforms` fails on SOFTPLUS: kernel returns exactly 0 for x < -16.7 (and +93 % at -16.6). Likely `/fp:fast` (`intern/cycles/CMakeLists.txt:149`) defeating the `(1+e)-1` trick in `neural_log1p`. No impact on EXP-head models. Posted [blocked], no kernel edit. `results/2026-10-24-mlp-gtest/blocked.md`.
+
 - 2026-10-24, cloud session: `--probe` passed on the plane and the quad/n-gon mesh (f63e90bf; 55 of 256 records on the n-gon), so real-material dumps can be trusted. `blender_dump.py` now exits 1 when the scene has no camera or the object is missing, instead of exiting 0 without running.
 - 2026-10-24, local: rewritten `--probe` passes on CPU on both scenes (`ProbePlane`; cube subdivided once with one 8-vertex n-gon, Smart UV Project): max abs error 1.2e-07, 0 flagged, 55 of 256 records on the n-gon. Prim-index and barycentric assumptions confirmed for quads and n-gons. Note: a scene without a camera makes `-f 1` skip the engine and still exit 0. `results/2026-10-24-eval-bsdf-probe/probe.md`.
 - 2026-10-24, cloud session: closed the OptiX cooperative-vector request on `optix_coopvec.md` (supported on both cards per the 9.1 guide; corrected the unsupported Ada/Blackwell-only claim in `00_synthesis.md`).
@@ -154,4 +156,5 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Blocked
 
+- `KernelNeuralMlp.OutputTransforms` (softplus) fails on the Windows CPU build; diagnosis and suggested fix in `results/2026-10-24-mlp-gtest/blocked.md`. Waiting for the cloud fix; real-material training continues meanwhile.
 - Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.
