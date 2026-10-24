@@ -104,8 +104,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: fixed the SOFTPLUS failure in `KernelNeuralMlp.OutputTransforms` (f03182d2). The agent's diagnosis was right: value-unsafe float modes fold Kahan's `(1+e)-1` to `e`. `mlp.h` now computes softplus as `max(x,0) + log1p(exp(-|x|))` with log1p as a 2·atanh series (division and polynomial only). Max relative error 2.4e-7 over x in [-80, 80] under g++ -O2, g++/clang fast-math and -march=native; standalone parity test 27/27 on all four builds. Not yet run under MSVC.
 - 2026-10-24, local: first real run of the `mlp.h` gtest (`ctest -R "^cycles$"`, which the 120-subject baseline excludes): 223/224 pass; `KernelNeuralMlp.OutputTransforms` fails on SOFTPLUS: kernel returns exactly 0 for x < -16.7 (and +93 % at -16.6). Likely `/fp:fast` (`intern/cycles/CMakeLists.txt:149`) defeating the `(1+e)-1` trick in `neural_log1p`. No impact on EXP-head models. Posted [blocked], no kernel edit. `results/2026-10-24-mlp-gtest/blocked.md`.
-
 - 2026-10-24, cloud session: `--probe` passed on the plane and the quad/n-gon mesh (f63e90bf; 55 of 256 records on the n-gon), so real-material dumps can be trusted. `blender_dump.py` now exits 1 when the scene has no camera or the object is missing, instead of exiting 0 without running.
 - 2026-10-24, local: rewritten `--probe` passes on CPU on both scenes (`ProbePlane`; cube subdivided once with one 8-vertex n-gon, Smart UV Project): max abs error 1.2e-07, 0 flagged, 55 of 256 records on the n-gon. Prim-index and barycentric assumptions confirmed for quads and n-gons. Note: a scene without a camera makes `-f 1` skip the engine and still exit 0. `results/2026-10-24-eval-bsdf-probe/probe.md`.
 - 2026-10-24, cloud session: closed the OptiX cooperative-vector request on `optix_coopvec.md` (supported on both cards per the 9.1 guide; corrected the unsupported Ada/Blackwell-only claim in `00_synthesis.md`).

@@ -182,13 +182,32 @@ ccl_device_inline void neural_activation_layer(ccl_private float *a,
   }
 }
 
-/* log1p without relying on log1pf (not available on every backend), accurate for tiny `e`
- * (Kahan's trick). */
-ccl_device_inline float neural_log1p(const float e)
+/* log(1 + e) for e in [0, 1], without log1pf (not available on every backend) and without
+ * Kahan's `(1 + e) - 1` trick, which value-unsafe float modes (MSVC /fp:fast, -ffast-math) may
+ * fold to `e`, returning 0 for e below float epsilon. Uses log1p(e) = 2 atanh(t),
+ * t = e / (2 + e) in [0, 1/3], as an odd series in t truncated after t^15 / 15: the first
+ * dropped term is below t^17 / 17 <= 9^-8 / 17 ~ 1.4e-9 of the result. Only a division and a
+ * polynomial, so it is accurate in relative terms down to denormals under any float mode. */
+ccl_device_inline float neural_log1p_unit(const float e)
 {
-  const float u = 1.0f + e;
-  const float d = u - 1.0f;
-  return (d == 0.0f) ? e : logf(u) * (e / d);
+  const float t = e / (2.0f + e);
+  const float t2 = t * t;
+  float p = 1.0f / 15.0f;
+  p = p * t2 + 1.0f / 13.0f;
+  p = p * t2 + 1.0f / 11.0f;
+  p = p * t2 + 1.0f / 9.0f;
+  p = p * t2 + 1.0f / 7.0f;
+  p = p * t2 + 1.0f / 5.0f;
+  p = p * t2 + 1.0f / 3.0f;
+  p = p * t2 + 1.0f;
+  return 2.0f * t * p;
+}
+
+/* softplus(x) = log(1 + exp(x)) = max(x, 0) + log1p(exp(-|x|)), so the log1p argument is in
+ * (0, 1] for every x and there is no overflow branch. */
+ccl_device_inline float neural_softplus(const float x)
+{
+  return fmaxf(x, 0.0f) + neural_log1p_unit(expf(-fabsf(x)));
 }
 
 ccl_device_inline float neural_output_transform(const float x, const int id)
@@ -197,7 +216,7 @@ ccl_device_inline float neural_output_transform(const float x, const int id)
     case NEURAL_OUTPUT_EXP:
       return expf(clamp(x, -20.0f, 14.0f));
     case NEURAL_OUTPUT_SOFTPLUS:
-      return (x > 20.0f) ? x : neural_log1p(expf(x));
+      return neural_softplus(x);
     case NEURAL_OUTPUT_NONE:
     default:
       return x;
