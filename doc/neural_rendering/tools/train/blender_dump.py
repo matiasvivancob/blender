@@ -75,6 +75,8 @@ def uv_layer_name(obj, uv_layer=None):
     layer = obj.data.uv_layers[uv_layer] if uv_layer else obj.data.uv_layers.active
     if layer is None:
         raise RuntimeError("object has no UV layer")
+    render_name = next((u.name for u in obj.data.uv_layers if u.active_render), None)
+    dataset.require_render_uv_layer(layer.name, render_name)
     return layer.name
 
 
@@ -165,7 +167,8 @@ class BsdfDumpEngine(CyclesRender):
     def _render(self, depsgraph):
         a = script_args()
         obj = depsgraph.objects[a.object]
-        tri_uvs = triangle_uvs(obj, a.uv_layer)
+        uv_name = uv_layer_name(obj, a.uv_layer)
+        tri_uvs = triangle_uvs(obj, uv_name)
         rng = np.random.default_rng(a.seed)
         t0 = time.time()
         if a.probe:
@@ -198,7 +201,7 @@ class BsdfDumpEngine(CyclesRender):
             print(f"eval_bsdf {e}/{n} ({time.time() - t0:.0f}s)", flush=True)
         mat = obj.active_material.name if obj.active_material else ""
         meta = {"object_name": a.object, "material_name": mat, "blender_version": bpy.app.version_string,
-                "sample_count": n, "uv_kind": "texture", "frame": "uv_tangent", "seed": a.seed, "uv_layer": a.uv_layer or "active",
+                "sample_count": n, "uv_kind": "texture", "frame": "uv_tangent", "seed": a.seed, "uv_layer": uv_name,
                 "sampler": {"peak_frac": a.peak_frac, "grazing_frac": a.grazing_frac}, "eval_seconds": time.time() - t0,
                 "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "kind": "sphere_queries" if a.fill else "training"}
         dataset.save_dump(a.out, prims=prims, uv=bary, tex_uv=tex, wi=wi, wo=wo, out=out, frame_local=True, meta=meta)
@@ -216,6 +219,7 @@ def main():
     if a.object not in bpy.data.objects:
         print(f"BSDF_DUMP ERROR: no object named {a.object!r}", file=sys.stderr, flush=True)
         sys.exit(1)
+    uv_layer_name(bpy.data.objects[a.object], a.uv_layer)
     default_output_path()
     if a.probe:
         obj = bpy.data.objects[a.object]

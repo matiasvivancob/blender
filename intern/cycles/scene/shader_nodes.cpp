@@ -2719,10 +2719,10 @@ void NeuralBsdfNode::compile(SVMCompiler &compiler)
     closure = CLOSURE_BSDF_NEURAL_ID;
     BsdfNode::compile(compiler,
                       SVMNodeNeuralBsdfData{.uv = compiler.input_float3("UV"),
-                                                                  .slot = uint(slot),
-                                                                  .uv_attribute = uv_attribute().empty() ?
-                                                                      compiler.attribute(ATTR_STD_UV) :
-                                                                      compiler.attribute(uv_attribute()),
+                                            .slot = uint(slot),
+                                            .uv_attribute = uv_attribute().empty() ?
+                                                                compiler.attribute(ATTR_STD_UV) :
+                                                                compiler.attribute(uv_attribute()),
                                             .normal_offset = compiler.input_link("Normal")});
     return;
   }

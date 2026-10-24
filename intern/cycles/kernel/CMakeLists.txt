@@ -29,7 +29,6 @@ set(SRC_KERNEL_CLOSURE_HEADERS
   closure/bsdf_diffuse_ramp.h
   closure/bsdf_microfacet.h
   closure/bsdf_neural.h
-  closure/bsdf_neural_frame.h
   closure/bsdf_oren_nayar.h
   closure/bsdf_phong_ramp.h
   closure/bsdf_ray_portal.h
@@ -140,6 +139,7 @@ set(SRC_KERNEL_GEOM_HEADERS
   geom/motion_triangle.h
   geom/motion_triangle_intersect.h
   geom/motion_triangle_shader.h
+  geom/neural_frame.h
   geom/object.h
   geom/point.h
   geom/point_intersect.h

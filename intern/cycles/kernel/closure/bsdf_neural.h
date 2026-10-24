@@ -23,6 +23,8 @@ CCL_NAMESPACE_BEGIN
  *
  * The local frame is the one of SHADER_EVAL_BSDF, which produced the training data: z is the
  * shading normal, x the projected texture-U tangent, y = z cross x.
+ * Motion triangles fall back to dPdu in v1. A UV passed through Mapping or other nodes uses the
+ * default map for the frame; only a direct named UV Map selects a different tangent attribute.
  *
  * Sampling uses a per-material proxy stored in the `.nnm` proxy block: a mixture of a cosine lobe
  * (probability `p_diffuse`) and a GGX visible-normal reflection lobe (`alpha`). The reported pdf is

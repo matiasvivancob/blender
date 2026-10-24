@@ -5,6 +5,12 @@ import dataset
 
 
 class FrameMarkerTest(unittest.TestCase):
+    def test_uv_map_matches_render_frame(self):
+        dataset.require_render_uv_layer('UVMap', 'UVMap')
+        for requested, render in [('other', 'UVMap'), ('UVMap', None), ('UVMap', 'automap')]:
+            with self.subTest(requested=requested, render=render), self.assertRaises(dataset.DumpError):
+                dataset.require_render_uv_layer(requested, render)
+
     def test_current_frame(self):
         dataset.require_uv_tangent_frame([{'frame': 'uv_tangent'}])
 

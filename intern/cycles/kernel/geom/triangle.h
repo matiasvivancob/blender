@@ -13,7 +13,7 @@
 #include "kernel/globals.h"
 
 #include "kernel/geom/attribute.h"
-#include "kernel/closure/bsdf_neural_frame.h"
+#include "kernel/geom/neural_frame.h"
 #include "kernel/geom/object.h"
 
 CCL_NAMESPACE_BEGIN

@@ -163,6 +163,13 @@ def load_records(paths, **kw):
     return RecordSet.concat(sets), reports, metas
 
 
+def require_render_uv_layer(requested, render_active):
+    """The baking API's tangent frame currently uses only the render-active UV map."""
+    if not render_active or requested != render_active:
+        raise DumpError(f"UV frame mismatch: requested {requested!r}, render-active {render_active!r}; "
+                        "select the requested map as render-active on the experiment copy")
+
+
 def require_uv_tangent_frame(metas):
     """Do not train a new-frame model from legacy edge-frame records."""
     for i, meta in enumerate(metas):
