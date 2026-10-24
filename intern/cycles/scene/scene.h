@@ -42,6 +42,7 @@ class GeometryManager;
 class Object;
 class ObjectManager;
 class OSLManager;
+class NeuralManager;
 class ParticleSystemManager;
 class ParticleSystem;
 class PointCloud;
@@ -170,6 +171,7 @@ class Scene : public NodeOwner {
   unique_ptr<GeometryManager> geometry_manager;
   unique_ptr<ObjectManager> object_manager;
   unique_ptr<ParticleSystemManager> particle_system_manager;
+  unique_ptr<NeuralManager> neural_manager;
   unique_ptr<BakeManager> bake_manager;
   unique_ptr<ProceduralManager> procedural_manager;
   unique_ptr<VolumeManager> volume_manager;

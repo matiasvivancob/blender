@@ -5,6 +5,12 @@
     python3 export_nnm.py runs/a/model_final.pt  material.nnm            # torch checkpoint (needs torch)
     python3 export_nnm.py runs/a/model_final.npz material.nnm            # numpy arrays; torch not needed
     python3 export_nnm.py runs/a/ckpt_last.pt    material.nnm --instance 0
+    python3 export_nnm.py runs/a/model_final.npz material.nnm --dump dump_a.npz dump_b.npz   # + Cycles proxy block
+    python3 export_nnm.py runs/a/model_final.npz material.nnm --proxy 0.2 0.2 0.5 0.9 0.9 0.9  # explicit constants
+
+The Cycles neural closure needs the proxy block (nnm_format.md section 3a): GGX alpha, cosine-lobe probability and
+albedo. `--dump` fits it from the training dump (proxy_fit.py); `--proxy` writes six given numbers
+(alpha_x alpha_y p_diffuse albedo_rgb). Without either the file has no proxy block and the Cycles node rejects it.
 
 Accepted inputs:
   * .npz : latent, W0..Wn, b0..bn (+ optional config_json); np_model.py documents the layout.
@@ -30,6 +36,7 @@ from nnm.format import ENC_BSDF_DIRS, OUT_EXP, read_nnm, write_nnm
 from nnm.reference import decode, decode_float64, decode_test_inputs
 import np_model
 from np_model import ModelConfig, forward_np
+import proxy_fit
 
 
 def load_checkpoint(path, instance=0):
@@ -102,7 +109,16 @@ def verify_file(path, arrays, cfg, n_random=4096, seed=1, fp16_tol=0.05):
     return res
 
 
-def export(ckpt, out, num_tv=32, latent_levels=1, seed=0, instance=0, overrides=None, fp16_tol=0.05, verbose=True):
+def fit_proxy_from_dumps(paths):
+    """Fit the proxy block from training dump files -> (six floats, fit dict)."""
+    import dataset
+    rs, _, _ = dataset.load_records(list(paths))
+    fit = proxy_fit.fit_proxy(rs.wi, rs.wo, rs.target, rs.albedo)
+    return proxy_fit.proxy_tuple(fit), fit
+
+
+def export(ckpt, out, num_tv=32, latent_levels=1, seed=0, instance=0, overrides=None, fp16_tol=0.05, verbose=True,
+           proxy=None, dumps=None):
     arrays, cfg = load_checkpoint(ckpt, instance)
     cfg = np_model.infer_config(arrays, cfg)
     for k, v in (overrides or {}).items():
@@ -110,6 +126,13 @@ def export(ckpt, out, num_tv=32, latent_levels=1, seed=0, instance=0, overrides=
             setattr(cfg, k, v)
     cfg.validate()
     model = build(arrays, cfg, num_tv, latent_levels, seed)
+    if dumps and proxy is None:
+        proxy, fit = fit_proxy_from_dumps(dumps)
+        if verbose:
+            print(f"proxy fit from {len(dumps)} dump file(s): alpha {fit['alpha']:.4g}, p_diffuse {fit['p_diffuse']:.1f}, "
+                  f"albedo {np.round(fit['albedo'], 4).tolist()}, second moment {fit['moment']:.4g}")
+    if proxy is not None:
+        model.proxy = tuple(float(v) for v in proxy)
     data = write_nnm(model, out)
     res = verify_file(out, arrays, cfg, fp16_tol=fp16_tol)
     if verbose:
@@ -131,10 +154,14 @@ def main(argv=None):
     ap.add_argument("--beta", type=float, default=None)
     ap.add_argument("--eps", type=float, default=None)
     ap.add_argument("--fp16-tol", type=float, default=0.05, help="limit on the p99 relative fp16 deviation")
+    ap.add_argument("--dump", nargs="+", default=None, help="training dump(s) to fit the Cycles proxy block from")
+    ap.add_argument("--proxy", nargs=6, type=float, default=None,
+                    metavar=("AX", "AY", "PD", "R", "G", "B"), help="write these proxy constants instead of fitting")
     a = ap.parse_args(argv)
     try:
         export(a.checkpoint, a.out, a.tv, a.latent_levels, a.seed, a.instance,
-               dict(activation=a.activation, beta=a.beta, eps=a.eps), a.fp16_tol)
+               dict(activation=a.activation, beta=a.beta, eps=a.eps), a.fp16_tol,
+               proxy=a.proxy, dumps=a.dump)
     except AssertionError as e:
         print(f"VERIFY FAILED: {e}", file=sys.stderr)
         return 1

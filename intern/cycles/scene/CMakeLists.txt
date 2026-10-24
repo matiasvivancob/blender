@@ -42,6 +42,7 @@ set(SRC
   pointcloud.cpp
   object.cpp
   osl.cpp
+  neural.cpp
   particles.cpp
   pass.cpp
   curves.cpp
@@ -80,6 +81,7 @@ set(SRC_HEADERS
   mesh.h
   object.h
   osl.h
+  neural.h
   particles.h
   pass.h
   procedural.h

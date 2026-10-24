@@ -20,6 +20,7 @@
 #include "scene/mesh.h"
 #include "scene/object.h"
 #include "scene/osl.h"
+#include "scene/neural.h"
 #include "scene/particles.h"
 #include "scene/pointcloud.h"
 #include "scene/procedural.h"
@@ -65,6 +66,7 @@ Scene ::Scene(const SceneParams &params_, Device *device)
   object_manager = make_unique<ObjectManager>();
   image_manager = make_unique<ImageManager>(device->info, params);
   particle_system_manager = make_unique<ParticleSystemManager>();
+  neural_manager = make_unique<NeuralManager>();
   bake_manager = make_unique<BakeManager>();
   procedural_manager = make_unique<ProceduralManager>();
   volume_manager = make_unique<VolumeManager>();
@@ -144,6 +146,7 @@ void Scene::free_memory(bool final)
     osl_manager->device_free(device, &dscene, this);
     light_manager->device_free(device, &dscene);
     particle_system_manager->device_free(device, &dscene);
+    neural_manager->device_free(device, &dscene);
     bake_manager->device_free(device, &dscene);
     volume_manager->device_free(&dscene);
 
@@ -165,6 +168,7 @@ void Scene::free_memory(bool final)
     osl_manager.reset();
     light_manager.reset();
     particle_system_manager.reset();
+    neural_manager.reset();
     image_manager.reset();
     bake_manager.reset();
     update_stats.reset();
@@ -301,6 +305,14 @@ void Scene::device_update(Device *device_, Progress &progress)
 
   progress.set_status("Updating Particle Systems");
   particle_system_manager->device_update(device, &dscene, this, progress);
+
+  if (progress.get_cancel() || device->have_error()) {
+    return;
+  }
+
+  /* After the shader update, which loads the models that shaders refer to. */
+  progress.set_status("Updating Neural Models");
+  neural_manager->device_update(device, &dscene, this, progress);
 
   if (progress.get_cancel() || device->have_error()) {
     return;
@@ -490,8 +502,8 @@ bool Scene::need_data_update()
       background->is_modified() || image_manager->need_update() || object_manager->need_update() ||
       geometry_manager->need_update() || light_manager->need_update() ||
       lookup_tables->need_update() || integrator->is_modified() || shader_manager->need_update() ||
-      particle_system_manager->need_update() || bake_manager->need_update() ||
-      film->is_modified() || procedural_manager->need_update() || scene_attribute->is_modified());
+      particle_system_manager->need_update() || neural_manager->need_update() ||
+      bake_manager->need_update() || film->is_modified() || procedural_manager->need_update() || scene_attribute->is_modified());
 }
 
 bool Scene::need_reset(const bool check_camera)
@@ -517,6 +529,7 @@ void Scene::reset()
   geometry_manager->tag_update(this, GeometryManager::UPDATE_ALL);
   light_manager->tag_update(this, LightManager::UPDATE_ALL);
   particle_system_manager->tag_update(this);
+  neural_manager->tag_update(this);
   procedural_manager->tag_update();
 }
 

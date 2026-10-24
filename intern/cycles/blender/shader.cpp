@@ -783,6 +783,12 @@ static ShaderNode *add_node(Scene *scene,
     }
     node = sheen;
   }
+  else if (b_node.is_type("ShaderNodeBsdfNeural"_ustr)) {
+    const auto &storage = *static_cast<blender::NodeShaderBsdfNeural *>(b_node.storage);
+    NeuralBsdfNode *neural = graph->create_node<NeuralBsdfNode>();
+    neural->set_filename(ustring(blender_absolute_path(b_data, &b_ntree.id, storage.filepath)));
+    node = neural;
+  }
   else if (b_node.is_type("ShaderNodeEmission"_ustr)) {
     node = graph->create_node<EmissionNode>();
   }

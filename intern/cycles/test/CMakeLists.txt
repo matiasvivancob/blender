@@ -33,6 +33,7 @@ set(SRC
   kernel_camera_projection_test.cpp
   kernel_neural_mlp_test.cpp
   render_graph_finalize_test.cpp
+  scene_neural_test.cpp
   util_aligned_malloc_test.cpp
   util_boundbox_test.cpp
   util_cache_limiter_test.cpp

@@ -85,6 +85,11 @@ KERNEL_DATA_ARRAY(float, sample_pattern_lut)
 /* ies lights */
 KERNEL_DATA_ARRAY(float, ies)
 
+/* neural models (kernel/util/mlp.h): KernelNeuralModel records as uints, fp16 weights/latents */
+KERNEL_DATA_ARRAY(uint, neural_models)
+KERNEL_DATA_ARRAY(half, neural_weights)
+KERNEL_DATA_ARRAY(half, neural_latents)
+
 /* Volume. */
 KERNEL_DATA_ARRAY(KernelOctreeNode, volume_tree_nodes)
 KERNEL_DATA_ARRAY(KernelOctreeRoot, volume_tree_roots)
