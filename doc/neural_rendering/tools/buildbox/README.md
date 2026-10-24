@@ -248,6 +248,21 @@ server with `sccache --stop-server`), statistics with `sccache --show-stats`.
 
 ### Step 3: build
 
+**Non-English Windows (Spanish box): header dependencies are silently lost unless you apply `showincludes_fix.cmake`.**
+`cl.exe` prints its `/showIncludes` lines in the OS language when no English language pack is installed
+(`VSLANG=1033` does nothing then; this box has only the `3082` folder). CMake detects the prefix
+(`Nota: inclusión del archivo: `) and writes it to `msvc_deps_prefix`, but with `WITH_WINDOWS_SCCACHE=ON`
+sccache drops the non-ASCII byte, so the lines reach Ninja as `Nota: inclusin del archivo: ` and never match.
+Ninja then records zero header dependencies (`ninja -t deps <obj>` shows `#deps 0`; here 5199 of the first
+build's objects) and a header edit rebuilds no C++ (`ninja: no work to do`). The nvcc cubins are unaffected:
+their custom commands list the headers. `chcp 65001` does not help: the lossy step is inside sccache.
+Fix, once per build directory: configure with
+`-DCMAKE_PROJECT_INCLUDE=<repo>/doc/neural_rendering/tools/buildbox/showincludes_fix.cmake` (it sets the prefix
+to the text sccache produces; edit the string for another language), then delete the stale objects
+(`find <build>/intern/cycles -name "*.obj" -delete`, or rebuild from scratch) so they record dependencies.
+Check: `ninja -t deps | grep intern/cycles | grep -c "#deps 0"` is near 0 (9 of 199 here), and a dry run
+(`ninja -n`) after `iter_tools.py edit add` on a header lists the objects that include it.
+
 ```powershell
 Set-Location $BUILD
 ninja install 2>&1 | Tee-Object -FilePath "$BUILD\..\build_cold.log"

@@ -131,6 +131,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: **build bug found and fixed: Ninja was not tracking C++ header dependencies.** Spanish-only MSVC + sccache drop the `ó` of cl's `/showIncludes` prefix, so 5199 objects (all of `intern/cycles`) had `#deps 0` and a header edit rebuilt no C++ (cubins unaffected). Fix: `tools/buildbox/showincludes_fix.cmake` via `-DCMAKE_PROJECT_INCLUDE`, stale `intern/cycles` objects deleted once; 190 of 199 now track deps and a dry run after editing `mlp.h` rebuilds the unit test. README Step 3 documents it. The softplus fix `9f7c3f74` passes the unit test. Paper-schedule grid done and posted. Real-material (probe) dump + training running. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
+
 - 2026-10-24, cloud session: answered the neural BSDF go-ahead question (115bf6c5): GO, inline first, on `neural-p2` with a review per slice. Added the `.nnm` proxy block (flag bit 0, six f32 at offset 160) to the spec and to `tools/nnm/format.py` (selftest and new round-trip, old-file, range, flag and reserved-byte checks pass); fixed the closure spec to return the network output without an extra cosine; defined the slice-2 gates.
 - 2026-10-24, cloud session: read the paper-schedule training grid (94a00690). Culling now lowers the mean (30 to 35%) as well as the std (7.6 to 11x); recorded as section B2 of `04_experiment_results.md`, the synthesis now says to adopt it, request closed.
 - 2026-10-24, cloud session: fixed the SOFTPLUS failure in `KernelNeuralMlp.OutputTransforms` (f03182d2). The agent's diagnosis was right: value-unsafe float modes fold Kahan's `(1+e)-1` to `e`. `mlp.h` now computes softplus as `max(x,0) + log1p(exp(-|x|))` with log1p as a 2·atanh series (division and polynomial only). Max relative error 2.4e-7 over x in [-80, 80] under g++ -O2, g++/clang fast-math and -march=native; standalone parity test 27/27 on all four builds. Not yet run under MSVC.
@@ -185,5 +187,5 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Blocked
 
-- `KernelNeuralMlp.OutputTransforms` (softplus) fails on the Windows CPU build; diagnosis and suggested fix in `results/2026-10-24-mlp-gtest/blocked.md`. Waiting for the cloud fix; real-material training continues meanwhile.
+- (Resolved 2026-10-24) `KernelNeuralMlp.OutputTransforms`: fixed in `9f7c3f74`, verified on the Windows build: 100% of the `cycles` unit-test target passes. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
 - Final baseline: 116/120 CTest subjects passed, exit 8, 2174.22 s. In addition to the accepted three motion-blur failures, `cycles_shadow_catcher_optix` fails `shadow_catcher_pt_volume_sparse` with `Render result is different from reference image`. Cloud disposition requested by updating the existing baseline PR comment; no kernel or reference edits. Full log: `results/2026-10-23-buildbox/ctest_baseline_full.txt`; requested motion-blur and additional shadow-catcher PNGs: `results/2026-10-23-buildbox/diffs/`.
