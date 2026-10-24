@@ -174,7 +174,7 @@ class BsdfDumpEngine(CyclesRender):
             wi = np.tile(np.float32([0, 0, 1]), (n, 1))
             wo = np.tile(np.float32([0.6, 0, 0.8]), (n, 1))
             out = np.zeros((n, 8), np.float32)
-            cycles_engine.eval_bsdf(self, depsgraph, obj, prims, bary, wi, wo, 1, out)
+            cycles_engine.eval_bsdf(self, depsgraph, obj, prims, bary, wi, wo, 3, out)
             ok, lines = probe_check(tex, out)
             print("\n".join(lines))
             print("PROBE PASS" if ok else "PROBE FAIL", flush=True)
@@ -194,11 +194,11 @@ class BsdfDumpEngine(CyclesRender):
         out = np.zeros((n, 8), np.float32)
         for s in range(0, n, a.batch):
             e = min(n, s + a.batch)
-            cycles_engine.eval_bsdf(self, depsgraph, obj, prims[s:e], bary[s:e], wi[s:e], wo[s:e], 1, out[s:e])
+            cycles_engine.eval_bsdf(self, depsgraph, obj, prims[s:e], bary[s:e], wi[s:e], wo[s:e], 3, out[s:e])
             print(f"eval_bsdf {e}/{n} ({time.time() - t0:.0f}s)", flush=True)
         mat = obj.active_material.name if obj.active_material else ""
         meta = {"object_name": a.object, "material_name": mat, "blender_version": bpy.app.version_string,
-                "sample_count": n, "uv_kind": "texture", "seed": a.seed, "uv_layer": a.uv_layer or "active",
+                "sample_count": n, "uv_kind": "texture", "frame": "uv_tangent", "seed": a.seed, "uv_layer": a.uv_layer or "active",
                 "sampler": {"peak_frac": a.peak_frac, "grazing_frac": a.grazing_frac}, "eval_seconds": time.time() - t0,
                 "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "kind": "sphere_queries" if a.fill else "training"}
         dataset.save_dump(a.out, prims=prims, uv=bary, tex_uv=tex, wi=wi, wo=wo, out=out, frame_local=True, meta=meta)

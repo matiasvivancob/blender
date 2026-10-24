@@ -247,6 +247,7 @@ def main(argv=None):
 
     # ---- data
     rs, reports, metas = dataset.load_records(args.dump)
+    dataset.require_uv_tangent_frame(metas)
     for r in reports:
         print(f"{r['path']}: kept {r['kept']}/{r['records']} (flagged {r['flagged']}, nonfinite {r['nonfinite']}, "
               f"not_unit {r['not_unit']}, below_horizon {r['below_horizon']})")

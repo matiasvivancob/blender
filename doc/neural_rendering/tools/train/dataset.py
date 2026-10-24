@@ -163,6 +163,13 @@ def load_records(paths, **kw):
     return RecordSet.concat(sets), reports, metas
 
 
+def require_uv_tangent_frame(metas):
+    """Do not train a new-frame model from legacy edge-frame records."""
+    for i, meta in enumerate(metas):
+        if meta.get("frame") != "uv_tangent":
+            raise DumpError(f"dump {i} has no UV tangent frame marker; regenerate it before training")
+
+
 def split_indices(n, val_frac=0.05, val_max=262144, seed=0):
     """Deterministic train/validation split by record. -> (train_idx, val_idx) int64 arrays."""
     n_val = int(min(val_max, max(1, round(n * val_frac))))

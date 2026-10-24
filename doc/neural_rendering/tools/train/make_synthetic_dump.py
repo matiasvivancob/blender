@@ -49,7 +49,7 @@ def make(n, seed=0, peak_frac=0.5, grazing_frac=0.1, invalid_frac=0.01, tex_seed
     flip = bad & (rng.random(n) < 0.5)
     wi[flip, 2] *= -1
     prims = np.zeros(n, np.int32)
-    meta = {"object_name": "synthetic_plane", "material_name": "analytic_layered_brdf (material.py)",
+    meta = {"object_name": "synthetic_plane", "frame": "uv_tangent", "material_name": "analytic_layered_brdf (material.py)",
             "blender_version": "synthetic (no Blender)", "sample_count": int(n), "uv_kind": "texture",
             "texture_res": int(res), "texture_seed": int(tex_seed), "seed": int(seed),
             "sampler": {"peak_frac": peak_frac, "grazing_frac": grazing_frac, "invalid_frac": invalid_frac},
@@ -62,7 +62,7 @@ def make_sphere_dump(tex, size=sphere.SIZE):
     rec = sphere.make_records(size)
     out = synth_out(tex, rec["tex_uv"], rec["wi"], rec["wo"])
     n = len(out)
-    meta = {"object_name": "synthetic_plane", "material_name": "analytic_layered_brdf (material.py)",
+    meta = {"object_name": "synthetic_plane", "frame": "uv_tangent", "material_name": "analytic_layered_brdf (material.py)",
             "blender_version": "synthetic (no Blender)", "sample_count": n, "uv_kind": "texture",
             "kind": "sphere_queries", "sphere_size": size}
     return dict(prims=np.zeros(n, np.int32), uv=rec["tex_uv"], tex_uv=rec["tex_uv"], wi=rec["wi"], wo=rec["wo"],
