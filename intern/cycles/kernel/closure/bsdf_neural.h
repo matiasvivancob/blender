@@ -232,6 +232,8 @@ ccl_device int bsdf_neural_sample(KernelGlobals kg,
   return LABEL_REFLECT | ((bsdf->p_diffuse > 0.5f) ? LABEL_DIFFUSE : LABEL_GLOSSY);
 }
 
+/* Filter Glossy widens only the sampling proxy, not the network lobe: it reduces noise but does not
+ * soften the neural highlight. */
 ccl_device_inline void bsdf_neural_blur(ccl_private ShaderClosure *sc, const float roughness)
 {
   ccl_private NeuralBsdf *bsdf = (ccl_private NeuralBsdf *)sc;
