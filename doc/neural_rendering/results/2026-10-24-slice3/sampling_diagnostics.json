@@ -1,0 +1,184 @@
+{
+  "CPU": {
+    "renders": {
+      "principled_s0": [
+        {
+          "samples": 1024,
+          "render_seconds": 30.829243,
+          "wall_seconds": 30.85852409992367
+        }
+      ],
+      "principled_s1": [
+        {
+          "samples": 1024,
+          "render_seconds": 30.001177,
+          "wall_seconds": 30.026990599930286
+        }
+      ],
+      "neural_s0": [
+        {
+          "samples": 1024,
+          "render_seconds": 141.849879,
+          "wall_seconds": 141.87199810007587
+        }
+      ],
+      "principled_warm": [
+        {
+          "samples": 8,
+          "render_seconds": 0.25006,
+          "wall_seconds": 0.27686099999118596
+        }
+      ],
+      "principled_lo": [
+        {
+          "samples": 64,
+          "render_seconds": 2.281539,
+          "wall_seconds": 2.303226000047289
+        },
+        {
+          "samples": 64,
+          "render_seconds": 2.12192,
+          "wall_seconds": 2.148797999951057
+        }
+      ],
+      "principled_hi": [
+        {
+          "samples": 512,
+          "render_seconds": 14.856993,
+          "wall_seconds": 14.879791300045326
+        },
+        {
+          "samples": 512,
+          "render_seconds": 14.322953,
+          "wall_seconds": 14.345502400072291
+        }
+      ],
+      "neural_warm": [
+        {
+          "samples": 8,
+          "render_seconds": 1.02379,
+          "wall_seconds": 1.0419036999810487
+        }
+      ],
+      "neural_lo": [
+        {
+          "samples": 64,
+          "render_seconds": 8.403114,
+          "wall_seconds": 8.42383109999355
+        },
+        {
+          "samples": 64,
+          "render_seconds": 8.671374,
+          "wall_seconds": 8.70227689994499
+        }
+      ],
+      "neural_hi": [
+        {
+          "samples": 512,
+          "render_seconds": 67.399537,
+          "wall_seconds": 67.42434239992872
+        },
+        {
+          "samples": 512,
+          "render_seconds": 65.607983,
+          "wall_seconds": 65.63057909999043
+        }
+      ]
+    },
+    "note": "sampling-time slopes from terminal Cycles Rendered N samples lines; diagnostic, not controlled equal-quality speedup",
+    "principled_sampling_ms_per_spp": 27.23444866071429,
+    "neural_sampling_ms_per_spp": 127.68943973214286,
+    "sampling_cost_ratio": 4.688526700976876
+  },
+  "OPTIX": {
+    "renders": {
+      "principled_s0": [
+        {
+          "samples": 1024,
+          "render_seconds": 0.876653,
+          "wall_seconds": 1.4926575999706984
+        }
+      ],
+      "principled_s1": [
+        {
+          "samples": 1024,
+          "render_seconds": 0.940735,
+          "wall_seconds": 1.5018864999292418
+        }
+      ],
+      "neural_s0": [
+        {
+          "samples": 1024,
+          "render_seconds": 2.271796,
+          "wall_seconds": 2.8051799000240862
+        }
+      ],
+      "principled_warm": [
+        {
+          "samples": 8,
+          "render_seconds": 0.013032,
+          "wall_seconds": 0.5783896000357345
+        }
+      ],
+      "principled_lo": [
+        {
+          "samples": 64,
+          "render_seconds": 0.068808,
+          "wall_seconds": 0.6303865000372753
+        },
+        {
+          "samples": 64,
+          "render_seconds": 0.067168,
+          "wall_seconds": 0.6262217999901623
+        }
+      ],
+      "principled_hi": [
+        {
+          "samples": 512,
+          "render_seconds": 0.441108,
+          "wall_seconds": 1.0248715999769047
+        },
+        {
+          "samples": 512,
+          "render_seconds": 0.438294,
+          "wall_seconds": 0.9337412000168115
+        }
+      ],
+      "neural_warm": [
+        {
+          "samples": 8,
+          "render_seconds": 0.025303,
+          "wall_seconds": 0.6667611000593752
+        }
+      ],
+      "neural_lo": [
+        {
+          "samples": 64,
+          "render_seconds": 0.137707,
+          "wall_seconds": 0.7849401000421494
+        },
+        {
+          "samples": 64,
+          "render_seconds": 0.139447,
+          "wall_seconds": 0.6321551000000909
+        }
+      ],
+      "neural_hi": [
+        {
+          "samples": 512,
+          "render_seconds": 1.119821,
+          "wall_seconds": 1.6415287000127137
+        },
+        {
+          "samples": 512,
+          "render_seconds": 1.111293,
+          "wall_seconds": 1.6881482999306172
+        }
+      ]
+    },
+    "note": "sampling-time slopes from terminal Cycles Rendered N samples lines; diagnostic, not controlled equal-quality speedup",
+    "principled_sampling_ms_per_spp": 0.8284062500000001,
+    "neural_sampling_ms_per_spp": 2.1731830357142856,
+    "sampling_cost_ratio": 2.623330081966771
+  }
+}

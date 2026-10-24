@@ -1,0 +1,44 @@
+{
+ "device": "CPU 4070",
+ "res": 512,
+ "spp": 1024,
+ "box": 8,
+ "pixels_in_mask_boxes": 4096,
+ "image_mean": {
+  "principled": 4.6849212646484375,
+  "neural": 4.654600143432617
+ },
+ "mean_ratio_neural_over_principled": 0.9935279488563538,
+ "noise_floor_principled_s0_vs_s1": {
+  "mean": 9.524735651211813e-05,
+  "p99": 0.0012808849569410086
+ },
+ "neural_vs_principled": {
+  "mean": 0.012886653654277325,
+  "p99": 0.05725126340985298
+ },
+ "raw_rgb_neural_vs_principled": {
+  "mean": 0.015762420371174812,
+  "p99": 0.07385331392288208
+ },
+ "raw_rgb_native_repeat": {
+  "mean": 0.000970597320701927,
+  "p99": 0.014711112715303898
+ },
+ "timing_scope": "diagnostic best-of-two wall-time slope, not an equal-quality speedup",
+ "ms_per_sample": {
+  "principled": 31.912719419519167,
+  "neural": 157.3289499998022
+ },
+ "cost_ratio_neural_over_principled": 4.929976287247183,
+ "seconds_64spp_512spp": {
+  "principled": [
+   2.2136775000253692,
+   16.510575799969956
+  ],
+  "neural": [
+   11.618192000081763,
+   82.10156159999315
+  ]
+ }
+}

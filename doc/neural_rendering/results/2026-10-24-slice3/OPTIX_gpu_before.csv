@@ -1,0 +1,3 @@
+name, uuid, utilization.gpu [%], memory.used [MiB]
+NVIDIA GeForce RTX 3090, GPU-9abcf4a4-7659-8da2-d759-d900bfc2e5db, 0 %, 1110 MiB
+NVIDIA GeForce RTX 4070 Ti SUPER, GPU-96322c27-d5ad-69a1-22ff-f9edbbed80ba, 6 %, 3328 MiB

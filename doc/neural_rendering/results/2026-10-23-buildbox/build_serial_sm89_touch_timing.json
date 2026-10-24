@@ -1,0 +1,11 @@
+{
+  "case": "serial_sm89_touch",
+  "elapsed_seconds": 347.9497042999137,
+  "exit_code": 0,
+  "command": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "D:\\Github\\Blender-RND\\build.cmd"
+  ]
+}

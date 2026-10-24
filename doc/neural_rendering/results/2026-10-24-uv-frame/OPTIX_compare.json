@@ -1,0 +1,44 @@
+{
+ "device": "OPTIX 4070",
+ "res": 512,
+ "spp": 1024,
+ "box": 8,
+ "pixels_in_mask_boxes": 4096,
+ "image_mean": {
+  "principled": 4.684905529022217,
+  "neural": 4.654651165008545
+ },
+ "mean_ratio_neural_over_principled": 0.9935421347618103,
+ "noise_floor_principled_s0_vs_s1": {
+  "mean": 9.536603465676308e-05,
+  "p99": 0.0012803393183276057
+ },
+ "neural_vs_principled": {
+  "mean": 0.012882973998785019,
+  "p99": 0.05724436044692993
+ },
+ "raw_rgb_neural_vs_principled": {
+  "mean": 0.015758998692035675,
+  "p99": 0.07384940981864929
+ },
+ "raw_rgb_native_repeat": {
+  "mean": 0.0009707808494567871,
+  "p99": 0.014715269207954407
+ },
+ "timing_scope": "diagnostic best-of-two wall-time slope, not an equal-quality speedup",
+ "ms_per_sample": {
+  "principled": 0.8301020087466375,
+  "neural": 2.5982906250387066
+ },
+ "cost_ratio_neural_over_principled": 3.130085938428024,
+ "seconds_64spp_512spp": {
+  "principled": [
+   0.629237600020133,
+   1.0011232999386266
+  ],
+  "neural": [
+   0.6938607000047341,
+   1.8578949000220746
+  ]
+ }
+}

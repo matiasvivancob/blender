@@ -1,0 +1,2 @@
+# Tiny telemetry tables are text evidence, not binary datasets for LFS.
+*_gpu_before.csv -filter diff merge text

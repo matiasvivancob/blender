@@ -1,0 +1,13 @@
+== verify (build gcc_fast) ==
+  LeakySmeLU: max abs err branch-free vs piecewise 1.19e-07; slope at -beta 0.0100|0.0102, at +beta 0.9998|1.0000 (C1)
+  encode12: max ||wd|-1| 3.35e-07, max |wd.z - wi.h| 8.67e-08
+  analytic albedo (wi=45deg, rough 0.25): GGX(F=1) 0.998 (single-scatter: <=1, falls with roughness), Lambert(albedo 1, F0=0) 0.950 (expect ~0.95 = 1 - coat Fresnel loss)
+  analytic albedo (wi=45deg, rough 0.50): GGX(F=1) 0.886 (single-scatter: <=1, falls with roughness), Lambert(albedo 1, F0=0) 0.950 (expect ~0.95 = 1 - coat Fresnel loss)
+  analytic albedo (wi=45deg, rough 1.00): GGX(F=1) 0.377 (single-scatter: <=1, falls with roughness), Lambert(albedo 1, F0=0) 0.950 (expect ~0.95 = 1 - coat Fresnel loss)
+  analytic checksum scalar / lane-loop batched / float8 batched: 1880.498077 / 1880.497501 / 1880.508354
+  mlp h16x2 in28: max rel err vs double ref: rm 1.38e-05  im 1.38e-05  imv 1.37e-05  b8n 1.38e-05  b8t 1.38e-05  b8v 1.38e-05  (mean output 0.442)
+  mlp h32x2 in28: max rel err vs double ref: rm 1.37e-05  im 1.37e-05  imv 1.37e-05  b8n 1.37e-05  b8t 1.37e-05  b8v 1.38e-05  (mean output 0.470)
+  mlp h64x3 in28: max rel err vs double ref: rm 1.36e-05  im 1.36e-05  imv 1.36e-05  b8n 1.36e-05  b8t 1.36e-05  b8v 1.35e-05  (mean output 0.399)
+  mlp h16x2 in12: max rel err vs double ref: rm 1.35e-05  im 1.35e-05  imv 1.36e-05  b8n 1.35e-05  b8t 1.36e-05  b8v 1.35e-05  (mean output 0.553)
+  mlp h32x2 in12: max rel err vs double ref: rm 1.36e-05  im 1.37e-05  imv 1.37e-05  b8n 1.35e-05  b8t 1.35e-05  b8v 1.35e-05  (mean output 0.672)
+  mlp h64x3 in12: max rel err vs double ref: rm 1.38e-05  im 1.38e-05  imv 1.38e-05  b8n 1.37e-05  b8t 1.37e-05  b8v 1.38e-05  (mean output 0.502)

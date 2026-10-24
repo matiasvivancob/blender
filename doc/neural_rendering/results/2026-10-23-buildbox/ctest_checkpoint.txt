@@ -1,0 +1,408 @@
+Test project D:/Github/Blender-RND/build_windows_neural
+        Start 289: cycles_bake_cpu
+  1/120 Test #289: cycles_bake_cpu ....................   Passed    4.42 sec
+        Start 290: cycles_bake_raytrace_cpu
+  2/120 Test #290: cycles_bake_raytrace_cpu ...........   Passed    2.13 sec
+        Start 291: cycles_attributes_cpu
+  3/120 Test #291: cycles_attributes_cpu ..............   Passed    2.38 sec
+        Start 292: cycles_bsdf_cpu
+  4/120 Test #292: cycles_bsdf_cpu ....................   Passed    8.37 sec
+        Start 293: cycles_camera_cpu
+  5/120 Test #293: cycles_camera_cpu ..................   Passed    3.57 sec
+        Start 294: cycles_colorspace_cpu
+  6/120 Test #294: cycles_colorspace_cpu ..............   Passed    2.47 sec
+        Start 295: cycles_denoise_cpu
+  7/120 Test #295: cycles_denoise_cpu .................   Passed    8.29 sec
+        Start 296: cycles_denoise_animation_cpu
+  8/120 Test #296: cycles_denoise_animation_cpu .......   Passed    2.31 sec
+        Start 297: cycles_displacement_cpu
+  9/120 Test #297: cycles_displacement_cpu ............   Passed    5.03 sec
+        Start 298: cycles_gsplat_cpu
+ 10/120 Test #298: cycles_gsplat_cpu ..................   Passed    7.49 sec
+        Start 299: cycles_hair_cpu
+ 11/120 Test #299: cycles_hair_cpu ....................   Passed    7.28 sec
+        Start 300: cycles_image_colorspace_cpu
+ 12/120 Test #300: cycles_image_colorspace_cpu ........   Passed    7.55 sec
+        Start 301: cycles_image_data_types_cpu
+ 13/120 Test #301: cycles_image_data_types_cpu ........   Passed    3.11 sec
+        Start 302: cycles_image_mapping_cpu
+ 14/120 Test #302: cycles_image_mapping_cpu ...........   Passed    7.83 sec
+        Start 303: cycles_image_mipmap_cpu
+ 15/120 Test #303: cycles_image_mipmap_cpu ............   Passed    5.99 sec
+        Start 304: cycles_image_texture_limit_cpu
+ 16/120 Test #304: cycles_image_texture_limit_cpu .....   Passed    3.43 sec
+        Start 305: cycles_instancing_cpu
+ 17/120 Test #305: cycles_instancing_cpu ..............   Passed    2.63 sec
+        Start 306: cycles_integrator_cpu
+ 18/120 Test #306: cycles_integrator_cpu ..............   Passed    4.99 sec
+        Start 307: cycles_light_cpu
+ 19/120 Test #307: cycles_light_cpu ...................   Passed   10.71 sec
+        Start 308: cycles_light_group_cpu
+ 20/120 Test #308: cycles_light_group_cpu .............   Passed    2.27 sec
+        Start 309: cycles_light_linking_cpu
+ 21/120 Test #309: cycles_light_linking_cpu ...........   Passed    5.66 sec
+        Start 310: cycles_lightprobe_cpu
+ 22/120 Test #310: cycles_lightprobe_cpu ..............   Passed    0.30 sec
+        Start 311: cycles_mesh_cpu
+ 23/120 Test #311: cycles_mesh_cpu ....................   Passed    6.26 sec
+        Start 312: cycles_motion_blur_cpu
+ 24/120 Test #312: cycles_motion_blur_cpu .............***Failed    6.46 sec
+[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (6144 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cpu/compare.html
+
+        Start 313: cycles_node_inlining_cpu
+ 25/120 Test #313: cycles_node_inlining_cpu ...........   Passed    2.47 sec
+        Start 314: cycles_openvdb_cpu
+ 26/120 Test #314: cycles_openvdb_cpu .................   Passed   14.88 sec
+        Start 315: cycles_pointcloud_cpu
+ 27/120 Test #315: cycles_pointcloud_cpu ..............   Passed    2.99 sec
+        Start 316: cycles_principled_bsdf_cpu
+ 28/120 Test #316: cycles_principled_bsdf_cpu .........   Passed    6.49 sec
+        Start 317: cycles_raycast_cpu
+ 29/120 Test #317: cycles_raycast_cpu .................   Passed    3.17 sec
+        Start 318: cycles_render_layer_cpu
+ 30/120 Test #318: cycles_render_layer_cpu ............   Passed    9.01 sec
+        Start 319: cycles_reports_cpu
+ 31/120 Test #319: cycles_reports_cpu .................   Passed    7.73 sec
+        Start 320: cycles_shader_cpu
+ 32/120 Test #320: cycles_shader_cpu ..................   Passed   13.54 sec
+        Start 321: cycles_shadow_cpu
+ 33/120 Test #321: cycles_shadow_cpu ..................   Passed    2.20 sec
+        Start 322: cycles_shadow_catcher_cpu
+ 34/120 Test #322: cycles_shadow_catcher_cpu ..........   Passed    4.32 sec
+        Start 323: cycles_sss_cpu
+ 35/120 Test #323: cycles_sss_cpu .....................   Passed    5.40 sec
+        Start 324: cycles_texture_cpu
+ 36/120 Test #324: cycles_texture_cpu .................   Passed    9.18 sec
+        Start 325: cycles_transparency_cpu
+ 37/120 Test #325: cycles_transparency_cpu ............   Passed    2.71 sec
+        Start 326: cycles_volume_cpu
+ 38/120 Test #326: cycles_volume_cpu ..................   Passed   42.09 sec
+        Start 327: cycles_osl_cpu
+ 39/120 Test #327: cycles_osl_cpu .....................   Passed    0.26 sec
+        Start 328: cycles_updates_cpu
+ 40/120 Test #328: cycles_updates_cpu .................   Passed    2.13 sec
+        Start 329: cycles_bake_cuda
+ 41/120 Test #329: cycles_bake_cuda ...................   Passed   12.36 sec
+        Start 330: cycles_bake_raytrace_cuda
+ 42/120 Test #330: cycles_bake_raytrace_cuda ..........   Passed    3.51 sec
+        Start 331: cycles_attributes_cuda
+ 43/120 Test #331: cycles_attributes_cuda .............   Passed    7.65 sec
+        Start 332: cycles_bsdf_cuda
+ 44/120 Test #332: cycles_bsdf_cuda ...................   Passed   32.82 sec
+        Start 333: cycles_camera_cuda
+ 45/120 Test #333: cycles_camera_cuda .................   Passed   14.77 sec
+        Start 334: cycles_colorspace_cuda
+ 46/120 Test #334: cycles_colorspace_cuda .............   Passed    3.60 sec
+        Start 335: cycles_denoise_cuda
+ 47/120 Test #335: cycles_denoise_cuda ................   Passed   19.99 sec
+        Start 336: cycles_denoise_animation_cuda
+ 48/120 Test #336: cycles_denoise_animation_cuda ......   Passed    2.24 sec
+        Start 337: cycles_displacement_cuda
+ 49/120 Test #337: cycles_displacement_cuda ...........   Passed   20.73 sec
+        Start 338: cycles_gsplat_cuda
+ 50/120 Test #338: cycles_gsplat_cuda .................   Passed    7.71 sec
+        Start 339: cycles_hair_cuda
+ 51/120 Test #339: cycles_hair_cuda ...................   Passed    5.91 sec
+        Start 340: cycles_image_colorspace_cuda
+ 52/120 Test #340: cycles_image_colorspace_cuda .......   Passed   17.43 sec
+        Start 341: cycles_image_data_types_cuda
+ 53/120 Test #341: cycles_image_data_types_cuda .......   Passed   22.37 sec
+        Start 342: cycles_image_mapping_cuda
+ 54/120 Test #342: cycles_image_mapping_cuda ..........   Passed   58.91 sec
+        Start 343: cycles_image_mipmap_cuda
+ 55/120 Test #343: cycles_image_mipmap_cuda ...........   Passed   13.73 sec
+        Start 344: cycles_image_texture_limit_cuda
+ 56/120 Test #344: cycles_image_texture_limit_cuda ....   Passed   20.14 sec
+        Start 345: cycles_instancing_cuda
+ 57/120 Test #345: cycles_instancing_cuda .............   Passed    2.71 sec
+        Start 346: cycles_integrator_cuda
+ 58/120 Test #346: cycles_integrator_cuda .............   Passed   34.71 sec
+        Start 347: cycles_light_cuda
+ 59/120 Test #347: cycles_light_cuda ..................   Passed   40.33 sec
+        Start 348: cycles_light_group_cuda
+ 60/120 Test #348: cycles_light_group_cuda ............   Passed    4.30 sec
+        Start 349: cycles_light_linking_cuda
+ 61/120 Test #349: cycles_light_linking_cuda ..........   Passed   26.24 sec
+        Start 350: cycles_lightprobe_cuda
+ 62/120 Test #350: cycles_lightprobe_cuda .............   Passed    0.25 sec
+        Start 351: cycles_mesh_cuda
+ 63/120 Test #351: cycles_mesh_cuda ...................   Passed   33.94 sec
+        Start 352: cycles_motion_blur_cuda
+ 64/120 Test #352: cycles_motion_blur_cuda ............***Failed   24.52 sec
+[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (24206 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/cuda/compare.html
+
+        Start 353: cycles_node_inlining_cuda
+ 65/120 Test #353: cycles_node_inlining_cuda ..........   Passed    9.88 sec
+        Start 354: cycles_openvdb_cuda
+ 66/120 Test #354: cycles_openvdb_cuda ................   Passed   19.60 sec
+        Start 355: cycles_pointcloud_cuda
+ 67/120 Test #355: cycles_pointcloud_cuda .............   Passed    7.62 sec
+        Start 356: cycles_principled_bsdf_cuda
+ 68/120 Test #356: cycles_principled_bsdf_cuda ........   Passed   18.98 sec
+        Start 357: cycles_raycast_cuda
+ 69/120 Test #357: cycles_raycast_cuda ................   Passed    8.20 sec
+        Start 358: cycles_render_layer_cuda
+ 70/120 Test #358: cycles_render_layer_cuda ...........   Passed   36.92 sec
+        Start 359: cycles_reports_cuda
+ 71/120 Test #359: cycles_reports_cuda ................   Passed   29.24 sec
+        Start 360: cycles_shader_cuda
+ 72/120 Test #360: cycles_shader_cuda .................   Passed   50.07 sec
+        Start 361: cycles_shadow_cuda
+ 73/120 Test #361: cycles_shadow_cuda .................   Passed    2.66 sec
+        Start 362: cycles_shadow_catcher_cuda
+ 74/120 Test #362: cycles_shadow_catcher_cuda .........   Passed   15.97 sec
+        Start 363: cycles_sss_cuda
+ 75/120 Test #363: cycles_sss_cuda ....................   Passed   15.14 sec
+        Start 364: cycles_texture_cuda
+ 76/120 Test #364: cycles_texture_cuda ................   Passed   37.12 sec
+        Start 365: cycles_transparency_cuda
+ 77/120 Test #365: cycles_transparency_cuda ...........   Passed    3.68 sec
+        Start 366: cycles_volume_cuda
+ 78/120 Test #366: cycles_volume_cuda .................   Passed   71.63 sec
+        Start 367: cycles_osl_cuda
+ 79/120 Test #367: cycles_osl_cuda ....................   Passed    0.25 sec
+        Start 368: cycles_updates_cuda
+ 80/120 Test #368: cycles_updates_cuda ................   Passed    2.73 sec
+        Start 369: cycles_bake_optix
+ 81/120 Test #369: cycles_bake_optix ..................   Passed   13.92 sec
+        Start 370: cycles_bake_raytrace_optix
+ 82/120 Test #370: cycles_bake_raytrace_optix .........   Passed  224.40 sec
+        Start 371: cycles_attributes_optix
+ 83/120 Test #371: cycles_attributes_optix ............   Passed   13.22 sec
+        Start 372: cycles_bsdf_optix
+ 84/120 Test #372: cycles_bsdf_optix ..................   Passed   40.36 sec
+        Start 373: cycles_camera_optix
+ 85/120 Test #373: cycles_camera_optix ................   Passed   17.53 sec
+        Start 374: cycles_colorspace_optix
+ 86/120 Test #374: cycles_colorspace_optix ............   Passed    4.35 sec
+        Start 375: cycles_denoise_optix
+ 87/120 Test #375: cycles_denoise_optix ...............   Passed   23.41 sec
+        Start 376: cycles_denoise_animation_optix
+ 88/120 Test #376: cycles_denoise_animation_optix .....   Passed    2.17 sec
+        Start 377: cycles_displacement_optix
+ 89/120 Test #377: cycles_displacement_optix ..........   Passed   24.92 sec
+        Start 378: cycles_gsplat_optix
+ 90/120 Test #378: cycles_gsplat_optix ................   Passed   10.68 sec
+        Start 379: cycles_hair_optix
+ 91/120 Test #379: cycles_hair_optix ..................   Passed    9.95 sec
+        Start 380: cycles_image_colorspace_optix
+ 92/120 Test #380: cycles_image_colorspace_optix ......   Passed   20.87 sec
+        Start 381: cycles_image_data_types_optix
+ 93/120 Test #381: cycles_image_data_types_optix ......   Passed   27.44 sec
+        Start 382: cycles_image_mapping_optix
+ 94/120 Test #382: cycles_image_mapping_optix .........   Passed   72.92 sec
+        Start 383: cycles_image_mipmap_optix
+ 95/120 Test #383: cycles_image_mipmap_optix ..........   Passed   16.36 sec
+        Start 384: cycles_image_texture_limit_optix
+ 96/120 Test #384: cycles_image_texture_limit_optix ...   Passed   24.83 sec
+        Start 385: cycles_instancing_optix
+ 97/120 Test #385: cycles_instancing_optix ............   Passed    2.82 sec
+        Start 386: cycles_integrator_optix
+ 98/120 Test #386: cycles_integrator_optix ............   Passed   58.55 sec
+        Start 387: cycles_light_optix
+ 99/120 Test #387: cycles_light_optix .................   Passed   49.00 sec
+        Start 388: cycles_light_group_optix
+100/120 Test #388: cycles_light_group_optix ...........   Passed    4.92 sec
+        Start 389: cycles_light_linking_optix
+101/120 Test #389: cycles_light_linking_optix .........   Passed   31.13 sec
+        Start 390: cycles_lightprobe_optix
+102/120 Test #390: cycles_lightprobe_optix ............   Passed    0.25 sec
+        Start 391: cycles_mesh_optix
+103/120 Test #391: cycles_mesh_optix ..................   Passed   40.42 sec
+        Start 392: cycles_motion_blur_optix
+104/120 Test #392: cycles_motion_blur_optix ...........***Failed   28.82 sec
+[==========] Running 25 tests from 1 test case.
+[ RUN      ] bvh_steps_curve_segments_0
+[ RUN      ] bvh_steps_curve_segments_3
+[ RUN      ] bvh_steps_line_segments_0
+[ RUN      ] bvh_steps_line_segments_3
+[ RUN      ] camera_zoom_blur_perspective
+[ RUN      ] curve_motion_blur
+[ RUN      ] fluid_motion_blur
+[ RUN      ] fluid_motion_blur_disabled
+[ RUN      ] large_combined_motion
+[ RUN      ] mblur_deform_autosmooth
+[ RUN      ] mblur_deform_simple
+[ RUN      ] multi_step_motion_blur
+[ RUN      ] multi_step_velocity_motion_blur
+[ RUN      ] rolling_shutter
+[ RUN      ] scale_motion_blur
+[ RUN      ] shutter_curve_default
+[ RUN      ] shutter_curve_triangle
+[ RUN      ] shutter_moving_camera_center
+[ RUN      ] shutter_moving_camera_end
+[ RUN      ] shutter_moving_camera_start
+[ RUN      ] shutter_moving_object_center
+[ RUN      ] shutter_moving_object_end
+[ RUN      ] shutter_moving_object_start
+[ RUN      ] subd_motion_blur
+[ RUN      ] velocity_custom_normals
+[       OK ] bvh_steps_curve_segments_0
+[       OK ] bvh_steps_curve_segments_3
+[       OK ] bvh_steps_line_segments_0
+[       OK ] bvh_steps_line_segments_3
+[       OK ] camera_zoom_blur_perspective
+[       OK ] curve_motion_blur
+[       OK ] fluid_motion_blur
+[       OK ] fluid_motion_blur_disabled
+[       OK ] large_combined_motion
+[       OK ] mblur_deform_autosmooth
+[       OK ] mblur_deform_simple
+[       OK ] multi_step_motion_blur
+ Render result is different from reference image
+[ FAILED   ] multi_step_velocity_motion_blur
+[       OK ] rolling_shutter
+[       OK ] scale_motion_blur
+[       OK ] shutter_curve_default
+[       OK ] shutter_curve_triangle
+[       OK ] shutter_moving_camera_center
+[       OK ] shutter_moving_camera_end
+[       OK ] shutter_moving_camera_start
+[       OK ] shutter_moving_object_center
+[       OK ] shutter_moving_object_end
+[       OK ] shutter_moving_object_start
+[       OK ] subd_motion_blur
+[       OK ] velocity_custom_normals
+ 
+[==========] 25 tests from 1 test case ran. (28480 ms total)
+[ PASSED   ] 24 tests.
+[ FAILED   ] 1 tests, listed below:
+[ FAILED   ] multi_step_velocity_motion_blur
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/report.html
+ Report saved to: file:///D:/Github/Blender-RND/build_windows_neural/tests/cycles/optix/compare.html
+
+        Start 393: cycles_node_inlining_optix
+105/120 Test #393: cycles_node_inlining_optix .........   Passed   11.86 sec
+        Start 394: cycles_openvdb_optix
+106/120 Test #394: cycles_openvdb_optix ...............   Passed   23.04 sec
+        Start 395: cycles_pointcloud_optix
+107/120 Test #395: cycles_pointcloud_optix ............   Passed    9.44 sec
+        Start 396: cycles_principled_bsdf_optix
+108/120 Test #396: cycles_principled_bsdf_optix .......   Passed   24.03 sec
+        Start 397: cycles_raycast_optix
+109/120 Test #397: cycles_raycast_optix ...............   Passed   11.37 sec
+        Start 398: cycles_render_layer_optix
+110/120 Test #398: cycles_render_layer_optix ..........   Passed   43.30 sec
+        Start 399: cycles_reports_optix
+111/120 Test #399: cycles_reports_optix ...............   Passed   32.18 sec
+        Start 400: cycles_shader_optix
+112/120 Test #400: cycles_shader_optix ................   Passed   61.74 sec
+        Start 401: cycles_shadow_optix
+113/120 Test #401: cycles_shadow_optix ................   Passed    3.30 sec
+        Start 402: cycles_shadow_catcher_optix

@@ -1,0 +1,25 @@
+Blender 5.4.0 Alpha
+
+Blender quit
+Traceback (most recent call last):
+  File "C:\Users\Matia\workspace\uv-frame-fix\check_uv_guard.py", line 18, in <module>
+    runpy.run_path('D:/Github/Blender-RND/blender/doc/neural_rendering/tools/train/blender_dump.py', run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:/Github/Blender-RND/blender/doc/neural_rendering/tools/train/blender_dump.py", line 230, in <module>
+    main()
+    ~~~~^^
+  File "D:/Github/Blender-RND/blender/doc/neural_rendering/tools/train/blender_dump.py", line 222, in main
+    uv_layer_name(bpy.data.objects[a.object], a.uv_layer)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:/Github/Blender-RND/blender/doc/neural_rendering/tools/train/blender_dump.py", line 79, in uv_layer_name
+    dataset.require_render_uv_layer(layer.name, render_name)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Github\Blender-RND\blender\doc\neural_rendering\tools\train\dataset.py", line 169, in require_render_uv_layer
+    raise DumpError(f"UV frame mismatch: requested {requested!r}, render-active {render_active!r}; "
+                    "select the requested map as render-active on the experiment copy")
+dataset.DumpError: UV frame mismatch: requested 'Other', render-active 'UVMap'; select the requested map as render-active on the experiment copy
+
+Error: script failed, file: 'C:\Users\Matia\workspace\uv-frame-fix\check_uv_guard.py', exiting.

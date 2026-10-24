@@ -1,0 +1,7 @@
+depcheck: 9 of 201 objects matching 'intern/cycles' have no header dependencies (4.5%, limit 10.0%)
+  #deps 0: intern/cycles/bvh/CMakeFiles/cycles_bvh.dir/hiprt.cpp.obj
+  #deps 0: intern/cycles/device/CMakeFiles/cycles_device.dir/hip/device_impl.cpp.obj
+  #deps 0: intern/cycles/device/CMakeFiles/cycles_device.dir/hip/graphics_interop.cpp.obj
+  #deps 0: intern/cycles/device/CMakeFiles/cycles_device.dir/hip/kernel.cpp.obj
+  #deps 0: intern/cycles/device/CMakeFiles/cycles_device.dir/hip/queue.cpp.obj
+depcheck PASS

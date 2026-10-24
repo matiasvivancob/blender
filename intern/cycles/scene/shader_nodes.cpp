@@ -15,6 +15,7 @@
 #include "scene/integrator.h"
 #include "scene/light.h"
 #include "scene/mesh.h"
+#include "scene/neural.h"
 #include "scene/osl.h"
 #include "scene/scene.h"
 #include "scene/shader_nodes.h"
@@ -2631,6 +2632,103 @@ void SheenBsdfNode::compile(OSLCompiler &compiler)
 {
   compiler.parameter(this, "distribution");
   compiler.add(this, "node_sheen_bsdf");
+}
+
+/* Neural BSDF Closure */
+
+NODE_DEFINE(NeuralBsdfNode)
+{
+  NodeType *type = NodeType::add("neural_bsdf", create, NodeType::SHADER);
+
+  /* The closure weight is 1: the albedo is part of what the network returns. */
+  SOCKET_IN_COLOR(color, "Color", one_float3(), SocketType::SVM_INTERNAL);
+  SOCKET_IN_NORMAL(normal, "Normal", zero_float3(), SocketType::LINK_NORMAL);
+  SOCKET_IN_FLOAT(surface_mix_weight, "SurfaceMixWeight", 0.0f, SocketType::SVM_INTERNAL);
+  /* Where the latent is looked up: the UV map of the surface unless linked. */
+  SOCKET_IN_POINT(uv, "UV", zero_float3(), SocketType::LINK_TEXTURE_UV);
+  SOCKET_STRING(filename, "File Name", ustring());
+
+  SOCKET_OUT_CLOSURE(BSDF, "BSDF");
+
+  return type;
+}
+
+NeuralBsdfNode::NeuralBsdfNode() : BsdfNode(get_node_type())
+{
+  closure = CLOSURE_BSDF_NEURAL_ID;
+}
+
+ShaderNode *NeuralBsdfNode::clone(ShaderGraph *graph) const
+{
+  NeuralBsdfNode *node = graph->create_node<NeuralBsdfNode>(*this);
+
+  /* The copy takes its own reference on first compile. */
+  node->neural_manager = nullptr;
+  node->slot = -1;
+
+  return node;
+}
+
+NeuralBsdfNode::~NeuralBsdfNode()
+{
+  if (neural_manager) {
+    neural_manager->remove(slot);
+  }
+}
+
+void NeuralBsdfNode::get_slot()
+{
+  assert(neural_manager);
+
+  if (slot == -1) {
+    slot = neural_manager->add_file(filename.string());
+  }
+}
+
+void NeuralBsdfNode::compile(SVMCompiler &compiler)
+{
+  neural_manager = compiler.scene->neural_manager.get();
+  get_slot();
+
+  /* The kernel closure needs a BSDF decoder (RGB out, bsdf_dirs in) with the proxy block. */
+  const NeuralFile *file = neural_manager->get(slot);
+  if (file && file->has_proxy && file->model.output_dim == 3 &&
+      file->model.encoding == NEURAL_ENCODING_BSDF_DIRS)
+  {
+    closure = CLOSURE_BSDF_NEURAL_ID;
+    BsdfNode::compile(compiler,
+                      SVMNodeNeuralBsdfData{.uv = compiler.input_float3("UV"),
+                                            .slot = uint(slot),
+                                            .normal_offset = compiler.input_link("Normal")});
+    return;
+  }
+
+  /* Anything else renders black: a diffuse closure with zero weight. */
+  if (neural_manager->get(slot)) {
+    LOG_ERROR << "Neural model \"" << filename.string()
+              << "\" is not usable by the Neural BSDF: it needs a proxy block, bsdf_dirs "
+                 "encoding and 3 outputs";
+  }
+  closure = CLOSURE_BSDF_DIFFUSE_ID;
+  compiler.add_node(this, NODE_CLOSURE_SET_WEIGHT, SVMNodeClosureSetWeight{.rgb = zero_float3()});
+  compiler.add_bsdf_node(
+      SVMNodeClosureBsdf{
+          .closure_type = closure,
+          .mix_weight_offset = compiler.closure_mix_weight_offset(),
+      },
+      SVMNodeDiffuseBsdfData{
+          .color = SVMInputFloat3{{__float_as_uint(0.0f)},
+                                  {__float_as_uint(0.0f)},
+                                  {__float_as_uint(0.0f)}},
+          .roughness = SVMInputFloat{__float_as_uint(0.0f)},
+          .normal_offset = compiler.input_link("Normal"),
+      });
+}
+
+void NeuralBsdfNode::compile(OSLCompiler &compiler)
+{
+  /* Not supported with OSL; the Diffuse BSDF shader stands in. */
+  compiler.add(this, "node_diffuse_bsdf");
 }
 
 /* Diffuse BSDF Closure */

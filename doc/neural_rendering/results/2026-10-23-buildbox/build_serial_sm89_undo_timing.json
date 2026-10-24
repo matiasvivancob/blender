@@ -1,0 +1,11 @@
+{
+  "case": "serial_sm89_undo",
+  "elapsed_seconds": 353.5638356000418,
+  "exit_code": 0,
+  "command": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "D:\\Github\\Blender-RND\\build.cmd"
+  ]
+}

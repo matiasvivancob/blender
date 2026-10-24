@@ -119,6 +119,9 @@ bool ShaderEval::eval_cpu(Device *device,
         case SHADER_EVAL_VOLUME_DENSITY:
           kernels.shader_eval_volume_density(kg, input_data, output_data, work_index);
           break;
+        case SHADER_EVAL_BSDF:
+          kernels.shader_eval_bsdf(kg, input_data, output_data, work_index);
+          break;
       }
     });
   });
@@ -146,6 +149,10 @@ bool ShaderEval::eval_gpu(Device *device,
       break;
     case SHADER_EVAL_VOLUME_DENSITY:
       kernel = DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY;
+      break;
+    case SHADER_EVAL_BSDF:
+      kernel = DEVICE_KERNEL_SHADER_EVAL_BSDF;
+      break;
   };
 
   /* Create device queue. */

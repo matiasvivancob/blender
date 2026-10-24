@@ -87,3 +87,12 @@ extern "C" __global__ void __raygen__kernel_optix_shader_eval_volume_density()
   const int global_index = kernel_params.shader_eval_offset + optixGetLaunchIndex().x;
   kernel_volume_density_evaluate(nullptr, input, output, cache_miss, global_index);
 }
+
+extern "C" __global__ void __raygen__kernel_optix_shader_eval_bsdf()
+{
+  KernelShaderEvalInput *const input = (KernelShaderEvalInput *)kernel_params.path_index_array;
+  float *const output = kernel_params.render_buffer;
+  uint *const cache_miss = kernel_params.shader_eval_cache_miss;
+  const int global_index = kernel_params.shader_eval_offset + optixGetLaunchIndex().x;
+  kernel_bsdf_evaluate(nullptr, input, output, cache_miss, global_index);
+}

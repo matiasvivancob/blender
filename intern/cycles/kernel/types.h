@@ -1775,6 +1775,24 @@ struct KernelShaderEvalInput {
 };
 static_assert_align(KernelShaderEvalInput, 16);
 
+/* Flags for SHADER_EVAL_BSDF, stored as the integer bits of KernelShaderEvalInput::v of the second
+ * record of each evaluation (see kernel_bsdf_evaluate). */
+enum KernelBsdfEvalInputFlag {
+  /* Directions are given in the local shading frame (z along shading normal, x along dPdu
+   * projected onto the tangent plane) instead of world space. */
+  KERNEL_BSDF_EVAL_LOCAL_FRAME = (1 << 0),
+};
+
+/* Bits of the float flags channel (index 7) written by SHADER_EVAL_BSDF. Zero means valid. */
+enum KernelBsdfEvalOutputFlag {
+  /* Shader has no BSDF closure at this point; the other channels are zero. */
+  KERNEL_BSDF_EVAL_NO_BSDF = (1 << 0),
+  /* Incoming direction was on the back side of the geometric normal. */
+  KERNEL_BSDF_EVAL_BACKFACING = (1 << 1),
+  /* Input record was invalid (bad object or primitive index); the other channels are zero. */
+  KERNEL_BSDF_EVAL_INVALID = (1 << 2),
+};
+
 enum ShaderEvalResult {
   /* Shader evaluation is empty (e.g. no volume density, no emission from light, ..). */
   SHADER_EVAL_EMPTY = 0,
@@ -1844,6 +1862,7 @@ enum DeviceKernel : int {
   DEVICE_KERNEL_SHADER_EVAL_BACKGROUND,
   DEVICE_KERNEL_SHADER_EVAL_CURVE_SHADOW_TRANSPARENCY,
   DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY,
+  DEVICE_KERNEL_SHADER_EVAL_BSDF,
 
 #define DECLARE_FILM_CONVERT_KERNEL(variant) \
   DEVICE_KERNEL_FILM_CONVERT_##variant, DEVICE_KERNEL_FILM_CONVERT_##variant##_HALF_RGBA

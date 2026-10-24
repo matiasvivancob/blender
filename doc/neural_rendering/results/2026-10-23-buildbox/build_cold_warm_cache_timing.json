@@ -1,0 +1,11 @@
+{
+  "case": "cold_warm_cache",
+  "elapsed_seconds": 2081.987509700004,
+  "exit_code": 0,
+  "command": [
+    "cmd.exe",
+    "/d",
+    "/c",
+    "D:\\Github\\Blender-RND\\build.cmd"
+  ]
+}

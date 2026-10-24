@@ -1,0 +1,56 @@
+00:00.890  render           | Rendering single frame
+00:00.890  render           | Rendering frame 1
+00:00.890  render           | Start rendering: Scene, ViewLayer
+00:00.890  render           | Engine: BSDF Dump
+00:00.906  render           | Fra: 1 | Mem: 0M | Synchronizing object | GuardPlane
+Blender 5.4.0 Alpha
+00:00.906  render           | Fra: 1 | Mem: 0M | Initializing
+00:00.921  render           | Fra: 1 | Mem: 0M | Updating Scene
+00:00.921  render           | Fra: 1 | Mem: 0M | Updating Shaders
+00:00.921  render           | Fra: 1 | Mem: 0M | Loading render kernels (may take a few minutes the first time)
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Procedurals
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Background
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Scene Attribute
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Camera
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Meshes Flags
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Objects
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Objects | Copying Transformations to device
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Particle Systems
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Particle Systems | Copying Particles to device
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Neural Models
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Meshes
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Objects | Applying Static Transformations
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Scene BVH | Building
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Scene BVH | Building BVH
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Scene BVH | Building BVH 0%
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Scene BVH | Copying BVH to device
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Mesh | Computing attributes
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Mesh | Copying Attributes to device
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Mesh | Computing normals
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Mesh | Copying Mesh to device
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Objects Flags
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Primitive Offsets
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Images
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Volume
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Camera Volume
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Lookup Tables
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Lights
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Lights | Computing tree
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Integrator
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Film
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Lookup Tables
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Baking
+00:00.921  render           | Fra: 1 | Mem: 1M | Updating Device | Writing constant memory
+probe n=256 flagged=0 max_abs_err=1.192e-07 median_abs_err=1.490e-08 tol=0.001
+  worst i=52 expect=[0.80143, 0.8988, 0.5] got=[0.80143, 0.8988, 0.5] flag=0
+  worst i=178 expect=[0.67977, 0.78487, 0.5] got=[0.67977, 0.78487, 0.5] flag=0
+  worst i=188 expect=[0.19493, 0.68308, 0.5] got=[0.19493, 0.68308, 0.5] flag=0
+  worst i=228 expect=[0.56516, 0.73871, 0.5] got=[0.56516, 0.73871, 0.5] flag=0
+  worst i=203 expect=[0.84916, 0.63685, 0.5] got=[0.84916, 0.63685, 0.5] flag=0
+PROBE PASS
+00:01.203  render           | Saved: 'C:\Users\Matia\workspace\uv-frame-fix\guard_render_0001.png'
+00:01.203  render           | Time: 00:00.30 (Saving: 00:00.27)
+
+Blender quit
+D:/Github/Blender-RND/blender/doc/neural_rendering/tools/train/blender_dump.py:86: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True

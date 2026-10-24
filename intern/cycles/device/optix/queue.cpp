@@ -83,7 +83,8 @@ bool OptiXDeviceQueue::enqueue(DeviceKernel kernel,
   if (kernel == DEVICE_KERNEL_SHADER_EVAL_DISPLACE ||
       kernel == DEVICE_KERNEL_SHADER_EVAL_BACKGROUND ||
       kernel == DEVICE_KERNEL_SHADER_EVAL_CURVE_SHADOW_TRANSPARENCY ||
-      kernel == DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY)
+      kernel == DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY ||
+      kernel == DEVICE_KERNEL_SHADER_EVAL_BSDF)
   {
     set_launch_param(offsetof(KernelParamsOptiX, shader_eval_cache_miss), sizeof(device_ptr), 2);
     set_launch_param(offsetof(KernelParamsOptiX, shader_eval_offset), sizeof(int32_t), 3);
@@ -181,6 +182,10 @@ bool OptiXDeviceQueue::enqueue(DeviceKernel kernel,
     case DEVICE_KERNEL_SHADER_EVAL_VOLUME_DENSITY:
       pipeline = optix_device->pipelines[PIP_SHADE];
       sbt_params.raygenRecord = sbt_data_ptr + PG_RGEN_EVAL_VOLUME_DENSITY * sizeof(SbtRecord);
+      break;
+    case DEVICE_KERNEL_SHADER_EVAL_BSDF:
+      pipeline = optix_device->pipelines[PIP_SHADE];
+      sbt_params.raygenRecord = sbt_data_ptr + PG_RGEN_EVAL_BSDF * sizeof(SbtRecord);
       break;
 
     case DEVICE_KERNEL_INTEGRATOR_INIT_FROM_CAMERA:

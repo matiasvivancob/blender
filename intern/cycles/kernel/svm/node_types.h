@@ -1051,6 +1051,16 @@ struct SVMNodeSimpleBsdfData {
 static_assert(alignof(SVMNodeSimpleBsdfData) <= alignof(uint));
 static_assert(sizeof(SVMNodeSimpleBsdfData) % sizeof(uint) == 0);
 
+/* Neural BSDF: model slot of the NeuralManager and the UV the latent is looked up at. */
+struct SVMNodeNeuralBsdfData {
+  SVMInputFloat3 uv;
+  uint slot;
+  SVMStackOffset normal_offset;
+  uint8_t _pad[3];
+};
+static_assert(alignof(SVMNodeNeuralBsdfData) <= alignof(uint));
+static_assert(sizeof(SVMNodeNeuralBsdfData) % sizeof(uint) == 0);
+
 /* Diffuse BSDF. */
 struct SVMNodeDiffuseBsdfData {
   SVMInputFloat3 color;

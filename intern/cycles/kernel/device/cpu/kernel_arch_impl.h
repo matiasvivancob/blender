@@ -155,6 +155,23 @@ void KERNEL_FUNCTION_FULL_NAME(shader_eval_volume_density)(const ThreadKernelGlo
 #endif
 }
 
+void KERNEL_FUNCTION_FULL_NAME(shader_eval_bsdf)(const ThreadKernelGlobalsCPU *kg,
+                                                 const KernelShaderEvalInput *input,
+                                                 float *output,
+                                                 const int offset)
+{
+#ifdef KERNEL_STUB
+  STUB_ASSERT(KERNEL_ARCH, shader_eval_bsdf);
+  (void)kg;
+  (void)input;
+  (void)output;
+  (void)offset;
+#else
+  uint cache_miss_unused = false;
+  kernel_bsdf_evaluate(kg, input, output, &cache_miss_unused, offset);
+#endif
+}
+
 /* --------------------------------------------------------------------
  * Adaptive sampling.
  */

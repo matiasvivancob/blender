@@ -1,0 +1,338 @@
+{
+  "source_head": "d03695edf723728778565b5530edfa2988a58b96",
+  "status": "BLOCKED",
+  "build": {
+    "exit": 0,
+    "seconds": 137.25783250003587,
+    "command": [
+      "C:\\Users\\Matia\\AppData\\Local\\hermes\\installs\\6af1caa198970d3b\\environments\\814c2fa76c11450093fabe0233daeebe\\venv\\Scripts\\python.exe",
+      "D:\\Github\\Blender-RND\\validation_build.py",
+      "sm_86;sm_89"
+    ]
+  },
+  "unit": {
+    "exit": 0,
+    "seconds": 1.403005100088194,
+    "command": [
+      "ctest",
+      "-R",
+      "^cycles$",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\unit.xml"
+    ]
+  },
+  "depcheck": {
+    "exit": 0,
+    "seconds": 1.091331500094384,
+    "command": [
+      "C:\\Users\\Matia\\AppData\\Local\\hermes\\installs\\6af1caa198970d3b\\environments\\814c2fa76c11450093fabe0233daeebe\\venv\\Scripts\\python.exe",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\iter_tools.py",
+      "depcheck",
+      "D:\\Github\\Blender-RND\\build_windows_neural"
+    ]
+  },
+  "furnace_CPU": {
+    "exit": 0,
+    "seconds": 2.5858410999644548,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\furnace_CPU"
+    ],
+    "result": {
+      "device": "CPU",
+      "spp": 256,
+      "seeds": 4,
+      "plane_pixels": 4178,
+      "principled": {
+        "mean": 0.6981716156005859,
+        "mean_rgb": [
+          0.9440786838531494,
+          0.6230670809745789,
+          0.5273696780204773
+        ],
+        "per_seed_mean": [
+          0.6981313824653625,
+          0.6981480121612549,
+          0.6982126235961914,
+          0.6981943249702454
+        ],
+        "max_pixel": 0.733320951461792
+      },
+      "neural": {
+        "mean": 0.6974155902862549,
+        "mean_rgb": [
+          0.9400983452796936,
+          0.6277942657470703,
+          0.52435702085495
+        ],
+        "per_seed_mean": [
+          0.699146032333374,
+          0.6958321928977966,
+          0.6981508135795593,
+          0.6965332627296448
+        ],
+        "max_pixel": 0.8587717413902283
+      },
+      "mean_ratio_neural_over_principled": 0.9989171354185165,
+      "pixels_above_one_beyond_4_sigma": 0,
+      "worst_excess": -0.2010813383385539,
+      "gate_mean_within_3pct": true,
+      "gate_no_energy_gain": true
+    }
+  },
+  "furnace_CUDA3090": {
+    "exit": 0,
+    "seconds": 3.7626427999930456,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\furnace_CUDA3090"
+    ],
+    "result": {
+      "device": "CUDA",
+      "spp": 256,
+      "seeds": 4,
+      "plane_pixels": 4178,
+      "principled": {
+        "mean": 0.6981714963912964,
+        "mean_rgb": [
+          0.9440783262252808,
+          0.6230670213699341,
+          0.5273694396018982
+        ],
+        "per_seed_mean": [
+          0.698131263256073,
+          0.6981474757194519,
+          0.698212742805481,
+          0.6981943845748901
+        ],
+        "max_pixel": 0.7333196401596069
+      },
+      "neural": {
+        "mean": 0.6974118947982788,
+        "mean_rgb": [
+          0.9400893449783325,
+          0.6277921199798584,
+          0.5243567228317261
+        ],
+        "per_seed_mean": [
+          0.6990868449211121,
+          0.6958468556404114,
+          0.6981630325317383,
+          0.6965509057044983
+        ],
+        "max_pixel": 0.8587772250175476
+      },
+      "mean_ratio_neural_over_principled": 0.9989120128837344,
+      "pixels_above_one_beyond_4_sigma": 0,
+      "worst_excess": -0.20105155277997255,
+      "gate_mean_within_3pct": true,
+      "gate_no_energy_gain": true
+    }
+  },
+  "furnace_CUDA4070": {
+    "exit": 0,
+    "seconds": 3.4562163000227883,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\furnace_CUDA4070"
+    ],
+    "result": {
+      "device": "CUDA",
+      "spp": 256,
+      "seeds": 4,
+      "plane_pixels": 4178,
+      "principled": {
+        "mean": 0.6981714963912964,
+        "mean_rgb": [
+          0.9440783262252808,
+          0.6230670213699341,
+          0.527369499206543
+        ],
+        "per_seed_mean": [
+          0.698131263256073,
+          0.6981474757194519,
+          0.698212742805481,
+          0.6981943845748901
+        ],
+        "max_pixel": 0.7333195209503174
+      },
+      "neural": {
+        "mean": 0.6974119544029236,
+        "mean_rgb": [
+          0.9400892853736877,
+          0.6277921199798584,
+          0.5243567228317261
+        ],
+        "per_seed_mean": [
+          0.6990867853164673,
+          0.6958468556404114,
+          0.6981630325317383,
+          0.6965508460998535
+        ],
+        "max_pixel": 0.8587772250175476
+      },
+      "mean_ratio_neural_over_principled": 0.9989120982562326,
+      "pixels_above_one_beyond_4_sigma": 0,
+      "worst_excess": -0.2010517530143261,
+      "gate_mean_within_3pct": true,
+      "gate_no_energy_gain": true
+    }
+  },
+  "furnace_OPTIX3090": {
+    "exit": 0,
+    "seconds": 5.5278105000033975,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\furnace_OPTIX3090"
+    ],
+    "result": {
+      "device": "OPTIX",
+      "spp": 256,
+      "seeds": 4,
+      "plane_pixels": 4178,
+      "principled": {
+        "mean": 0.6981714963912964,
+        "mean_rgb": [
+          0.9440783858299255,
+          0.6230670809745789,
+          0.5273695588111877
+        ],
+        "per_seed_mean": [
+          0.698131263256073,
+          0.6981474757194519,
+          0.698212742805481,
+          0.6981943845748901
+        ],
+        "max_pixel": 0.7333195805549622
+      },
+      "neural": {
+        "mean": 0.6974119544029236,
+        "mean_rgb": [
+          0.9400892853736877,
+          0.6277921199798584,
+          0.5243567824363708
+        ],
+        "per_seed_mean": [
+          0.6990867853164673,
+          0.6958469748497009,
+          0.6981630325317383,
+          0.6965509057044983
+        ],
+        "max_pixel": 0.8587772250175476
+      },
+      "mean_ratio_neural_over_principled": 0.9989120982562326,
+      "pixels_above_one_beyond_4_sigma": 0,
+      "worst_excess": -0.20105100609362125,
+      "gate_mean_within_3pct": true,
+      "gate_no_energy_gain": true
+    }
+  },
+  "furnace_OPTIX4070": {
+    "exit": 0,
+    "seconds": 4.054603100055829,
+    "command": [
+      "D:\\Github\\Blender-RND\\build_windows_neural\\bin\\blender.exe",
+      "-b",
+      "--factory-startup",
+      "--disable-autoexec",
+      "D:\\Github\\Blender-RND\\scenes\\neural_material_probe.blend",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\buildbox\\neural_vs_principled.py",
+      "--",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\furnace_OPTIX4070"
+    ],
+    "result": {
+      "device": "OPTIX",
+      "spp": 256,
+      "seeds": 4,
+      "plane_pixels": 4178,
+      "principled": {
+        "mean": 0.6981714963912964,
+        "mean_rgb": [
+          0.9440783858299255,
+          0.6230670809745789,
+          0.527369499206543
+        ],
+        "per_seed_mean": [
+          0.698131263256073,
+          0.6981474757194519,
+          0.698212742805481,
+          0.6981943845748901
+        ],
+        "max_pixel": 0.7333195805549622
+      },
+      "neural": {
+        "mean": 0.6974119544029236,
+        "mean_rgb": [
+          0.9400892853736877,
+          0.6277921199798584,
+          0.5243567824363708
+        ],
+        "per_seed_mean": [
+          0.6990869045257568,
+          0.6958469748497009,
+          0.6981630325317383,
+          0.6965509057044983
+        ],
+        "max_pixel": 0.8587772250175476
+      },
+      "mean_ratio_neural_over_principled": 0.9989120982562326,
+      "pixels_above_one_beyond_4_sigma": 0,
+      "worst_excess": -0.20105112623423338,
+      "gate_mean_within_3pct": true,
+      "gate_no_energy_gain": true
+    }
+  },
+  "regression": {
+    "exit": 8,
+    "seconds": 2269.8375017999206,
+    "command": [
+      "ctest",
+      "-R",
+      "^cycles_",
+      "--output-on-failure",
+      "--output-junit",
+      "D:\\Github\\Blender-RND\\real\\final_slice2_20261024\\regression.xml"
+    ]
+  },
+  "error": "baseline failures changed: ['cycles_motion_blur_cpu', 'cycles_motion_blur_cuda', 'cycles_motion_blur_optix']"
+}
