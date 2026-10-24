@@ -22,10 +22,11 @@ ACT_RELU, ACT_LEAKY_RELU, ACT_LEAKY_SMELU = 0, 1, 2
 # Output transform ids.
 OUT_NONE, OUT_EXP, OUT_SOFTPLUS = 0, 1, 2
 # Input encoding ids.
-ENC_RAW, ENC_BSDF_DIRS = 0, 1
+ENC_RAW, ENC_BSDF_DIRS, ENC_LEARNED_FRAMES = 0, 1, 2
 
 BSDF_DIRS_CALLER_DIM = 6
 BSDF_DIRS_ENCODED_DIM = 12
+MAX_FRAMES = 4
 
 MAX_INPUT_DIM = 64
 MAX_OUTPUT_DIM = 16
@@ -43,14 +44,19 @@ PROXY_OFFSET = 160
 _PROXY = struct.Struct("<6f")
 PROXY_END = PROXY_OFFSET + _PROXY.size
 ALPHA_MIN, P_DIFFUSE_MIN = 1e-3, 0.1
+# Learned frames (encoding 2): frames_k (u32) at 184, frames_offset (u32) at 188; 192..256 reserved.
+FRAMES_FIELDS_OFFSET = PROXY_END
+RESERVED_OFFSET = FRAMES_FIELDS_OFFSET + 8
 
 # magic, version, header_size, flags,
 # input_dim, output_dim, num_hidden, hidden_width, activation, out_transform, encoding, latent_channels,
 # beta, eps, latent_w, latent_h, latent_levels, testvec_count,
 # weight_offset, weight_size, latent_offset, latent_size, testvec_offset, testvec_size,
-# testvec_in_dim, testvec_out_dim, num_layers, layer_offset[5], file_size, reserved
-_HEADER = struct.Struct("<4s3I8I2f4I6Q2I1I5IQ96x")
+# testvec_in_dim, testvec_out_dim, num_layers, layer_offset[5], file_size, proxy (24 bytes, skipped here),
+# frames_k, frames_offset, reserved (64 bytes)
+_HEADER = struct.Struct("<4s3I8I2f4I6Q2I1I5IQ24x2I64x")
 assert _HEADER.size == HEADER_SIZE
+assert FRAMES_FIELDS_OFFSET == PROXY_END == 184
 
 
 class NnmFormatError(ValueError):
@@ -86,6 +92,10 @@ class NnmModel:
     # Per-material sampling proxy and albedo for the Cycles closure, or None:
     # (alpha_x, alpha_y, p_diffuse, albedo_r, albedo_g, albedo_b).
     proxy: Optional[Tuple[float, float, float, float, float, float]] = None
+    # Learned shading frames (encoding 2, nnm_format.md section 7): number of frames K (1..4) and the
+    # frame layer (W[C, 6K] f16, b[6K] f16) mapping the latent to K (normal, tangent) pairs.
+    frames_k: int = 0
+    frame_layer: Optional[Tuple[np.ndarray, np.ndarray]] = None
 
     # -- derived quantities ------------------------------------------------
     @property
@@ -98,7 +108,9 @@ class NnmModel:
 
     @property
     def caller_dim(self) -> int:
-        return BSDF_DIRS_CALLER_DIM if self.encoding == ENC_BSDF_DIRS else self.encoded_dim
+        if self.encoding in (ENC_BSDF_DIRS, ENC_LEARNED_FRAMES):
+            return BSDF_DIRS_CALLER_DIM
+        return self.encoded_dim
 
     @property
     def tv_in_dim(self) -> int:
@@ -132,6 +144,18 @@ def layer_offsets(model: NnmModel) -> List[int]:
     return offs
 
 
+def frame_layer_size(model: NnmModel) -> int:
+    """Byte size of the frame layer (0 unless encoding 2): (C + 1) rows of pad8(6K) f16."""
+    if model.encoding != ENC_LEARNED_FRAMES:
+        return 0
+    return (model.latent_channels + 1) * pad8(6 * model.frames_k) * 2
+
+
+def frames_offset(model: NnmModel) -> int:
+    """Byte offset of the frame layer from weight_offset: right after the last MLP layer (0 unless encoding 2)."""
+    return sum(layer_sizes(model)) if model.encoding == ENC_LEARNED_FRAMES else 0
+
+
 def latent_level_shapes(width: int, height: int, levels: int) -> List[Tuple[int, int]]:
     return [(max(1, height >> k), max(1, width >> k)) for k in range(levels)]
 
@@ -149,11 +173,25 @@ def validate_model(m: NnmModel) -> None:
     _check(m.width in WIDTHS, f"hidden width {m.width} not in {WIDTHS}")
     _check(m.activation in (ACT_RELU, ACT_LEAKY_RELU, ACT_LEAKY_SMELU), "unknown activation id")
     _check(m.output_transform in (OUT_NONE, OUT_EXP, OUT_SOFTPLUS), "unknown output transform id")
-    _check(m.encoding in (ENC_RAW, ENC_BSDF_DIRS), "unknown input encoding id")
+    _check(m.encoding in (ENC_RAW, ENC_BSDF_DIRS, ENC_LEARNED_FRAMES), "unknown input encoding id")
     _check(0 <= m.latent_channels <= MAX_LATENT_CHANNELS, "latent_channels out of range")
     _check(m.encoded_dim >= 1, "input_dim must exceed latent_channels")
     if m.encoding == ENC_BSDF_DIRS:
         _check(m.encoded_dim == BSDF_DIRS_ENCODED_DIM, "bsdf_dirs needs input_dim - latent_channels == 12")
+    if m.encoding == ENC_LEARNED_FRAMES:
+        _check(m.latent_channels >= 1, "learned_frames needs latent_channels >= 1")
+        _check(1 <= m.frames_k <= MAX_FRAMES, f"frames_k {m.frames_k} out of range 1..{MAX_FRAMES}")
+        _check(m.encoded_dim == 6 * m.frames_k, "learned_frames needs input_dim - latent_channels == 6 * frames_k")
+        _check(m.frame_layer is not None, "learned_frames needs a frame layer")
+        fw, fb = m.frame_layer
+        _check(fw.dtype == np.float16 and fb.dtype == np.float16, "frame layer weights must be float16")
+        _check(fw.shape == (m.latent_channels, 6 * m.frames_k),
+               f"frame layer weight shape {fw.shape}, expected {(m.latent_channels, 6 * m.frames_k)}")
+        _check(fb.shape == (6 * m.frames_k,), f"frame layer bias shape {fb.shape}, expected {(6 * m.frames_k,)}")
+        _check(bool(np.all(np.isfinite(fw)) and np.all(np.isfinite(fb))), "frame layer: non-finite weight")
+    else:
+        _check(m.frames_k == 0, "frames_k must be 0 unless the encoding is learned_frames")
+        _check(m.frame_layer is None, "frame layer given but the encoding is not learned_frames")
     beta, eps = float(m.act_beta), float(m.act_eps)
     _check(np.isfinite(beta) and np.isfinite(eps), "activation parameters must be finite")
     if m.activation == ACT_LEAKY_SMELU:
@@ -214,8 +252,10 @@ def write_nnm(model: NnmModel, path=None) -> bytes:
     """Serialise ``model``. Returns the bytes and also writes them to ``path`` if given."""
     validate_model(model)
     weights = b"".join(_pack_layer(w, b) for w, b in model.layers)
+    if model.encoding == ENC_LEARNED_FRAMES:
+        weights += _pack_layer(*model.frame_layer)
     offs = layer_offsets(model)
-    assert len(weights) == sum(layer_sizes(model))
+    assert len(weights) == sum(layer_sizes(model)) + frame_layer_size(model)
 
     latents = b""
     if model.latent_channels:
@@ -248,6 +288,7 @@ def write_nnm(model: NnmModel, path=None) -> bytes:
         weight_offset, len(weights), latent_offset, len(latents), testvec_offset, len(testvec),
         model.tv_in_dim if n_tv else 0, model.output_dim if n_tv else 0,
         model.num_layers, *lay, file_size,
+        model.frames_k, frames_offset(model),
     )
     out = bytearray(file_size)
     out[:HEADER_SIZE] = header
@@ -285,22 +326,30 @@ def read_nnm(src) -> NnmModel:
     _check(header_size == HEADER_SIZE, "bad header_size")
     _check(flags & ~KNOWN_FLAGS == 0, f"unknown flags {flags:#x}")
     _check(file_size == len(data), f"file_size {file_size} != actual {len(data)}")
+    frames_k, frames_off = struct.unpack_from("<2I", data, FRAMES_FIELDS_OFFSET)
     if flags & FLAG_PROXY:
         proxy = tuple(float(v) for v in _PROXY.unpack_from(data, PROXY_OFFSET))
-        _check(data[PROXY_END:HEADER_SIZE] == bytes(HEADER_SIZE - PROXY_END), "non-zero reserved header bytes")
     else:
         proxy = None
-        _check(data[PROXY_OFFSET:HEADER_SIZE] == bytes(HEADER_SIZE - PROXY_OFFSET), "non-zero reserved header bytes")
+        _check(data[PROXY_OFFSET:PROXY_END] == bytes(PROXY_END - PROXY_OFFSET), "non-zero reserved header bytes")
+    _check(data[RESERVED_OFFSET:HEADER_SIZE] == bytes(HEADER_SIZE - RESERVED_OFFSET), "non-zero reserved header bytes")
 
     # Build a skeleton model to reuse the dimension rules.
     m = NnmModel(input_dim, output_dim, num_hidden, width, layers=[], activation=act, act_beta=beta,
-                 act_eps=eps, output_transform=xform, encoding=enc, latent_channels=lat_c, proxy=proxy)
+                 act_eps=eps, output_transform=xform, encoding=enc, latent_channels=lat_c, proxy=proxy,
+                 frames_k=frames_k)
     _check(1 <= num_hidden <= MAX_HIDDEN and width in WIDTHS, "bad topology")
     _check(num_layers == num_hidden + 1, "num_layers != num_hidden + 1")
     sizes = layer_sizes(m)
     offs = layer_offsets(m)
     _check(list(layer_off) == (offs + [0] * 5)[:5], "layer_offset table mismatch")
-    _check(w_off == HEADER_SIZE and w_size == sum(sizes), "weight blob offset/size mismatch")
+    if enc == ENC_LEARNED_FRAMES:
+        _check(1 <= frames_k <= MAX_FRAMES and lat_c >= 1 and input_dim - lat_c == 6 * frames_k,
+               "bad learned_frames topology")
+        _check(frames_off == sum(sizes), "frames_offset must point right after the last MLP layer")
+    else:
+        _check(frames_k == 0 and frames_off == 0, "frames fields must be zero unless the encoding is learned_frames")
+    _check(w_off == HEADER_SIZE and w_size == sum(sizes) + frame_layer_size(m), "weight blob offset/size mismatch")
 
     blocks = [("weights", w_off, w_size)]
     layers = []
@@ -310,6 +359,11 @@ def read_nnm(src) -> NnmModel:
         _check(not np.any(raw[:, o:]), "non-zero weight padding")
         layers.append((raw[:i, :o].astype(np.float16), raw[i, :o].astype(np.float16)))
     m.layers = layers
+    if enc == ENC_LEARNED_FRAMES:
+        fo, fc = 6 * frames_k, pad8(6 * frames_k)
+        raw = np.frombuffer(data, "<f2", (lat_c + 1) * fc, w_off + frames_off).reshape(lat_c + 1, fc)
+        _check(not np.any(raw[:, fo:]), "non-zero frame layer padding")
+        m.frame_layer = (raw[:lat_c, :fo].astype(np.float16), raw[lat_c, :fo].astype(np.float16))
 
     if lat_c == 0:
         _check(lat_w == lat_h == lat_levels == 0 and l_off == 0 and l_size == 0, "latent fields must be zero")

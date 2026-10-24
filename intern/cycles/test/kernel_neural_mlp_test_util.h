@@ -107,6 +107,7 @@ inline bool nnm_parse(const uint8_t *d, const size_t size, NnmTestModel &out, st
   out.tv_in_dim = int(rd32(d, 120));
   out.tv_out_dim = int(rd32(d, 124));
   const uint32_t num_layers = rd32(d, 128);
+  const uint32_t frames_k = rd32(d, 184), frames_offset = rd32(d, 188);
   for (int i = 0; i < 5; i++) {
     out.layer_offset_bytes[i] = rd32(d, 132 + 4 * i);
   }
@@ -118,7 +119,7 @@ inline bool nnm_parse(const uint8_t *d, const size_t size, NnmTestModel &out, st
   NNM_REQUIRE(km.width == 16 || km.width == 32 || km.width == 64, "bad hidden width");
   NNM_REQUIRE(km.activation >= 0 && km.activation <= 2, "bad activation id");
   NNM_REQUIRE(km.output_transform >= 0 && km.output_transform <= 2, "bad output transform id");
-  NNM_REQUIRE(km.encoding >= 0 && km.encoding <= 1, "bad encoding id");
+  NNM_REQUIRE(km.encoding >= 0 && km.encoding <= 2, "bad encoding id");
   NNM_REQUIRE(km.latent_channels >= 0 && km.latent_channels <= NEURAL_MAX_LATENT_CHANNELS,
               "bad latent channel count");
   const int encoded_dim = km.input_dim - km.latent_channels;
@@ -126,7 +127,18 @@ inline bool nnm_parse(const uint8_t *d, const size_t size, NnmTestModel &out, st
   if (km.encoding == NEURAL_ENCODING_BSDF_DIRS) {
     NNM_REQUIRE(encoded_dim == 12, "bsdf_dirs needs 12 encoded features");
   }
-  out.caller_dim = (km.encoding == NEURAL_ENCODING_BSDF_DIRS) ? 6 : encoded_dim;
+  if (km.encoding == NEURAL_ENCODING_LEARNED_FRAMES) {
+    NNM_REQUIRE(km.latent_channels >= 1, "learned_frames needs a latent");
+    NNM_REQUIRE(frames_k >= 1 && frames_k <= NEURAL_MAX_FRAMES, "frames_k out of range");
+    NNM_REQUIRE(encoded_dim == 6 * int(frames_k), "learned_frames needs 6 * frames_k encoded features");
+    km.frames_k = int(frames_k);
+  }
+  else {
+    NNM_REQUIRE(frames_k == 0 && frames_offset == 0, "frames fields must be zero");
+  }
+  out.caller_dim = (km.encoding == NEURAL_ENCODING_BSDF_DIRS || km.encoding == NEURAL_ENCODING_LEARNED_FRAMES) ?
+                       6 :
+                       encoded_dim;
   NNM_REQUIRE(num_layers == uint32_t(km.num_hidden + 1), "num_layers mismatch");
 
   /* Weight blob: layer table must agree with the layout rule used by the kernel. */
@@ -134,7 +146,13 @@ inline bool nnm_parse(const uint8_t *d, const size_t size, NnmTestModel &out, st
   for (int l = 0; l < km.num_hidden + 1; l++) {
     NNM_REQUIRE(out.layer_offset_bytes[l] == 2ull * neural_layer_offset(km, l), "layer offset table mismatch");
   }
-  NNM_REQUIRE(w_size == 2ull * neural_layer_offset(km, km.num_hidden + 1), "weight_size mismatch");
+  uint64_t frame_bytes = 0;
+  if (km.encoding == NEURAL_ENCODING_LEARNED_FRAMES) {
+    /* The frame layer follows the last MLP layer: (C + 1) rows of pad8(6K) fp16. */
+    NNM_REQUIRE(frames_offset == 2ull * neural_layer_offset(km, km.num_hidden + 1), "frames_offset mismatch");
+    frame_bytes = 2ull * uint64_t(km.latent_channels + 1) * uint64_t(neural_pad8(6 * km.frames_k));
+  }
+  NNM_REQUIRE(w_size == 2ull * neural_layer_offset(km, km.num_hidden + 1) + frame_bytes, "weight_size mismatch");
   NNM_REQUIRE(w_off == 256 && w_off + w_size <= size, "weight blob out of bounds");
   out.weight_blob_bytes = w_size;
   out.weights = rd_halves(d, size_t(w_off), size_t(w_size / 2), k_weight_prefix);

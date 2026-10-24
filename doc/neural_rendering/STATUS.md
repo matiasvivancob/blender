@@ -62,6 +62,17 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
+- 2026-10-24, cloud session (after `results/2026-10-24-real-material/report.md`):
+  (a) **Proxy alpha grid: extend to 20 log-spaced values from 1e-3 to 1** (the format's
+  full range); the fit hit the 0.01 corner while the coat is at 0.0025. Keep `p_diffuse`
+  at 0.1 minimum, which is the floor that keeps full-hemisphere support.
+  (b) **fp16 export: accept as is.** p99 5% decode error is well below the model's own
+  held-out error (23%), so it is not the limiting factor. Revisit (fp32 last layer, a
+  format flag) only when the model error falls below twice the quantisation error.
+  Keep `export_nnm.py`'s 5% gate; the 128x128 latent failing it is one more reason to
+  stay at 64x64 for this material.
+  (c) `blender_dump.py` now exits 1 when the engine raises (and on PROBE FAIL), so the
+  exit code is usable; keep checking the `wrote`/`PROBE PASS` line as well.
 - 2026-10-24, cloud session: **GO for the first neural BSDF (slices 1 to 3 of the
   local agent's proposal), inline scalar first.** Order: slice 1 plumbing (node,
   `NeuralBsdfNode`, `NeuralManager`, data arrays), slice 2 closure, slice 3 side-by-side
@@ -131,8 +142,15 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: implemented the format/reference/kernel half of `05_learned_shading_frames.md` (`.nnm` encoding 2; `KernelNeuralModel.frames_k` takes the old pad field; standalone parity 47/47 on four builds, selftest and torch-free tests pass) and taught `scene/neural.cpp` to load it, since the embedded test set now includes encoding-2 models (clang syntax check only; needs `ctest -R "^cycles$"` on the box). The closure in `shader_nodes.cpp` still accepts only `bsdf_dirs` files; trainer and export are the local agent's.
+- 2026-10-24, cloud session: reviewed slice 2 (`neural-p2-closure` @ 122a630b): approved; merge after the slice-1 fix and the missing gates (both ctest sets, depcheck, CUDA and 3090 furnace). Next is slice 3 (side-by-side render plus render time per spp), then learned shading frames, specified in `05_learned_shading_frames.md`; the cloud session implements its format, reference and `mlp.h` part.
+- 2026-10-24, local: **slice 2 (neural closure) works** on CPU/CUDA/OptiX (neural-p2-closure @ 122a630b): kernel matches numpy reference, furnace 0.9989 vs Principled, MIS PASS, no new spills. results/2026-10-24-slice2/report.md
+- 2026-10-24, cloud session: reviewed slice 1 (`neural-p2` @ 5d0d064d, 22 files, read not built): approved after one fix, an u64 overflow in the `.nnm` block-bounds check that lets a corrupt offset read out of bounds; plus 32-bit packing-offset and MD5-length guards. Slice 2 needs `UV` and `Tangent` inputs on the node. Merge with a merge commit after the fix.
+- 2026-10-24, local: **slice 1 of the neural BSDF is ready for review** (`neural-p2`, head `5d0d064d`): Neural BSDF node (Cycles only), `.nnm` loader that validates the whole format and runs the kernel decoder on the embedded test vectors, `NeuralManager`, device arrays. Gates: unit tests 228/228 (4 new), `^cycles_` 116/120 with the identical failing set, node gate green on CPU, CUDA and OptiX on both cards (neural node == Diffuse of the file albedo, invalid files black). Slice 2 (closure) is built on `neural-p2-closure` and is being tested. `results/2026-10-24-slice1/review.md`.
+- 2026-10-24, cloud session: read the real-material run (e17ed043): culled 2x32 at 64x64 renders the probe sphere at 2.6% relative L1. Decided the proxy alpha grid (down to 1e-3) and to keep fp16; `blender_dump.py` render failures now exit 1.
+- 2026-10-24, local: **real material through the whole pipeline** (Principled probe, CPU dumps 2x4M records, 2x32 culled, 100k steps): sphere-render error 2.6 % (baseline 4.1 %), held-out loss 0.040 vs 0.062; latent 128 no better. Held-out relative L1 is 23 % (synthetic 6 %). fp16 `.nnm` export is at 4.95 % p99 error against the 5 % check (latent 128: 7.1 %, fails). Proxy fit lands on the grid corner (alpha 0.01, p_diffuse 0.1; true coat alpha 0.0025). `--fill` is limited to 256 triangles: worked around with a one-quad scene. Slice 1 (`neural-p2`) is built and being tested. `results/2026-10-24-real-material/report.md`.
+- 2026-10-24, cloud session: reviewed 44ee1d34 (sccache drops the non-ASCII byte of the Spanish `/showIncludes` prefix, so Ninja tracked no C++ header deps); fix accepted. Added `iter_tools.py depcheck` (exit 1 when over 10% of `intern/cycles` objects have `#deps 0`), tested on sample output and a real Ninja build. Required after every reconfigure and before kernel work.
 - 2026-10-24, local: **build bug found and fixed: Ninja was not tracking C++ header dependencies.** Spanish-only MSVC + sccache drop the `ó` of cl's `/showIncludes` prefix, so 5199 objects (all of `intern/cycles`) had `#deps 0` and a header edit rebuilt no C++ (cubins unaffected). Fix: `tools/buildbox/showincludes_fix.cmake` via `-DCMAKE_PROJECT_INCLUDE`, stale `intern/cycles` objects deleted once; 190 of 199 now track deps and a dry run after editing `mlp.h` rebuilds the unit test. README Step 3 documents it. The softplus fix `9f7c3f74` passes the unit test. Paper-schedule grid done and posted. Real-material (probe) dump + training running. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
-
 - 2026-10-24, cloud session: answered the neural BSDF go-ahead question (115bf6c5): GO, inline first, on `neural-p2` with a review per slice. Added the `.nnm` proxy block (flag bit 0, six f32 at offset 160) to the spec and to `tools/nnm/format.py` (selftest and new round-trip, old-file, range, flag and reserved-byte checks pass); fixed the closure spec to return the network output without an extra cosine; defined the slice-2 gates.
 - 2026-10-24, cloud session: read the paper-schedule training grid (94a00690). Culling now lowers the mean (30 to 35%) as well as the std (7.6 to 11x); recorded as section B2 of `04_experiment_results.md`, the synthesis now says to adopt it, request closed.
 - 2026-10-24, cloud session: fixed the SOFTPLUS failure in `KernelNeuralMlp.OutputTransforms` (f03182d2). The agent's diagnosis was right: value-unsafe float modes fold Kahan's `(1+e)-1` to `e`. `mlp.h` now computes softplus as `max(x,0) + log1p(exp(-|x|))` with log1p as a 2·atanh series (division and polynomial only). Max relative error 2.4e-7 over x in [-80, 80] under g++ -O2, g++/clang fast-math and -march=native; standalone parity test 27/27 on all four builds. Not yet run under MSVC.

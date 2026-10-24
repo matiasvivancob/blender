@@ -13,6 +13,7 @@ Read in this order:
 | `02_neural_radiance_cache.md` | File-level design for a Neural Radiance Cache in Cycles: integrator hooks, online training, OpenPGL reuse, interactions, bias control. |
 | `03_eevee_gpu_module.md` | How EEVEE and the GPU module could run small networks in materials: codegen, weight vehicles, Vulkan cooperative vector/matrix, Metal, Python prototype. |
 | `04_experiment_results.md` | Results of the two experiments run so far: kernel-style MLP cost benchmark, and tiny neural BRDF training with the Bitterli 2026 recipe. |
+| `05_learned_shading_frames.md` | Spec for learned shading frames in the neural BSDF (Zeltner et al. 2024, section 4.2): frame layer, `.nnm` encoding id 2, who implements what, acceptance test. |
 | `PROTOCOL.md` | How local agents and the cloud session coordinate through this repository and its pull request. |
 | `STATUS.md` | Living status board. Updated by whoever does work. |
 | `experiments/` | Re-runnable code for the experiments in `04_experiment_results.md`. |

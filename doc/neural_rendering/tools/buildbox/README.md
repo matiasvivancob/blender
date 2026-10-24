@@ -262,6 +262,9 @@ to the text sccache produces; edit the string for another language), then delete
 (`find <build>/intern/cycles -name "*.obj" -delete`, or rebuild from scratch) so they record dependencies.
 Check: `ninja -t deps | grep intern/cycles | grep -c "#deps 0"` is near 0 (9 of 199 here), and a dry run
 (`ninja -n`) after `iter_tools.py edit add` on a header lists the objects that include it.
+`python doc\neural_rendering\tools\buildbox\iter_tools.py depcheck <build dir>` does the first check
+and exits 1 when more than 10% of the `intern/cycles` objects have no dependencies; run it after every
+reconfigure and before kernel work.
 
 ```powershell
 Set-Location $BUILD
