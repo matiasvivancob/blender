@@ -38,6 +38,11 @@ void set_u32(vector<uint8_t> &b, const size_t offset, const uint32_t value)
   std::memcpy(b.data() + offset, &value, sizeof(value));
 }
 
+void set_u64(vector<uint8_t> &b, const size_t offset, const uint64_t value)
+{
+  std::memcpy(b.data() + offset, &value, sizeof(value));
+}
+
 void set_f32(vector<uint8_t> &b, const size_t offset, const float value)
 {
   std::memcpy(b.data() + offset, &value, sizeof(value));
@@ -198,6 +203,11 @@ TEST(SceneNeural, CorruptedFilesAreRejectedWithAReason)
   b = good;
   b[200] = 1;
   expect_rejected(b, "reserved");
+
+  /* A latent offset near 2^64 must not wrap the bounds check (it is 64-byte aligned). */
+  b = good_latent;
+  set_u64(b, 88, 0xFFFFFFFFFFFFFFC0ull);
+  expect_rejected(b, "past the end");
 
   /* Inf in the first weight. */
   b = good;
