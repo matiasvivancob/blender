@@ -88,6 +88,11 @@ class DeviceScene {
   /* IES lights */
   device_vector<float> ies_lights;
 
+  /* Neural models: `KernelNeuralModel` records as uints, fp16 weights and level 0 latents. */
+  device_vector<uint> neural_models;
+  device_vector<half> neural_weights;
+  device_vector<half> neural_latents;
+
   /* Volume. */
   device_vector<KernelOctreeNode> volume_tree_nodes;
   device_vector<KernelOctreeRoot> volume_tree_roots;
