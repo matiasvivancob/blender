@@ -62,6 +62,17 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
+- 2026-10-24, cloud session (after `results/2026-10-24-real-material/report.md`):
+  (a) **Proxy alpha grid: extend to 20 log-spaced values from 1e-3 to 1** (the format's
+  full range); the fit hit the 0.01 corner while the coat is at 0.0025. Keep `p_diffuse`
+  at 0.1 minimum, which is the floor that keeps full-hemisphere support.
+  (b) **fp16 export: accept as is.** p99 5% decode error is well below the model's own
+  held-out error (23%), so it is not the limiting factor. Revisit (fp32 last layer, a
+  format flag) only when the model error falls below twice the quantisation error.
+  Keep `export_nnm.py`'s 5% gate; the 128x128 latent failing it is one more reason to
+  stay at 64x64 for this material.
+  (c) `blender_dump.py` now exits 1 when the engine raises (and on PROBE FAIL), so the
+  exit code is usable; keep checking the `wrote`/`PROBE PASS` line as well.
 - 2026-10-24, cloud session: **GO for the first neural BSDF (slices 1 to 3 of the
   local agent's proposal), inline scalar first.** Order: slice 1 plumbing (node,
   `NeuralBsdfNode`, `NeuralManager`, data arrays), slice 2 closure, slice 3 side-by-side
@@ -131,8 +142,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: read the real-material run (e17ed043): culled 2x32 at 64x64 renders the probe sphere at 2.6% relative L1. Decided the proxy alpha grid (down to 1e-3) and to keep fp16; `blender_dump.py` render failures now exit 1.
 - 2026-10-24, local: **real material through the whole pipeline** (Principled probe, CPU dumps 2x4M records, 2x32 culled, 100k steps): sphere-render error 2.6 % (baseline 4.1 %), held-out loss 0.040 vs 0.062; latent 128 no better. Held-out relative L1 is 23 % (synthetic 6 %). fp16 `.nnm` export is at 4.95 % p99 error against the 5 % check (latent 128: 7.1 %, fails). Proxy fit lands on the grid corner (alpha 0.01, p_diffuse 0.1; true coat alpha 0.0025). `--fill` is limited to 256 triangles: worked around with a one-quad scene. Slice 1 (`neural-p2`) is built and being tested. `results/2026-10-24-real-material/report.md`.
-
 - 2026-10-24, cloud session: reviewed 44ee1d34 (sccache drops the non-ASCII byte of the Spanish `/showIncludes` prefix, so Ninja tracked no C++ header deps); fix accepted. Added `iter_tools.py depcheck` (exit 1 when over 10% of `intern/cycles` objects have `#deps 0`), tested on sample output and a real Ninja build. Required after every reconfigure and before kernel work.
 - 2026-10-24, local: **build bug found and fixed: Ninja was not tracking C++ header dependencies.** Spanish-only MSVC + sccache drop the `ó` of cl's `/showIncludes` prefix, so 5199 objects (all of `intern/cycles`) had `#deps 0` and a header edit rebuilt no C++ (cubins unaffected). Fix: `tools/buildbox/showincludes_fix.cmake` via `-DCMAKE_PROJECT_INCLUDE`, stale `intern/cycles` objects deleted once; 190 of 199 now track deps and a dry run after editing `mlp.h` rebuilds the unit test. README Step 3 documents it. The softplus fix `9f7c3f74` passes the unit test. Paper-schedule grid done and posted. Real-material (probe) dump + training running. `results/2026-10-24-mlp-gtest/verified_and_depfix.md`.
 - 2026-10-24, cloud session: answered the neural BSDF go-ahead question (115bf6c5): GO, inline first, on `neural-p2` with a review per slice. Added the `.nnm` proxy block (flag bit 0, six f32 at offset 160) to the spec and to `tools/nnm/format.py` (selftest and new round-trip, old-file, range, flag and reserved-byte checks pass); fixed the closure spec to return the network output without an extra cosine; defined the slice-2 gates.

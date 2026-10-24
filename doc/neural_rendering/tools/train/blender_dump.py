@@ -150,6 +150,19 @@ class BsdfDumpEngine(CyclesRender):
     bl_label = "BSDF Dump"
 
     def render(self, depsgraph):
+        # Blender swallows exceptions raised in render() and still exits 0, even with
+        # --python-exit-code 1, so a failed dump would look like success to a harness.
+        # This engine only runs in background dump/probe jobs: print the traceback and exit 1.
+        try:
+            self._render(depsgraph)
+        except BaseException:
+            import traceback
+            traceback.print_exc()
+            print("BSDF_DUMP ERROR: render failed, exiting with status 1", file=sys.stderr, flush=True)
+            sys.stdout.flush()
+            os._exit(1)
+
+    def _render(self, depsgraph):
         a = script_args()
         obj = depsgraph.objects[a.object]
         tri_uvs = triangle_uvs(obj, a.uv_layer)
@@ -166,7 +179,7 @@ class BsdfDumpEngine(CyclesRender):
             print("\n".join(lines))
             print("PROBE PASS" if ok else "PROBE FAIL", flush=True)
             if not ok:
-                self.report({"ERROR"}, "BSDF_DUMP probe failed")
+                raise RuntimeError("BSDF_DUMP probe failed")
             return
         if a.fill:
             q = dataset.load_dump(a.fill)
