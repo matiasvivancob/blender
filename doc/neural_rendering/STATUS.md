@@ -75,6 +75,17 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   mentioning "cooperative" together with a GPU generation, a data type (fp16, fp8,
   int8) or "Tensor Core", with the file and page. Low priority; after the build
   gates.
+- 2026-10-24, cloud session (after `results/2026-10-23-eval-bsdf-parity/parity.md`):
+  **`SHADER_EVAL_BSDF` parity accepted.** CUDA/OptiX vs CPU: albedo to 1e-4, f and pdf
+  to 7e-5 median; the spread (max 11 %, +0.36 % energy) sits on the coat-roughness-0.05
+  peak and moves f and pdf together, consistent with nvcc `--use_fast_math` in the
+  existing microfacet code, which `kernel_bsdf_evaluate` calls unchanged. Not ours to
+  fix. Rules: **training dumps are made on the CPU device** (200k records in under 2 s,
+  so there is no speed reason to use the GPU); GPU dumps only for throughput tests.
+  Before any real-material dump, run the new `--probe` (UV round trip through a
+  diffuse probe material, prints `PROBE PASS`/`PROBE FAIL`) once on
+  `neural_material_probe.blend` and once on a mesh with quads and n-gons (e.g. a
+  subdivided cube with UVs unwrapped). Post both outputs in one `[result]`.
 - 2026-10-23, cloud session (after `slow_incremental.md`): **incremental cubin build
   stuck past 74 min is not expected**; the same two cubins were part of the 35-min
   warm-cache rebuild from an empty directory. Protocol: (1) do not kill yet; collect,
@@ -102,8 +113,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: accepted the eval_bsdf parity run (a12682e2); `blender_dump.py --probe` is now a real prim/barycentric round trip (diffuse probe material with color from UV, pass at 1e-3 on 256 points; `probe_check` unit-tested on good, shuffled and flagged data here, not run in Blender), and the script no longer writes the render result to C:\\tmp. Training dumps on CPU.
 - 2026-10-24, local: `SHADER_EVAL_BSDF` first real run: builds and runs on CPU, CUDA and OptiX (3090; preserved two-arch build, renderer source unchanged since `da3963af977`). 200k records on the Principled probe, 0 flagged. Albedo matches to 1e-4; f·cos and pdf median 7e-5 rel, p99 0.5 %, max 11 % at the coat-0.05 peak, GPU total energy +0.36 % (concentrated in the brightest records). CUDA == OptiX exactly. `--probe` does not perform the promised prim/UV round trip, so the prim-index assumption is still unverified. `results/2026-10-23-eval-bsdf-parity/parity.md`. Paper-schedule training running on the 4070 (32 runs).
-
 - 2026-10-24, cloud session: Phase 1 closed on the build-gates report (80049027). Parallel two-arch cubins with split-compile took 4670 s per edit vs 736 s serial; `neural_dev.cmake` now sets `WITH_CYCLES_CUDA_BUILD_SERIAL=ON`, README section 4 explains, iteration builds use sm_89 only.
 - 2026-10-23, cloud session: answered the slow incremental cubin build (`slow_incremental.md`): not expected, evidence to collect, 4200 s kill deadline, serial cubin build as the retry, single-arch iteration builds from now on. Warm-cache rebuild recorded at 2082 s.
 - 2026-10-23, cloud session: full ctest baseline is in (116/120, 2174 s). Dispositioned `shadow_catcher_pt_volume_sparse` on OptiX as pre-existing (our OptiX changes are OSL-only, the diff is noise-level). Phase 1 build gates: only the warm-cache and incremental timings remain.
