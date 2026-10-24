@@ -654,9 +654,9 @@ class SheenBsdfNode : public BsdfNode {
 };
 
 /* Neural BSDF: a material learned as an MLP decoder, loaded from a `.nnm` file
- * (doc/neural_rendering/nnm_format.md). Slice 1 only loads the file and uploads it; shading is a
- * diffuse placeholder lit with the albedo of the file's proxy block (black if the file is invalid).
- * The model is reached through a slot of the NeuralManager, like IES lights. */
+ * (doc/neural_rendering/nnm_format.md) and evaluated by kernel/closure/bsdf_neural.h. The model is
+ * reached through a slot of the NeuralManager, like IES lights. A file that is invalid, has no
+ * proxy block or is not a BSDF decoder renders black. */
 class NeuralBsdfNode : public BsdfNode {
  public:
   SHADER_NODE_NO_CLONE_CLASS(NeuralBsdfNode)
@@ -665,6 +665,7 @@ class NeuralBsdfNode : public BsdfNode {
   ShaderNode *clone(ShaderGraph *graph) const override;
 
   NODE_SOCKET_API(ustring, filename)
+  NODE_SOCKET_API(float3, uv)
 
  private:
   NeuralManager *neural_manager = nullptr;

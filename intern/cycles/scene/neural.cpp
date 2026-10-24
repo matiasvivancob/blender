@@ -443,6 +443,7 @@ void NeuralManager::device_update(Device *device,
   static_assert(sizeof(KernelNeuralModel) % sizeof(uint) == 0);
 
   uint *models = dscene->neural_models.alloc(slots_.size() * model_uints);
+  float *proxies = dscene->neural_proxy.alloc(slots_.size() * NEURAL_PROXY_STRIDE);
   half *weights = (total_weights > 0) ? dscene->neural_weights.alloc(total_weights) : nullptr;
   half *latents = (total_latents > 0) ? dscene->neural_latents.alloc(total_latents) : nullptr;
 
@@ -462,9 +463,21 @@ void NeuralManager::device_update(Device *device,
       }
     }
     std::memcpy(models + i * model_uints, &model, sizeof(model));
+
+    float *proxy = proxies + i * NEURAL_PROXY_STRIDE;
+    std::fill(proxy, proxy + NEURAL_PROXY_STRIDE, 0.0f);
+    if (file.has_proxy) {
+      proxy[NEURAL_PROXY_ALPHA] = file.proxy.alpha_x;
+      proxy[NEURAL_PROXY_ALPHA_Y] = file.proxy.alpha_y;
+      proxy[NEURAL_PROXY_P_DIFFUSE] = file.proxy.p_diffuse;
+      proxy[NEURAL_PROXY_ALBEDO + 0] = file.proxy.albedo.x;
+      proxy[NEURAL_PROXY_ALBEDO + 1] = file.proxy.albedo.y;
+      proxy[NEURAL_PROXY_ALBEDO + 2] = file.proxy.albedo.z;
+    }
   }
 
   dscene->neural_models.copy_to_device();
+  dscene->neural_proxy.copy_to_device();
   if (weights) {
     dscene->neural_weights.copy_to_device();
   }
@@ -478,6 +491,7 @@ void NeuralManager::device_update(Device *device,
 void NeuralManager::device_free(Device * /*device*/, DeviceScene *dscene)
 {
   dscene->neural_models.free();
+  dscene->neural_proxy.free();
   dscene->neural_weights.free();
   dscene->neural_latents.free();
 }

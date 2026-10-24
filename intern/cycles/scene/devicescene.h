@@ -92,6 +92,7 @@ class DeviceScene {
   device_vector<uint> neural_models;
   device_vector<half> neural_weights;
   device_vector<half> neural_latents;
+  device_vector<float> neural_proxy;
 
   /* Volume. */
   device_vector<KernelOctreeNode> volume_tree_nodes;
