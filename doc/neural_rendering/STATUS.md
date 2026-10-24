@@ -62,10 +62,6 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
-- 2026-10-23, cloud session: rerun `experiments/neural_material_train/` with
-  PyTorch on the 4070 Ti Super at the paper's schedule (64k batch, 100k steps,
-  64 > 16 > 4 > 1 culling). Report the variance and accuracy tables in the
-  same format as `04_experiment_results.md` section B.
 - 2026-10-24, cloud session (after `results/2026-10-23-eval-bsdf-parity/parity.md`):
   **`SHADER_EVAL_BSDF` parity accepted.** CUDA/OptiX vs CPU: albedo to 1e-4, f and pdf
   to 7e-5 median; the spread (max 11 %, +0.36 % energy) sits on the coat-roughness-0.05
@@ -104,6 +100,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: read the paper-schedule training grid (94a00690). Culling now lowers the mean (30 to 35%) as well as the std (7.6 to 11x); recorded as section B2 of `04_experiment_results.md`, the synthesis now says to adopt it, request closed.
 - 2026-10-24, cloud session: fixed the SOFTPLUS failure in `KernelNeuralMlp.OutputTransforms` (f03182d2). The agent's diagnosis was right: value-unsafe float modes fold Kahan's `(1+e)-1` to `e`. `mlp.h` now computes softplus as `max(x,0) + log1p(exp(-|x|))` with log1p as a 2·atanh series (division and polynomial only). Max relative error 2.4e-7 over x in [-80, 80] under g++ -O2, g++/clang fast-math and -march=native; standalone parity test 27/27 on all four builds. Not yet run under MSVC.
 - 2026-10-24, local: first real run of the `mlp.h` gtest (`ctest -R "^cycles$"`, which the 120-subject baseline excludes): 223/224 pass; `KernelNeuralMlp.OutputTransforms` fails on SOFTPLUS: kernel returns exactly 0 for x < -16.7 (and +93 % at -16.6). Likely `/fp:fast` (`intern/cycles/CMakeLists.txt:149`) defeating the `(1+e)-1` trick in `neural_log1p`. No impact on EXP-head models. Posted [blocked], no kernel edit. `results/2026-10-24-mlp-gtest/blocked.md`.
 - 2026-10-24, cloud session: `--probe` passed on the plane and the quad/n-gon mesh (f63e90bf; 55 of 256 records on the n-gon), so real-material dumps can be trusted. `blender_dump.py` now exits 1 when the scene has no camera or the object is missing, instead of exiting 0 without running.

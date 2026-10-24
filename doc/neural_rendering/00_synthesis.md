@@ -170,13 +170,17 @@ kernels for 5 to 15 minutes per architecture without ccache.
 From `04_experiment_results.md` (numpy, CPU, 2400 steps, so a floor on
 quality):
 
-- 2x32 decoders clearly beat 2x16 (relative L1 0.18 vs 0.24). Use 2x32 as the
-  minimum.
-- Both under-fit sharp specular peaks: the brightest 0.1% of targets reach 55
-  to 64% of their energy. Peak handling needs either a larger net, a better
-  encoding, or an analytic specular lobe kept outside the network (the 8DNA
-  paper's direct/indirect separation is the same idea).
-- The Bitterli culling schedule cut seed-to-seed variance 2 to 3x at equal
-  compute but did not improve the mean in this short run. Treat it as a
-  reliability tool for long GPU runs at 64k batch, not as an accuracy gain.
+- 2x32 decoders clearly beat 2x16 (relative L1 0.18 vs 0.24 in the short CPU
+  run; 0.064 vs 0.103 at the paper schedule). Use 2x32 as the minimum.
+- In the short CPU run both under-fit sharp specular peaks (brightest 0.1% of
+  targets at 55 to 64% of their energy). At the paper schedule on the GPU a 2x32
+  keeps 94%, so most of that was under-training. Grazing and the coat peak still
+  carry the largest errors; the Zeltner 2024 learned shading frames and an
+  analytic specular lobe outside the network remain the next accuracy levers.
+- **Bitterli culling: adopt it.** At the paper schedule (100k steps, 64k batch,
+  8 seeds, RTX 4070 Ti Super; `results/2026-10-23-train-paper-schedule/`) it
+  lowered the mean held-out loss by 30 to 35% and the seed std by 7.5 to 11x at
+  the same compute and about 5% more wall time. The culled 2x32 mean (0.0168)
+  matches the best of eight baseline seeds (0.0164). This reverses the short
+  CPU run, where culling only cut variance: the recipe needs the long schedule.
 - Power loss (n=3) beat log(1+x). LeakySmeLU vs ReLU was inconclusive.

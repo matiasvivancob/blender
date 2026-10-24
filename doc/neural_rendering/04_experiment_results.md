@@ -167,7 +167,41 @@ Interpretation:
 5. Caveats: unconverged training, one texture and one sampling distribution,
    reconstructed hyper-parameters, grazing over-weighted in validation.
 
-Next steps on the GPU box: rerun with PyTorch at the paper's schedule (64k
-batch, 100k steps), add an analytic specular lobe outside the network and let
-the network fit the residual, and train from `SHADER_EVAL_BSDF` dumps of real
-Cycles materials instead of the synthetic ground truth.
+### B2. Rerun at the paper's schedule on the GPU (2026-10-24)
+
+Run by the local agent on the RTX 4070 Ti Super with PyTorch, `tools/train/`
+(not the numpy prototype above): 100,000 steps, total batch 65,536, culling
+64@1024 > 16@4096 > 4@16384 > 1@65536 (25k steps per phase), 64x64x8 latent,
+same activation and loss, 8 seeds per cell, held-out metrics from the exported
+fp16 `.nnm`. Training data is a 2M-record dump from `make_synthetic_dump.py`,
+not the procedural texture of section B, so absolute values are not comparable
+between the two sections; the comparisons inside each table are. Full data,
+per-run wall times and the sphere render:
+`results/2026-10-23-train-paper-schedule/`.
+
+| method | mean | std | min | max | wall per run (s) |
+|---|---|---|---|---|---|
+| 2x16 baseline | 0.0528 | 0.0133 | 0.0354 | 0.0764 | 697 |
+| 2x16 Bitterli culling | 0.0341 | 0.0012 | 0.0320 | 0.0365 | 744 |
+| 2x32 baseline | 0.0241 | 0.0035 | 0.0164 | 0.0287 | 683 |
+| 2x32 Bitterli culling | 0.0168 | 0.0005 | 0.0163 | 0.0176 | 745 |
+
+| model | method | rel L1 (all) | rel L1 (top 1%) | rel L1 (grazing > 75) |
+|---|---|---|---|---|
+| 2x16 | baseline | 0.147 | 0.208 | 0.176 |
+| 2x16 | Bitterli | 0.103 | 0.146 | 0.122 |
+| 2x32 | baseline | 0.073 | 0.105 | 0.087 |
+| 2x32 | Bitterli | 0.064 | 0.095 | 0.076 |
+
+At this length culling lowers the mean by 35% (2x16) and 30% (2x32) and the
+std by 11x and 7.6x, for about 5% more wall time. The culled 2x32 mean equals
+the best of eight baseline seeds, so one culled run replaces a seed sweep. The
+short-run finding of section B (variance only, no mean gain) was a consequence
+of the 2,400-step schedule. Seed-0 2x32 culled keeps 94% of the energy of the
+brightest 0.1% of targets (55 to 64% in section B). The remaining error in the
+sphere render sits on the specular highlight and the checker edges.
+
+Next steps: train from `SHADER_EVAL_BSDF` dumps of real Cycles materials
+(the dump path is verified, `results/2026-10-23-eval-bsdf-parity/`), then the
+Zeltner 2024 learned shading frames and an analytic specular lobe outside the
+network.
