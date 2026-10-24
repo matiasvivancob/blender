@@ -1,0 +1,150 @@
+{
+  "diagnostic": "same-UV simultaneous +45-degree z rotation of wi and wo",
+  "interpretation": "An isotropic target is invariant at fixed UV. Nonzero differences diagnose the exported model's azimuthal dependence; they do not prove attribution of rendered image errors to a UV-frame defect.",
+  "model": "D:\\Github\\Blender-RND\\real\\cull_w32\\model_proxy.nnm",
+  "model_sha256": "55d8bea295db55edae63e7b84ce8e528e934496499c9969d5b76215f870e8441",
+  "decoder": "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\nnm\\reference.py",
+  "decoder_signature": "decode(model, caller, uv=None); caller=[wi.xyz, wo.xyz]",
+  "decoder_sha256": "99f89dd07fbeb58dd0dcde07e31be6f62bdc210f36c20d7e88937297642714da",
+  "sampler": "D:\\Github\\Blender-RND\\blender\\doc\\neural_rendering\\tools\\train\\sampling.py",
+  "sampler_sha256": "9db46b21f75b77b9894b0f3c6f39bb0e21357b39a19aa7b6d5b89be0d7485ac1",
+  "python": "D:\\Github\\Blender-RND\\venv-neural\\Scripts\\python.exe",
+  "numpy_version": "2.5.4",
+  "model_shape": {
+    "width": 32,
+    "hidden_layers": 2,
+    "encoding_id": 1,
+    "latent_channels": 8,
+    "latent_height": 64,
+    "latent_width": 64
+  },
+  "sampling": {
+    "n_pairs": 65536,
+    "seed": 45,
+    "uv": "uniform [0,1]^2; identical in each pair",
+    "directions": "sample_directions defaults: peak_frac=0.5, grazing_frac=0.1, grazing_deg=75",
+    "rotation_degrees": 45,
+    "rotation_axis": "+z",
+    "batch_size": 4096
+  },
+  "quantity": "RGB f*cos(wo); decoder output used directly, no extra cosine",
+  "relative_error_definition": "record: mean_RGB(abs(rotated-baseline))/max(mean_RGB(baseline),floor); channel: abs(rotated-baseline)/max(baseline,floor). All relative values are fractions, not percent.",
+  "relative_by_floor": [
+    {
+      "floor_fcos_per_channel": 1e-06,
+      "record_denominator_floored_count": 0,
+      "record_denominator_floored_fraction": 0.0,
+      "channel_denominator_floored_fraction": 0.0,
+      "record_relative_l1": {
+        "median": 0.029309453744744397,
+        "mean": 0.04453162882957278,
+        "p99": 0.24347121541713257
+      },
+      "channel_relative_absolute": {
+        "median": 0.0289642002764897,
+        "mean": 0.04433210811816906,
+        "p99": 0.24711806837207098
+      }
+    },
+    {
+      "floor_fcos_per_channel": 1e-05,
+      "record_denominator_floored_count": 1,
+      "record_denominator_floored_fraction": 1.52587890625e-05,
+      "channel_denominator_floored_fraction": 1.52587890625e-05,
+      "record_relative_l1": {
+        "median": 0.029309453744744397,
+        "mean": 0.04453126298481821,
+        "p99": 0.24347121541713257
+      },
+      "channel_relative_absolute": {
+        "median": 0.0289642002764897,
+        "mean": 0.044330199847088546,
+        "p99": 0.24711806837207098
+      }
+    },
+    {
+      "floor_fcos_per_channel": 0.0001,
+      "record_denominator_floored_count": 70,
+      "record_denominator_floored_fraction": 0.001068115234375,
+      "channel_denominator_floored_fraction": 0.0012003580729166667,
+      "record_relative_l1": {
+        "median": 0.029306269297612854,
+        "mean": 0.04431506700693422,
+        "p99": 0.24077559269826965
+      },
+      "channel_relative_absolute": {
+        "median": 0.02896010896180331,
+        "mean": 0.04410390773402165,
+        "p99": 0.24435765090226821
+      }
+    },
+    {
+      "floor_fcos_per_channel": 0.001,
+      "record_denominator_floored_count": 1127,
+      "record_denominator_floored_fraction": 0.0171966552734375,
+      "channel_denominator_floored_fraction": 0.018086751302083332,
+      "record_relative_l1": {
+        "median": 0.029069139480744556,
+        "mean": 0.04283230187397064,
+        "p99": 0.21767061724960074
+      },
+      "channel_relative_absolute": {
+        "median": 0.028694016922316337,
+        "mean": 0.042588913642904624,
+        "p99": 0.22287801092673754
+      }
+    }
+  ],
+  "absolute_fcos_error": {
+    "record_mean_rgb": {
+      "median": 0.00244204451640447,
+      "mean": 2.8935877106967247,
+      "p99": 12.533384195963611
+    },
+    "channel": {
+      "median": 0.0022955629974603653,
+      "mean": 2.893587710696725,
+      "p99": 12.484685592651333
+    }
+  },
+  "sampled_energy": {
+    "definition": "Unweighted totals under the stated mixed sampler; not a hemispherical integral or furnace test.",
+    "baseline_mean_rgb": [
+      59.9653386119333,
+      60.416336567532994,
+      60.55752700460775
+    ],
+    "rotated_mean_rgb": [
+      59.37376142197906,
+      59.80832812074526,
+      59.92954850530584
+    ],
+    "baseline_sum_rgb": [
+      3929888.4312716606,
+      3959445.0332898423,
+      3968698.0897739735
+    ],
+    "rotated_sum_rgb": [
+      3891118.82855082,
+      3919598.5917211613,
+      3927542.8908437234
+    ],
+    "rotated_over_baseline_rgb": [
+      0.9901346810733007,
+      0.9899363569304123,
+      0.9896300504600505
+    ],
+    "rotated_over_baseline_total": 0.9898995678438731,
+    "signed_relative_total_change": -0.010100432156126932,
+    "energy_weighted_relative_l1": 0.047976132464975785
+  },
+  "self_checks": {
+    "unit_directions_z_and_pair_dot_preserved": true,
+    "rotation_inverse_and_zero": true,
+    "same_uv_unmodified": true,
+    "embedded_vectors_checked": 32,
+    "repeat_decode_exact": true,
+    "finite_nonnegative_outputs": true
+  },
+  "limitations": "One existing exported model, one seed, sampled UV/directions; no source BSDF evaluation, renderer, training or causal attribution test."
+}

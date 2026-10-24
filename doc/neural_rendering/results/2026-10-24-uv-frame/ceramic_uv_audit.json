@@ -1,0 +1,157 @@
+{
+  "file": "C:\\Users\\Matia\\workspace\\procedural-ceramic-experiment\\ceramic_reference.blend",
+  "object": "Sphere",
+  "material": " Procedural Ceramic",
+  "evaluated_mesh": true,
+  "layers": {
+    "UVMap": {
+      "triangles": 15872,
+      "uv_area_sum": 0.9375002615138666,
+      "degenerate_triangles": 0,
+      "outside_0_1": 0,
+      "positive_area_overlap_pairs": 8,
+      "overlap_examples": [
+        {
+          "triangles": [
+            4983,
+            5692
+          ],
+          "area": 1.1641425601283117e-09
+        },
+        {
+          "triangles": [
+            12203,
+            12408
+          ],
+          "area": 1.396959659061281e-09
+        },
+        {
+          "triangles": [
+            12299,
+            12504
+          ],
+          "area": 1.0477059220193041e-09
+        },
+        {
+          "triangles": [
+            12331,
+            12536
+          ],
+          "area": 1.0477079204207485e-09
+        },
+        {
+          "triangles": [
+            12027,
+            12728
+          ],
+          "area": 1.0477069212200263e-09
+        },
+        {
+          "triangles": [
+            13019,
+            13720
+          ],
+          "area": 1.0477140266473839e-09
+        },
+        {
+          "triangles": [
+            13017,
+            13722
+          ],
+          "area": 1.8626051812020705e-09
+        },
+        {
+          "triangles": [
+            13015,
+            13724
+          ],
+          "area": 1.396971427425342e-09
+        }
+      ],
+      "render_active": false,
+      "active": false
+    },
+    "automap": {
+      "triangles": 15872,
+      "uv_area_sum": 139.22882940386282,
+      "degenerate_triangles": 0,
+      "outside_0_1": 15088,
+      "positive_area_overlap_pairs": 171394,
+      "overlap_examples": [
+        {
+          "triangles": [
+            27,
+            84
+          ],
+          "area": 1.1580132519561914e-08
+        },
+        {
+          "triangles": [
+            41,
+            110
+          ],
+          "area": 1.7584421141414452e-08
+        },
+        {
+          "triangles": [
+            63,
+            112
+          ],
+          "area": 8.771086967840347e-09
+        },
+        {
+          "triangles": [
+            59,
+            116
+          ],
+          "area": 8.665455242251596e-09
+        },
+        {
+          "triangles": [
+            64,
+            128
+          ],
+          "area": 0.001685905809529542
+        },
+        {
+          "triangles": [
+            65,
+            128
+          ],
+          "area": 0.0002541525470953765
+        },
+        {
+          "triangles": [
+            66,
+            128
+          ],
+          "area": 0.0013699231905974774
+        },
+        {
+          "triangles": [
+            67,
+            128
+          ],
+          "area": 0.005138178956245021
+        },
+        {
+          "triangles": [
+            68,
+            128
+          ],
+          "area": 0.0009491201660936088
+        },
+        {
+          "triangles": [
+            70,
+            128
+          ],
+          "area": 0.0001843714823740461
+        }
+      ],
+      "render_active": true,
+      "active": true
+    }
+  },
+  "note": "Exact pairwise triangle clipping after UV-grid broad phase; ignores shared edges and overlap area <= 1e-9."
+}

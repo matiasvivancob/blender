@@ -1,0 +1,15 @@
+{
+ "n": 262144,
+ "pow_loss": 0.040433841909691515,
+ "rel_l1": 0.2048354934049994,
+ "rel_l1_top1": 0.21129301182937843,
+ "peak_energy_top01": 1.034142599515297,
+ "grazing_frac": 0.3627204895019531,
+ "rel_l1_grazing": 0.21452387696398217,
+ "error_map_res": 32,
+ "error_map_max": 1.4425767660140991,
+ "nnm": "D:\\Github\\Blender-RND\\real\\uv_frame_p4\\cull_w32\\model_proxy.nnm",
+ "split": "val",
+ "sphere_rel_l1": 0.025037967352668136,
+ "sphere_png": "D:\\Github\\Blender-RND\\real\\uv_frame_p4\\cull_w32\\evaluation\\sphere_compare.png"
+}

@@ -167,6 +167,8 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, local: `neural-p4` @ `341469b0c0b` implements shared UV-tangent frame and versioned dumps. Build/unit/depcheck/probe pass; anisotropic two-triangle check is exactly equal in the new frame on CPU/CUDA/OptiX (legacy ~50% difference). Probe retraining completed: held-out error 20.48% (was 22.79%), matched CPU image error **1.576%** (was 1.944%); coarse triangle residual gone on inspection. Remaining two-arch/furnace/MIS/regression gates running automatically; review requested, not merged, ceramic training not started. `results/2026-10-24-uv-frame/review.md`.
+
 - 2026-10-24, local: owner explicitly approved hybrid emission preservation for ` Procedural Ceramic`: neural BSDF for scattering plus original native emission only, without double-counting native scattering. Advisor resolved both design questions in 6385746382 / `bc0f8b18098`; UV-frame correction and probe validation precede ceramic training. Updated the original request rather than opening a duplicate. `results/2026-10-24-ceramic-start/question.md`.
 
 - 2026-10-24, cloud session: answered the ceramic question (31d8e571): UV tangent frame first (with a numpy frame-rotation check to size the benefit), then the ceramic as hybrid neural scattering plus native emission.
