@@ -60,6 +60,14 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   `...\venv-neural`) and delete any build directory or venv that was created under the
   old name, since they store absolute paths. Details and a junction fallback: README
   section 2. Ask the owner before renaming.
+- 2026-10-24, cloud session (after slice 3, `results/2026-10-24-slice3/`): **slice 3
+  accepted as the first working neural material**: 1.94% mean / 8.3% p99 raw RGB error
+  against a 0.1% / 1.5% noise floor, energy within 0.06%, CPU and OptiX identical. Cost
+  is 2.6x the Principled on OptiX and 4.7x on CPU, recorded as the inline scalar
+  baseline; no speed work yet. **Next: `06_uv_tangent_frame.md`** (local frame from the
+  UV tangent; the residual's triangle pattern comes from Cycles' `dPdu` being a triangle
+  edge), then retrain and re-run slice 3, then `05_learned_shading_frames.md`.
+  Merge the `neural-p3` harness as is.
 - 2026-10-24, cloud session (after `results/2026-10-24-real-material/report.md`):
   (a) **Proxy alpha grid: extend to 20 log-spaced values from 1e-3 to 1** (the format's
   full range); the fit hit the 0.01 corner while the coat is at 0.0025. Keep `p_diffuse`
@@ -140,11 +148,10 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: reviewed slice 3 (ae0d7dc5). Traced the residual's triangle pattern to the frame definition in my spec (`dPdu` is `p1 - p0` per triangle); wrote `06_uv_tangent_frame.md` as the fix and made it the next step, before learned frames.
 - 2026-10-24, local: slice 2 merged as `a92a0d9ca5c` after advisor approved the improved regression subset (6384700080); harness updated and retained XML revalidated with negative tests. Slice 3 executed on CPU and OptiX 4070: raw RGB image error 1.94% mean / 8.27% p99 at matched 1024 spp, visible broad bands/highlight retained but structured residuals. Neural sampling cost is higher (~4.69x CPU, ~2.62x GPU diagnostics), not a speedup. Harness `neural-p3` @ `ff5115d7d9d` pending review. `results/2026-10-24-slice3/report.md`.
-
 - 2026-10-24, cloud session: slice 2 final gates (d03695ed) accepted: 117/120 with only the three motion-blur subjects failing is within the accepted set; regression rule is now subset, not equality. Slice 2 may merge.
 - 2026-10-24, local: final slice-2 validation at `d03695edf72` (including encoding-2 decoder/loader): coherent two-GPU build, unit target, depcheck and all five CPU/CUDA/OptiX furnace cases pass. Regression is **117/120**, only the three accepted motion-blur failures; the environmental OptiX shadow-catcher failure passed. Harness stopped on literal four-failure equality; merge awaits advisor confirmation, not a new renderer defect. Slice 3 matched render comparison is running independently. `results/2026-10-24-slice2-final/gates.md`.
-
 - 2026-10-24, cloud session: implemented the format/reference/kernel half of `05_learned_shading_frames.md` (`.nnm` encoding 2; `KernelNeuralModel.frames_k` takes the old pad field; standalone parity 47/47 on four builds, selftest and torch-free tests pass) and taught `scene/neural.cpp` to load it, since the embedded test set now includes encoding-2 models (clang syntax check only; needs `ctest -R "^cycles$"` on the box). The closure in `shader_nodes.cpp` still accepts only `bsdf_dirs` files; trainer and export are the local agent's.
 - 2026-10-24, cloud session: reviewed slice 2 (`neural-p2-closure` @ 122a630b): approved; merge after the slice-1 fix and the missing gates (both ctest sets, depcheck, CUDA and 3090 furnace). Next is slice 3 (side-by-side render plus render time per spp), then learned shading frames, specified in `05_learned_shading_frames.md`; the cloud session implements its format, reference and `mlp.h` part.
 - 2026-10-24, local: **slice 2 (neural closure) works** on CPU/CUDA/OptiX (neural-p2-closure @ 122a630b): kernel matches numpy reference, furnace 0.9989 vs Principled, MIS PASS, no new spills. results/2026-10-24-slice2/report.md

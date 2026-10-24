@@ -14,6 +14,7 @@ Read in this order:
 | `03_eevee_gpu_module.md` | How EEVEE and the GPU module could run small networks in materials: codegen, weight vehicles, Vulkan cooperative vector/matrix, Metal, Python prototype. |
 | `04_experiment_results.md` | Results of the two experiments run so far: kernel-style MLP cost benchmark, and tiny neural BRDF training with the Bitterli 2026 recipe. |
 | `05_learned_shading_frames.md` | Spec for learned shading frames in the neural BSDF (Zeltner et al. 2024, section 4.2): frame layer, `.nnm` encoding id 2, who implements what, acceptance test. |
+| `06_uv_tangent_frame.md` | Fix for the local frame of the neural BSDF and `SHADER_EVAL_BSDF`: x axis from the per-triangle UV tangent instead of Cycles' triangle-edge `dPdu`; retraining and acceptance. Prerequisite for 05. |
 | `PROTOCOL.md` | How local agents and the cloud session coordinate through this repository and its pull request. |
 | `STATUS.md` | Living status board. Updated by whoever does work. |
 | `experiments/` | Re-runnable code for the experiments in `04_experiment_results.md`. |
