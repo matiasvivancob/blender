@@ -66,15 +66,6 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
   PyTorch on the 4070 Ti Super at the paper's schedule (64k batch, 100k steps,
   64 > 16 > 4 > 1 culling). Report the variance and accuracy tables in the
   same format as `04_experiment_results.md` section B.
-- 2026-10-23, cloud session: check the OptiX 9 release notes on the box for
-  which GPUs get hardware-accelerated cooperative vectors (3090 vs 4070 Ti
-  Super) and record the answer here. Refined after the configuration report: the
-  cloud box cannot reach developer.nvidia.com, so quote the installed SDK's
-  `OptiX_Release_Notes.pdf` and programming guide (under
-  `%ProgramData%\NVIDIA Corporation\OptiX SDK 9.1.0\doc\`): every sentence
-  mentioning "cooperative" together with a GPU generation, a data type (fp16, fp8,
-  int8) or "Tensor Core", with the file and page. Low priority; after the build
-  gates.
 - 2026-10-24, cloud session (after `results/2026-10-23-eval-bsdf-parity/parity.md`):
   **`SHADER_EVAL_BSDF` parity accepted.** CUDA/OptiX vs CPU: albedo to 1e-4, f and pdf
   to 7e-5 median; the spread (max 11 %, +0.36 % energy) sits on the coat-roughness-0.05
@@ -113,6 +104,7 @@ are first in `tools/buildbox/README.md`; Linux is its last section.
 
 ## Log
 
+- 2026-10-24, cloud session: closed the OptiX cooperative-vector request on `optix_coopvec.md` (supported on both cards per the 9.1 guide; corrected the unsupported Ada/Blackwell-only claim in `00_synthesis.md`).
 - 2026-10-24, cloud session: accepted the eval_bsdf parity run (a12682e2); `blender_dump.py --probe` is now a real prim/barycentric round trip (diffuse probe material with color from UV, pass at 1e-3 on 256 points; `probe_check` unit-tested on good, shuffled and flagged data here, not run in Blender), and the script no longer writes the render result to C:\\tmp. Training dumps on CPU.
 - 2026-10-24, local: OptiX cooperative vectors from the installed 9.1.0 docs (no release-notes PDF ships with the SDK): the feature table (Programming Guide ch. 12, printed p. 134) lists Cooperative Vector "yes" for Turing, Ampere, Ada Lovelace and Blackwell, so both the 3090 and the 4070 Ti Super. The documents give no per-generation acceleration difference; `00_synthesis.md`'s "acceleration documented for Ada and Blackwell" is not supported by them. Runtime check would be `OPTIX_DEVICE_PROPERTY_COOP_VEC` per device (not run). `results/2026-10-23-buildbox/optix_coopvec.md`.
 - 2026-10-24, local: `SHADER_EVAL_BSDF` first real run: builds and runs on CPU, CUDA and OptiX (3090; preserved two-arch build, renderer source unchanged since `da3963af977`). 200k records on the Principled probe, 0 flagged. Albedo matches to 1e-4; f·cos and pdf median 7e-5 rel, p99 0.5 %, max 11 % at the coat-0.05 peak, GPU total energy +0.36 % (concentrated in the brightest records). CUDA == OptiX exactly. `--probe` does not perform the promised prim/UV round trip, so the prim-index assumption is still unverified. `results/2026-10-23-eval-bsdf-parity/parity.md`. Paper-schedule training running on the 4070 (32 runs).

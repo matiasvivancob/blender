@@ -24,10 +24,15 @@ Going NVIDIA-only is what makes that stage cheap to build:
   backends from the plan.
 - **Both target cards do warp-cooperative fp16 matmul.** `mma.sync` fp16 is
   sm_80 and up, so the 3090 (sm_86) and the 4070 Ti Super (sm_89) both run it
-  natively. OptiX cooperative vectors (OptiX 9.0+) are API-available on both,
-  but hardware acceleration is documented by NVIDIA for Ada and Blackwell, so
-  the 3090 likely takes a slower path there. Verify against the OptiX 9 release
-  notes before relying on it.
+  natively. OptiX cooperative vectors (OptiX 9.0+) are listed as supported on
+  Turing, Ampere, Ada and Blackwell in the OptiX 9.1 Programming Guide feature
+  table (ch. 12), so on both cards; the documents give no per-generation
+  performance difference (an earlier version of this file said Ada and
+  Blackwell only, which they do not support). Element types are fp16/fp32 for
+  vectors; fp8 matrices are allowed by the API, but whether Ampere accelerates
+  them is not documented. Whether the 3090 is slower per matmul is a
+  measurement, and the runtime query `OPTIX_DEVICE_PROPERTY_COOP_VEC` is the
+  per-card check (`results/2026-10-23-buildbox/optix_coopvec.md`).
 - **Build iteration gets fast.** Cycles compiles seven CUDA architectures by
   default. Restricting `CYCLES_CUDA_BINARIES_ARCH` to `sm_86;sm_89` removes most
   kernel compile time. HIP, Metal and oneAPI parity drop off the plan, as does
